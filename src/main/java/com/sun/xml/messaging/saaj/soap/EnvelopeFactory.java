@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2014 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -137,13 +137,14 @@ public class EnvelopeFactory {
     private static Envelope parseEnvelopeSax(Source src, SOAPPartImpl soapPart)
             throws SOAPException {
     	SAXParser saxParser = null;
-    	try {
+	    ParserPool underlyingParserPool = parserPool.get();
+	    try {
     		// Insert SAX filter to disallow Document Type Declarations since
     		// they are not legal in SOAP
 
     		if (src instanceof StreamSource) {
     			try {
-    				saxParser = parserPool.get().get();
+    				saxParser = underlyingParserPool.get();
     			} catch (Exception e) {
     				log.severe("SAAJ0601.util.newSAXParser.exception");
     				throw new SOAPExceptionImpl(
@@ -186,7 +187,7 @@ public class EnvelopeFactory {
     	} finally {
     		//no matter what condition occurs, always return the parser to the pool
             if (saxParser != null) {
-                parserPool.get().returnParser(saxParser);
+                underlyingParserPool.returnParser(saxParser);
             }
         }
     }
