@@ -2,8 +2,6 @@
 
 This project contains Reference Implementation (RI) of SAAJ API.
 
-### More Info
+### Licensing and Governance
 
-Follow <a href="http://twitter.com/gfmetro">@gfmetro</a> (TBD) on Twitter to get SAAJ and wider Metro
-(WSIT, JAX-WS, JAXB, ...) related updates. See the Metro website at https://javaee.github.io/metro
-to access Metro documentation and release information. 
+SOAP with Attachments API for Java is licensed under a license - [EDL 1.0](LICENSE.md).

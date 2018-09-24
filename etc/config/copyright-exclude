@@ -1,5 +1,4 @@
 /META-INF/services/
-/README
 .gif
 .jpg
 .jpeg
@@ -22,8 +21,10 @@
 .envelope
 .txt
 /copyright-exclude
-/LICENSE
-/copyright.txt
+/README
+/LICENSE.md
+/README.md
+/CONTRIBUTING.md
 www
 site
 zip

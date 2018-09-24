@@ -34,6 +34,14 @@
         <tag>HEAD</tag>
     </scm>
 
+    <licenses>
+        <license>
+            <name>Eclipse Distribution License - v 1.0</name>
+            <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
     <developers>
         <developer>
             <id>bravehorsie</id>
@@ -47,6 +55,11 @@
         </developer>
     </developers>
 
+    <organization>
+        <name>Oracle Corporation</name>
+        <url>http://www.oracle.com/</url>
+    </organization>
+
     <issueManagement>
         <system>IssueTracker</system>
         <url>https://github.com/eclipse-ee4j/metro-saaj/issues</url>
@@ -55,24 +68,12 @@
     <mailingLists>
         <mailingList>
             <name>Metro mailing list</name>
-            <subscribe>metro+subscribe@javaee.groups.io</subscribe>
-            <post>metro@javaee.groups.io</post>
-            <archive>https://javaee.groups.io/g/metro/topics</archive>
+            <post>metro-dev@eclipse.org</post>
+            <subscribe>https://accounts.eclipse.org/mailing-list/metro-dev</subscribe>
+            <unsubscribe>https://accounts.eclipse.org/mailing-list/metro-dev</unsubscribe>
+            <archive>https://www.eclipse.org/lists/metro-dev</archive>
         </mailingList>
     </mailingLists>
-
-    <licenses>
-        <license>
-            <name>Eclipse Distribution License - v 1.0</name>
-            <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <organization>
-        <name>Oracle Corporation</name>
-        <url>http://www.oracle.com/</url>
-    </organization>
 
     <properties>
         <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
