@@ -1,0 +1,42 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+  <property name="java.endorsed.dirs" value="${sjsws.home}/bin/https/ws-jars/endorsed"/>
+
+  <!-- Construct app classpath -->
+  <path id="app.classpath">
+    <fileset dir="${sjsws.home}/bin/https/ws-jars/endorsed">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${sjsws.home}/bin/https/ws-jars">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${sjsws.home}/bin/https/jar">
+      <include name="webserv-ext.jar"/>
+    </fileset>
+     <fileset dir="${javahome}/lib">
+      <include name="tools.jar"/>
+    </fileset>
+  </path>
+
+  <taskdef name="wscompile" classname="com.sun.xml.rpc.tools.ant.Wscompile"
+             classpathref="app.classpath"/>
+
+  <taskdef name="wsdeploy" classname="com.sun.xml.rpc.tools.ant.Wsdeploy"
+             classpathref="app.classpath"/>
+
+  <property name="SJSWS_DEPLOY" value="${sjsws.home}/bin/https/httpadmin/bin/wdeploy"/>
+  <property name="USERNAME" value="${username}" />
+  <property name="PASSWORD" value="${password}" />
+  <property name="SJSWS_HOST" value="${endpoint.host}" />
+  <property name="ADMIN_PORT" value="${endpoint.port}" />
+  <property name="VS.DIR" value="${VS.DIR}" />

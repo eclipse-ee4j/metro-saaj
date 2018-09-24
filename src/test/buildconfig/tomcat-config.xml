@@ -1,0 +1,45 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<property name="ant.jar"
+            value="${tomcat.home}/server/lib/catalina-ant.jar"/>
+
+  <path id="app.classpath">
+    <fileset dir="${tomcat.home}/xws-security/lib"/>
+    <fileset dir="${tomcat.home}/jwsdp-shared/lib"/>
+    <fileset dir="${tomcat.home}/common/lib"/>
+    <fileset dir="${tomcat.home}/jaxrpc/lib"/>
+    <fileset dir="${tomcat.home}/saaj/lib"/>
+    <fileset dir="${tomcat.home}/jaxp/lib">
+      <include name="**/*.jar"/>
+    </fileset>
+    <fileset dir="${javahome}/lib">
+      <include name="tools.jar"/>
+    </fileset>
+  </path>
+
+ <taskdef name="wscompile" classname="com.sun.xml.rpc.tools.ant.Wscompile"
+             classpathref="app.classpath"/>
+
+ <taskdef name="wsdeploy" classname="com.sun.xml.rpc.tools.ant.Wsdeploy"
+             classpathref="app.classpath"/>
+
+<path id="ant.task.classpath">
+    <pathelement location="${ant.jar}"/>
+</path>
+
+<taskdef name="deploy-catalina" classname="org.apache.catalina.ant.DeployTask"
+             classpathref="ant.task.classpath"/>
+
+<taskdef name="undeploy-catalina"
+             classname="org.apache.catalina.ant.UndeployTask"
+             classpathref="ant.task.classpath"/>

@@ -1,0 +1,17 @@
+UDDIPing Client
+--------------------
+
+ Generates a simple query into a UDDI registry and prints the response out.
+
+Steps to run the uddi client application :
+------------------------------------------
+
+1. Edit uddi.properties to enter your proxy host and port information.
+
+2. Edit run.bat or run.sh to set the path of SAAJ_LIB.
+
+3. Run the application using run scripts:
+
+    run.bat uddi.properties business-name
+    OR
+    run.sh uddi.properties business-name

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+ <!--   A SAMPLE set of slides  --> 
+<slideshow title="Sample Slide Show" date="Date of publication" author="Yours Truly">
+ <!--  TITLE SLIDE --> 
+ <slide type="all">
+  <title>Wake up to WonderWidgets!</title> 
+  </slide>
+ 
+ <!--  OVERVIEW  -->  
+ <slide type="all">
+  <title>Overview</title> 
+  <item>
+  Why 
+  <em>WonderWidgets</em> 
+  are great 
+  </item>
+  <item /> 
+  <item xml:lang="en">
+  Who 
+  <em>buys</em> 
+  WonderWidgets 
+  </item>
+ </slide>
+</slideshow>

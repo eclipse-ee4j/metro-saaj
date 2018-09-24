@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN"
+    "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+
+<web-app>
+
+  <display-name>Translator Application</display-name>
+  <description>
+    A SAAJ based translation application.
+  </description>
+
+   <servlet>
+        <servlet-name>
+            sender
+        </servlet-name>
+        <servlet-class>
+            translator.SendingServlet
+        </servlet-class>
+	<load-on-startup>
+	  2
+	</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>
+            receiver
+        </servlet-name>
+        <servlet-class>
+            translator.ReceivingServlet
+        </servlet-class>
+	<load-on-startup>
+	  3
+	</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>
+            sender
+        </servlet-name>
+        <url-pattern>
+            /translation
+        </url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>
+            receiver
+        </servlet-name>
+        <url-pattern>
+            /translationservice
+        </url-pattern>
+    </servlet-mapping>
+</web-app>

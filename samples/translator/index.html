@@ -1,0 +1,61 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html>
+<title>Translator SAAJ Sample Application</title>
+<body bgcolor="pink">
+<h2 align=center>Translator Sample Application </h2>
+
+<form name=f action="translation" method=get>
+<p>
+<b> Note: </b>
+This sample uses Altavista's babelfish translation service to translate text.
+<p>
+<i> If using a proxy, please enter the proxy host and port (leave blank
+for none):
+</i>
+<p>
+<table cellspacing=0 cellpadding=5>
+<tr align=left>
+<td>Proxy Host:</td>
+<td><input type=text value="" name="host" size=17 maxlength=50></td>
+<td> Proxy Port:</td>
+<td><input type=text value="" name="port" size=6 maxlength=7></td>
+</tr>
+</table>
+<br>
+
+<p>
+<table cellspacing=0 cellpadding=5>
+<tr align=left>
+<td>Enter the text to be translated:  </td>
+<td colspan=2><input type=text value="" name="translate" size=33
+maxlength=256></td>
+</tr><tr>
+<td>Add translations to reply message: </td>
+<td>
+<input type=radio name="trAs" value="body">In SOAPBody,
+</td> 
+<td>
+<input type=radio name="trAs" value="attachments" checked>As
+Attachments.
+</td>
+<td><input type=submit value="Translate"></td>
+</tr>
+</table>
+
+</form>
+</body>
+</html>
+
+
+

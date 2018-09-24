@@ -1,0 +1,12 @@
+/target/
+/src/test/mime/data/image_sent.png
+/src/test/mime/data/saving_text.cnt
+/src/test/mime/data/headers.txt
+/src/test/mime/data/message.txt
+/src/test/mime/data/custom_type_sent.ctp
+/src/test/mime/data/java_logo_sent.jpg
+/src/test/mime/data/saving.cnt
+*.iml
+*.ipr
+.idea
+.DS_Store

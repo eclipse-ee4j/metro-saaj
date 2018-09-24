@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/">
+    <Body>
+        <businessList generic="2.0" xmlns="urn:uddi-org:api_v2" 
+            operator="www.ibm.com/services/uddi" truncated="false">
+
+            <businessInfos>
+                <businessInfo businessKey="5C4E0770-6952-11D5-AE83-0004AC49CC1E">
+                    <name junk:lang="en">Food</name>
+                    <description xml:lang="en">Test Food</description>
+                    <serviceInfos></serviceInfos>
+                </businessInfo>
+            </businessInfos>
+        </businessList>
+    </Body>
+</Envelope>

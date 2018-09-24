@@ -1,0 +1,217 @@
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE project [
+      <!ENTITY tomcat SYSTEM "file:../buildconfig/tomcat-config.xml">
+      <!ENTITY sjsas SYSTEM "file:../buildconfig/sjsas-config.xml">
+      <!ENTITY sjsws SYSTEM  "file:../buildconfig/sjsws-config.xml">
+]>
+
+
+<project name="SOAP security test" basedir="." default="prepare">
+
+  <property file="build.properties"/>
+
+  <property name="build.home" value="build"/>
+  <property name="context-path" value="saajGet"/>
+  <property name="dist.home"  value="dist"/>
+  <property name="config.dir" value="${basedir}/config"/>
+  <property name="appname" value="saajHttpGet"/>
+  <property name="server-war-file" value="${build.home}/server/${appname}.war"/>
+  <property name="url" value="http://${endpoint.host}:${endpoint.port}/manager"/>
+
+
+
+  <target name="clean">
+    <delete dir="${build.home}"/>
+    <delete dir="${dist.home}"/>
+  </target>
+
+  <target name="as8-check" if="sjsas.home">
+    &sjsas;
+  </target>
+  <target name="ws-check" if="sjsws.home">
+    &sjsws;
+  </target>
+  <target name="tc-check" if="tomcat.home">
+    &tomcat;
+  </target>
+  <target name="prepare" depends="as8-check, ws-check, tc-check">
+    <mkdir dir="${build.home}"/>
+    <mkdir dir="${build.home}/server"/>
+    <mkdir dir="${build.home}/server/WEB-INF"/>
+    <mkdir dir="${build.home}/server/WEB-INF/classes"/>
+    <mkdir dir="${dist.home}"/>
+  </target>
+
+
+  <target name="compile-server" depends="clean , prepare" description="Compiles the server side source">
+    <echo message="Compiling the server-side source code...."/>
+
+    <javac debug="true"
+           srcdir="server/src"
+           destdir="${build.home}/server/WEB-INF/classes"
+           includes="**/*.java">
+    <classpath>
+        <pathelement location="${keystore}"/>
+        <path refid="app.classpath"/>
+     </classpath>
+    </javac>
+    <antcall target="war"/>
+  </target>    
+
+  <target name="war">
+    <echo message="Copying config files to WEB-INF directory"/>
+    <copy toDir="${build.home}/server/WEB-INF">
+        <fileset dir="${config.dir}"/>
+    </copy> 
+    <copy toDir="${build.home}/server">
+	<fileset dir="${config.dir}"/>
+    </copy>
+    <echo message="Making the war file"/>
+    <jar jarfile="${server-war-file}" basedir="${build.home}/server"/>
+  </target>
+
+  <!-- Tomcat -->
+  <target name="check-if-deployed-tom" if="tomcat.home">
+    <echo message="Checking for deployed webapp at context path /${context-path}"/>
+    <condition property="tom.webapp.deployed">
+      <http url="http://${endpoint.host}:${endpoint.port}/${context-path}/"/>
+    </condition>
+  </target>
+
+  <target name="deploy-tomcat" depends="check-if-deployed-tom, undeploy-tomcat"  if="tomcat.home">
+    <echo message="${url}"/>
+    <echo message="${username}"/>
+    <echo message="${password}"/>
+    <echo message="/${context-path}"/>
+    <echo message="${build.home}/server/${appname}.war"/>
+    <deploy-catalina url="${url}" username="${username}" password="${password}" path="/${context-path}" war="${build.home}/server/${appname}.war"/>
+  </target>
+
+  <target name="undeploy-tomcat" if="tom.webapp.deployed">
+    <echo message="Undeploying existing webapp at ${context-path}"/>
+    <undeploy-catalina url="${url}" username="${username}" password="${password}" path="/${context-path}"/>
+ </target>
+  <!--End of Tomcat -->
+
+  <!-- Appserver -->
+  <target name="check-if-deployed-as" if="sjsas.home">
+    <echo message="Checking for deployed webapp at context path /${context-path}
+"/>
+    <condition property="as.webapp.deployed">
+      <http url="http://${endpoint.host}:${endpoint.port}/${context-path}/"/>
+    </condition>
+  </target>
+
+  <target name="deploy-sjsas" depends="check-if-deployed-as, undeploy-sjsas"  if="sjsas.home">
+    <appserv-deploy file="${build.home}/server/${appname}.war" password="${password}" sunonehome="${sjsas.home}" />
+  </target>
+
+
+  <target name="undeploy-sjsas" if="as.webapp.deployed">
+    <echo message="Undeploying existing webapp at ${context-path}"/>
+    <echo message="appclasspath ${app.classpath}"/>
+    <appserv-undeploy name="${context-path}" password="${password}" sunonehome="${sjsas.home}" />
+  </target>
+
+  <!-- end of Appserver -->
+
+  <!-- Webserver -->
+  <target name="check-if-deployed-ws" if="sjsws.home">
+    <echo message="Checking for deployed webapp at context path /${context-path}
+"/>
+    <condition property="ws.webapp.deployed">
+      <http url="http://${endpoint.host}:${endpoint.port}/${context-path}/"/>
+    </condition>
+  </target>
+
+  <target name="deploy-ws">
+      <echo message="deploying ${war-path} at ${context-path}" />
+      <exec executable="${SJSWS_DEPLOY}" vmlauncher="false">
+      <arg value="deploy" />
+      <arg value="-u" />
+      <arg value="/${context-path}" />
+      <arg value="-i" />
+      <arg value="${VS.DIR}" />
+      <arg value="-v" />
+      <arg value="${VS.DIR}" />
+      <arg value="${build.home}/server/${appname}.war" />
+      </exec>
+  </target>
+
+
+  <target name="undeploy-ws" >
+    <echo message="undeploying ${context-path}" />
+    <exec executable="${SJSWS_DEPLOY}" vmlauncher="false">
+        <arg value="delete" />
+        <arg value="deploy" />
+        <arg value="-u" />
+        <arg value="/${context-path}" />
+        <arg value="-i" />
+        <arg value="${VS.DIR}" />
+        <arg value="-v" />
+        <arg value="${VS.DIR}" />
+        <arg value="hard" />
+     </exec>
+  </target>
+
+
+  <target name="deploy-sjsws"
+          depends="check-if-deployed-ws, undeploy-sjsws"
+          if="sjsws.home" >
+    <echo message="Deploying war for ${ant.project.name} to sjsws"/>
+    <antcall target="deploy-ws" />
+  </target>
+
+  <target name="undeploy-sjsws" if="ws.webapp.deployed">
+    <echo message="Undeploying existing webapp at ${context-path}"/>
+    <echo message="appclasspath ${app.classpath}"/>
+    <antcall target="undeploy-ws" />
+  </target>
+
+  <!--End of Webserver -->
+
+
+
+
+
+
+  <target name="deploy" depends="compile-server, deploy-tomcat, deploy-sjsas, deploy-sjsws">
+    <echo message="Copying war file in server webapp dir"/>
+  </target>
+
+  <target name="compile-client" depends="as8-check, tc-check, ws-check">
+    <mkdir dir="${build.home}/client"/>
+    <javac debug="true" srcdir="client/src"
+           destdir="${build.home}/client"
+           includes="**/*.java">
+    <classpath>
+        <pathelement location="${build.home}/util"/>
+        <path refid="app.classpath"/>
+     </classpath>
+    </javac> 
+  </target>
+
+  <target name="run-client" depends="deploy, compile-client">
+    <java fork="on" classname="saaj.httpget.SoapHttpGetTest">
+      <sysproperty key="to" value="${uri}"/>
+      <sysproperty key="keystore" value="${keystore}"/>
+      <classpath>
+        <pathelement location="${build.home}/client"/>
+        <pathelement location="${build.home}/util"/>
+        <path refid="app.classpath"/>
+      </classpath>
+    </java>
+  </target>
+
+</project>

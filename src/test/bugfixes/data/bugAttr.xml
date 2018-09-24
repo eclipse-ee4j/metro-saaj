@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<env:Envelope xmlns:enc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" xmlns:ns0="http://echoservice.org/types" xmlns:ns1="http://java.sun.com/jax-rpc-ri/internal" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><env:Body><ans1:echo_Vector env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" xmlns:ans1="http://echoservice.org/wsdl"><Vector_1 enc:arrayType="xsd:anyType[6]" xsi:type="ns1:vector"><item href="#ID1"/><item href="#ID2"/><item href="#ID3"/><item href="#ID4"/><item href="#ID5"/><item xsi:type="xsd:string">bar</item></Vector_1></ans1:echo_Vector><ns0:Foo env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" id="ID1" xsi:type="ns0:Foo"><l xsi:type="xsd:long">5642</l><SA href="#ID6"/><SMember xsi:type="xsd:string">foo</SMember><i xsi:type="xsd:int">10</i><i2 xsi:type="xsd:short">11</i2><subI2 xsi:type="xsd:int">9</subI2></ns0:Foo><ns0:Foo env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" id="ID2" xsi:type="ns0:Foo"><l xsi:type="xsd:long">104</l><SA enc:arrayType="xsd:string[0]" xsi:nil="1" xsi:type="ns0:ArrayOfstring"/><SMember xsi:type="xsd:string">foo2</SMember><i xsi:type="xsd:int">102</i><i2 xsi:type="xsd:short">103</i2><subI2 xsi:type="xsd:int">101</subI2></ns0:Foo><ns0:Bar env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" id="ID3" xsi:type="ns0:Bar"><foo href="#ID1"/><foo2 xsi:nil="1" xsi:type="ns0:Foo2"/><string xsi:type="xsd:string">bar</string></ns0:Bar><ns0:ShortStruct env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" id="ID4" xsi:type="ns0:ShortStruct"><value xsi:type="enc:short">33</value></ns0:ShortStruct><ns0:ShortStruct env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" id="ID5" xsi:type="ns0:ShortStruct"><value xsi:type="enc:short">22</value></ns0:ShortStruct><ns0:ArrayOfstring enc:arrayType="xsd:string[3]" env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/" id="ID6" xsi:type="enc:Array"><item xsi:type="xsd:string">s12</item><item xsi:type="xsd:string">s22</item><item xsi:type="xsd:string">s32</item></ns0:ArrayOfstring></env:Body></env:Envelope>

@@ -1,0 +1,52 @@
+------=_Part_1_807283631.1066069460327
+Content-Type: text/xml; charset=UTF-8
+Content-Transfer-Encoding: binary
+Content-Id: <1071294019496.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k>
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"  xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<soapenv:Body>
+ <ns-482282508:ProductCatalog 
+    xmlns:ns-482282508="http://www.ws-i.org/SampleApplications/SupplyChainManagement/2003-07/Catalog.xsd">
+  <ns-482282508:Product>
+    <ns-482282508:Name>TV, Brand1</ns-482282508:Name>
+    <ns-482282508:Description>24in, Color, Advanced Velocity Scan Modulation, stereo</ns-482282508:Description>
+    <ns-482282508:ProductNumber>605001</ns-482282508:ProductNumber>
+    <ns-482282508:Category>TV</ns-482282508:Category>
+    <ns-482282508:Brand>Brand1</ns-482282508:Brand>
+    <ns-482282508:Price>299.95</ns-482282508:Price>
+    <ns-482282508:Thumbnail href="cid:971223732136.1066069460266.IBM.WEBSERVICES@ibm-7pr28r4m35k"/>
+  </ns-482282508:Product>
+    <ns-482282508:Product>
+    <ns-482282508:Name>TV, Brand2</ns-482282508:Name>
+    <ns-482282508:Description>32in, Super Slim Flat Panel Plasma</ns-482282508:Description>
+    <ns-482282508:ProductNumber>605002</ns-482282508:ProductNumber>
+    <ns-482282508:Category>TV</ns-482282508:Category>
+    <ns-482282508:Brand>Brand2</ns-482282508:Brand>
+    <ns-482282508:Price>1499.99</ns-482282508:Price>
+    <ns-482282508:Thumbnail href="cid:981213279144.1066069460317.IBM.WEBSERVICES@ibm-7pr28r4m35k"/>
+  </ns-482282508:Product>
+  <ns-482282508:Product>
+    <ns-482282508:Name>TV, Brand3</ns-482282508:Name>
+    <ns-482282508:Description>50in, Plasma Display</ns-482282508:Description>
+    <ns-482282508:ProductNumber>605003</ns-482282508:ProductNumber>
+    <ns-482282508:Category>TV</ns-482282508:Category>
+    <ns-482282508:Brand>Brand3</ns-482282508:Brand>
+    <ns-482282508:Price>5725.98</ns-482282508:Price>
+    <ns-482282508:Thumbnail href="cid:991207987112.1066069460317.IBM.WEBSERVICES@ibm-7pr28r4m35k"/>
+  </ns-482282508:Product>
+  <ns-482282508:Product>
+    <ns-482282508:Name>Video, Brand1</ns-482282508:Name>
+    <ns-482282508:Description>S-VHS</ns-482282508:Description>
+    <ns-482282508:ProductNumber>605004</ns-482282508:ProductNumber>
+    <ns-482282508:Category>Video</ns-482282508:Category>
+<ns-482282508:Brand>Brand1</ns-482282508:Brand><ns-482282508:Price>199.95</ns-482282508:Price><ns-482282508:Thumbnail href="cid:1001274260392.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k"/></ns-482282508:Product><ns-482282508:Product><ns-482282508:Name>Video, Brand2</ns-482282508:Name><ns-482282508:Description>HiFi, S-VHS</ns-482282508:Description><ns-482282508:ProductNumber>605005</ns-482282508:ProductNumber><ns-482282508:Category>Video</ns-482282508:Category><ns-482282508:Brand>Brand2</ns-482282508:Brand><ns-482282508:Price>400.00</ns-482282508:Price><ns-482282508:Thumbnail href="cid:1011270475688.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k"/></ns-482282508:Product><ns-482282508:Product><ns-482282508:Name>Video, Brand3</ns-482282508:Name><ns-482282508:Description>s-vhs, mindv</ns-482282508:Description><ns-482282508:ProductNumber>605006</ns-482282508:ProductNumber><ns-482282508:Category>Video</ns-482282508:Category><ns-482282508:Brand>Brand3</ns-482282508:Brand><ns-482282508:Price>949.99</ns-482282508:Price><ns-482282508:Thumbnail href="cid:1021265331112.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k"/></ns-482282508:Product><ns-482282508:Product><ns-482282508:Name>DVD, Brand1</ns-482282508:Name><ns-482282508:Description>DVD-Player W/Built-In Dolby Digital Decoder</ns-482282508:Description><ns-482282508:ProductNumber>605007</ns-482282508:ProductNumber><ns-482282508:Category>DVD</ns-482282508:Category><ns-482282508:Brand>Brand1</ns-482282508:Brand><ns-482282508:Price>100.00</ns-482282508:Price><ns-482282508:Thumbnail href="cid:1031255254952.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k"/></ns-482282508:Product><ns-482282508:Product><ns-482282508:Name>DVD, Brand2</ns-482282508:Name><ns-482282508:Description>Plays DVD-Video discs, CDs, stereo and multi-channel SACDs, and audio CD-Rs &amp; CD-RWs, 27MHz/10-bit video DAC, </ns-482282508:Description><ns-482282508:ProductNumber>605008</ns-482282508:ProductNumber><ns-482282508:Category>DVD</ns-482282508:Category><ns-482282508:Brand>Brand2</ns-482282508:Brand><ns-482282508:Price>200.00</ns-482282508:Price><ns-482282508:Thumbnail href="cid:1041252076456.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k"/></ns-482282508:Product><ns-482282508:Product><ns-482282508:Name>DVD, Brand3</ns-482282508:Name><ns-482282508:Description>DVD Player with SmoothSlow forward/reverse; Digital Video Enhancer; DVD/CD Text; Custom Parental Control (20-disc); Digital Cinema Sound modes</ns-482282508:Description><ns-482282508:ProductNumber>605009</ns-482282508:ProductNumber><ns-482282508:Category>DVD</ns-482282508:Category><ns-482282508:Brand>Brand3</ns-482282508:Brand><ns-482282508:Price>250.00</ns-482282508:Price><ns-482282508:Thumbnail href="cid:1051248816040.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k"/></ns-482282508:Product><ns-482282508:Product><ns-482282508:Name>TV, Brand4</ns-482282508:Name><ns-482282508:Description>Designated invalid product code that is allowed to appear in the catalog, but is unable to be ordered</ns-482282508:Description><ns-482282508:ProductNumber>605010</ns-482282508:ProductNumber><ns-482282508:Category>TV</ns-482282508:Category><ns-482282508:Brand>Brand4</ns-482282508:Brand><ns-482282508:Price>149.99</ns-482282508:Price><ns-482282508:Thumbnail href="cid:1061306454952.1066069460327.IBM.WEBSERVICES@ibm-7pr28r4m35k"/></ns-482282508:Product></ns-482282508:ProductCatalog></soapenv:Body></soapenv:Envelope>
+------=_Part_1_807283631.1066069460327
+Content-Type: image/jpeg
+Content-Transfer-Encoding: binary
+Content-Id: <871169419176.1066069460266.IBM.WEBSERVICES@ibm-7pr28r4m35k>
+
+ÿØÿà JFIF      ÿÛ C 		
+
+

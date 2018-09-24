@@ -1,0 +1,10 @@
+<env:Envelope xmlns:env="http://schemas.xmlsoap.org/soap/envelope/" env:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+<env:Header></env:Header>
+<env:Body>
+<GrandFather xmlns:t="urn:test:001">
+<t:Father xmlns:t="urn:test:001">
+<t:Son xmlns:t="urn:test:001">Hello</t:Son>
+</t:Father>
+</GrandFather>
+</env:Body>
+</env:Envelope>

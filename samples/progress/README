@@ -1,0 +1,25 @@
+progress Server
+---------------
+Whenever it receives a message from client, it sends n number of progress
+messages to the client
+
+progress Client
+---------------
+Sends a message and listens for 5 progress messages from server.
+
+Steps to run the progress server application :
+------------------------------------------
+
+1. Run the application using run scripts:
+
+    run-server.bat
+    OR
+    run-server.sh
+
+Steps to run the progress client application :
+------------------------------------------
+1. Run the application using run scripts:
+
+    run-client.bat
+    OR
+    run-client.sh

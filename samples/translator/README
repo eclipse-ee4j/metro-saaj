@@ -1,0 +1,24 @@
+
+About the sample
+-----------------
+
+This is a sample application using the SAAJ API. 
+
+The TranslationService talks to babelfish.altavista.com making an HTTP 
+connection and extracts the translations of the input text string from 
+the response. The text is translated to German, Italian and French languages. 
+
+The translations can be returned either as attachments to a SAAJ message or 
+within the SOAPBody depending on which option is chosen 
+in the radio button from the application's index.html. If using a proxy, 
+the proxy settings (both host and port) need to be entered.
+
+Running the Sample
+-------------------
+
+1. Deploy translator.war on any servlet 2.2 or higher engine.
+
+2. Start/restart the servlet engine/webserver.
+
+3. Point the browser to 
+   http://localhost:8080/translator/

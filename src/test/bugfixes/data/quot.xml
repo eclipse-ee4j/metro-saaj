@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+
+    Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<soap:Envelope xmlns:soap='http://schemas.xmlsoap.org/soap/envelope/' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/' xmlns:n='http://www.routeone.com/DealerInfoImpl' xmlns:n5='http://www.routeone.com/'>
+  <SOAP:Header xmlns:SOAP='http://schemas.xmlsoap.org/soap/envelope/' xmlns:SOAP-SEC='http://schemas.xmlsoap.org/soap/security/2000-12'>
+    <SOAP-SEC:Signature SOAP:mustUnderstand='1'>
+      <Signature xmlns='http://www.w3.org/2000/09/xmldsig#' xmlns:wsse='http://schemas.xmlsoap.org/ws/2002/07/secext'>
+        <SignedInfo>
+          <CanonicalizationMethod Algorithm='http://www.w3.org/TR/2001/REC-xml-c14n-20010315'></CanonicalizationMethod>
+          <SignatureMethod Algorithm='http://www.w3.org/2000/09/xmldsig#rsa-sha1'></SignatureMethod>
+          <Reference URI='#Body'>
+            <Transforms>
+              <Transform Algorithm='http://www.w3.org/TR/2001/REC-xml-c14n-20010315'></Transform>
+            </Transforms>
+            <DigestMethod Algorithm='http://www.w3.org/2000/09/xmldsig#sha1'></DigestMethod>
+            <DigestValue>2O9pnrEVW9lt69dRvuWxX/aYzLU=</DigestValue>
+          </Reference>
+        </SignedInfo>
+        <SignatureValue>n7+4iRgBv9aSQiw03SU+c8uBq9gLmdo0nAQ1qpmaibBP54MLUHL0J7nLa3XE
+        6SJwtiBILBfIDhCHz5FKipx2DVT3PnotHOBoNF0q5jCQGSbNuEqTBKCDpW55TPWtI77CKFfQ9217c3ht
+        Z26OYPVLDNzlcm63M1Z0a9evZbZLiYEDFTYLq9RtdrDEchRTixoS/COFG8uDSzSl5AK52Ed4a7CDnr9d
+        54nWkiKXQDeFCK3M1GxYBDWKkhYR+cT08P2f5eZTYQTJcp3qmH8tbu3I6IjLm9gx8J/+V5NT6+rdaev1
+        /v890Aj44WS+S2bD4wHglw/Yiw31BqNfQeadJNYGLg==</SignatureValue>
+        <KeyInfo>
+          <X509Data>
+            <X509Certificate></X509Certificate>
+            <X509IssuerSerial>
+              <X509IssuerName>CN=VeriSign Class 3 Code Signing 2001 CA, OU=Terms of use at https://www.verisign.com/rpa (c)01, OU=VeriSign Trust Network, O=&quot;VeriSign, Inc.&quot;</X509IssuerName>
+              <X509SerialNumber>109767361091610589892618707245943051773</X509SerialNumber>
+            </X509IssuerSerial>
+          </X509Data>
+        </KeyInfo>
+      </Signature>
+    </SOAP-SEC:Signature>
+  </SOAP:Header>
+  <soap:Body id='Body' soap:encodingStyle='http://schemas.xmlsoap.org/soap/encoding/' xmlns:SOAP='http://schemas.xmlsoap.org/soap/envelope/' xmlns:SOAP-SEC='http://schemas.xmlsoap.org/soap/security/2000-12'>
+    <n:getDealerInfo>
+      <dealerInfoSelectionCriteria xsi:type='n5:DealerInfoParams'>
+        <dealerId>AA0AA</dealerId>
+        <financeSourceId>F000FA</financeSourceId>
+        <captiveUserId>FC99951</captiveUserId>
+      </dealerInfoSelectionCriteria>
+    </n:getDealerInfo>
+  </soap:Body>
+</soap:Envelope>
