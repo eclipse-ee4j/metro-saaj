@@ -53,7 +53,7 @@ import javax.xml.transform.dom.DOMSource;
  */
 public class BugfixesTest extends TestCase {
 
-    private static final String IMAGE = "src/test/mime/data/cup.gif";
+    private static final String IMAGE = "src/test/resources/mime/data/cup.gif";
 
     private static TestHelper th = TestHelper.getInstance();
 
@@ -160,7 +160,7 @@ public class BugfixesTest extends TestCase {
         AttachmentPart ap1 = msg.createAttachmentPart(urlDataS ,"text/xml");
         msg.addAttachmentPart(ap1);
 */      
-        java.io.File file = new File("src/test/bugfixes/data/setContent.xml");
+        java.io.File file = new File("src/test/resources/bugfixes/data/setContent.xml");
         javax.activation.FileDataSource fd = new javax.activation.FileDataSource(file);
         StreamSource stream = new StreamSource(fd.getInputStream());
         AttachmentPart ap2 = msg.createAttachmentPart(fd,"text/xml");
@@ -205,7 +205,7 @@ public class BugfixesTest extends TestCase {
         SOAPPart part = msg.getSOAPPart();
         StreamSource streamSource =
             new StreamSource(
-                new FileInputStream("src/test/bugfixes/data/setContent.xml"));
+                new FileInputStream("src/test/resources/bugfixes/data/setContent.xml"));
 
         // white spaces should be retained
         part.setContent(streamSource);
@@ -238,7 +238,7 @@ public class BugfixesTest extends TestCase {
         SOAPPart part = msg.getSOAPPart();
         StreamSource streamSource =
             new StreamSource(
-                new FileInputStream("src/test/bugfixes/data/setContent.xml"));
+                new FileInputStream("src/test/resources/bugfixes/data/setContent.xml"));
 
         part.setContent(streamSource);
         
@@ -268,7 +268,7 @@ public class BugfixesTest extends TestCase {
         SOAPPart part = msg.getSOAPPart();
         StreamSource streamSource =
             new StreamSource(
-                new FileInputStream("src/test/bugfixes/data/certificate.xml"));
+                new FileInputStream("src/test/resources/bugfixes/data/certificate.xml"));
 
         // part.setContent(streamSource);
 
@@ -293,7 +293,7 @@ public class BugfixesTest extends TestCase {
 //        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 //        factory.setAttribute("http://apache.org/xml/features/dom/defer-node-expansion", Boolean.FALSE);
 //        DocumentBuilder builder = factory.newDocumentBuilder();
-//        Document content = builder.parse(new FileInputStream("src/test/bugfixes/data/certificate.xml"));
+//        Document content = builder.parse(new FileInputStream("src/test/resources/bugfixes/data/certificate.xml"));
 //        SOAPPart part = msg.getSOAPPart();
 //        DOMSource source = new DOMSource(content.getDocumentElement());
 //        part.setContent(source);
@@ -319,7 +319,7 @@ public class BugfixesTest extends TestCase {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         Document domDoc =
-            builder.parse(new File("src/test/bugfixes/data/setContent.xml"));
+            builder.parse(new File("src/test/resources/bugfixes/data/setContent.xml"));
         Source domSource = new javax.xml.transform.dom.DOMSource(domDoc);
 
         MessageFactory mfactory = MessageFactory.newInstance();
@@ -329,7 +329,11 @@ public class BugfixesTest extends TestCase {
         part.setContent(domSource);
 
         try {
-            msg.writeTo(new FileOutputStream("src/test/bugfixes/data/tempFile"));
+        File f = new File("target/test-out/tempFile");
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
+            msg.writeTo(new FileOutputStream(f));
         } catch(Exception e) {
             e.printStackTrace();
             fail("Exception should not be thrown.");
@@ -372,7 +376,7 @@ public class BugfixesTest extends TestCase {
             SOAPPart part = msg.getSOAPPart();
             StreamSource streamSource =
                 new StreamSource(
-                    new FileInputStream("src/test/bugfixes/data/setContent.xml"));
+                    new FileInputStream("src/test/resources/bugfixes/data/setContent.xml"));
 
             part.setContent(streamSource);
 
@@ -499,10 +503,7 @@ public class BugfixesTest extends TestCase {
      * 17dec02]
      */
     public void testRejectDtd() throws Exception {
-        InputStream is = this.getClass().getResourceAsStream("../rejectDtd.xml");
-        // So old run-tests ant target will work if used.
-        if (is == null)
-            is = th.getInputStream("rejectDtd.xml");
+        InputStream is = this.getClass().getResourceAsStream("data/rejectDtd.xml");
         assertNotNull("no resource found for rejectDtd.xml", is);
         MimeHeaders mimeHeaders = new MimeHeaders();
         mimeHeaders.addHeader("Content-Type", "text/xml");
@@ -525,10 +526,7 @@ public class BugfixesTest extends TestCase {
      * Parse a simple SOAP message
      */
     public void testSanity() throws Exception {
-        InputStream is = this.getClass().getResourceAsStream("../sanity.xml");
-        // So old run-tests ant target will work if used.
-        if (is == null)
-            is = th.getInputStream("sanity.xml");
+        InputStream is = this.getClass().getResourceAsStream("data/sanity.xml");
         assertNotNull("no resource found for sanity.xml", is);
         MimeHeaders mimeHeaders = new MimeHeaders();
         mimeHeaders.addHeader("Content-Type", "text/xml");
@@ -676,7 +674,7 @@ public class BugfixesTest extends TestCase {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         Document domDoc =
-            builder.parse(new File("src/test/bugfixes/data/env-prefix.xml"));
+            builder.parse(new File("src/test/resources/bugfixes/data/env-prefix.xml"));
         Source domSource = new javax.xml.transform.dom.DOMSource(domDoc);
 
         MessageFactory mfactory = MessageFactory.newInstance();
@@ -933,9 +931,9 @@ public class BugfixesTest extends TestCase {
         factory.setNamespaceAware(true);
 
         DocumentBuilder builder = factory.newDocumentBuilder();
-        // document = builder.parse(new File("src/test/bugfixes/data/slide.xml"));
+        // document = builder.parse(new File("src/test/resources/bugfixes/data/slide.xml"));
         document =
-            builder.parse(new File("src/test/bugfixes/data/message.xml"));
+            builder.parse(new File("src/test/resources/bugfixes/data/message.xml"));
 
         // Create message factory and SOAP factory
         MessageFactory messageFactory = MessageFactory.newInstance();
@@ -993,7 +991,7 @@ public class BugfixesTest extends TestCase {
   
             DocumentBuilder builder = factory.newDocumentBuilder();
             document =
-                builder.parse(new File("src/test/bugfixes/data/undeclNS.xml"));
+                builder.parse(new File("src/test/resources/bugfixes/data/undeclNS.xml"));
   
             // Create message factory and SOAP factory
             MessageFactory messageFactory = MessageFactory.newInstance();
@@ -1105,14 +1103,16 @@ public class BugfixesTest extends TestCase {
         resHeaderElem.setMustUnderstand(false);
 
         // Save the soap message to file
-        FileOutputStream sentFile = new FileOutputStream(
-            "src/test/bugfixes/data/examine.xml");
+        File f = new File("target/test-out/examine.xml");
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
+        FileOutputStream sentFile = new FileOutputStream(f);
         msg.writeTo(sentFile);
         sentFile.close();
 
         // Examine the headers
-        FileInputStream fin= new FileInputStream(
-            "src/test/bugfixes/data/examine.xml");
+        FileInputStream fin= new FileInputStream(f);
         SOAPMessage recvMsg = mf.createMessage(msg.getMimeHeaders(), fin);
         ByteArrayOutputStream correct = new ByteArrayOutputStream();
         recvMsg.writeTo(correct);
@@ -1139,7 +1139,7 @@ public class BugfixesTest extends TestCase {
 	public void testSplitAttrValue() throws Exception {
 		byte[] junk = new byte[10000];
 		FileInputStream fin = new FileInputStream(
-			"src/test/bugfixes/data/bugAttr.xml");
+			"src/test/resources/bugfixes/data/bugAttr.xml");
 		int chars = fin.read(junk);
 		fin.close();
 		MessageFactory mfactory = MessageFactory.newInstance();
@@ -1258,12 +1258,12 @@ public class BugfixesTest extends TestCase {
         MessageFactory mf = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
         SOAPMessage m = mf.createMessage();
         SOAPPart sp = m.getSOAPPart();
-        sp.setContent(new StreamSource(new FileInputStream(new File("src/test/bugfixes/data/service.wsdl"))));
+        sp.setContent(new StreamSource(new FileInputStream(new File("src/test/resources/bugfixes/data/service.wsdl"))));
         SOAPEnvelope env = sp.getEnvelope();
         //m.writeTo(System.out);
         System.out.println("=======================\n\n");
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        Document doc = dbf.newDocumentBuilder().parse(new File("src/test/bugfixes/data/sts.wsdl"));
+        Document doc = dbf.newDocumentBuilder().parse(new File("src/test/resources/bugfixes/data/sts.wsdl"));
         Element elem = doc.getDocumentElement();
         org.w3c.dom.Node xmlDecl = elem.getFirstChild();
         if (xmlDecl.getNodeType() == Node.DOCUMENT_TYPE_NODE) {
@@ -1459,7 +1459,7 @@ FileInputStream(new File("bigmessage.xml")));
         MimeHeaders mh = new MimeHeaders();
         mh.addHeader("Content-Type", "text/xml");
         SOAPMessage msg = fact.createMessage(mh,
-                new FileInputStream(new File("src/test/bugfixes/data/xml.txt")));
+                new FileInputStream(new File("src/test/resources/bugfixes/data/xml.txt")));
         //msg.writeTo(System.out);
         BodyImpl bodyImpl = (BodyImpl) msg.getSOAPBody();
         SOAPDocumentImpl soapDocument = bodyImpl.getSoapDocument();
@@ -1491,7 +1491,7 @@ FileInputStream(new File("bigmessage.xml")));
         MessageFactory fact = MessageFactory.newInstance();
         MimeHeaders mh = new MimeHeaders();
         mh.addHeader("Content-Type", "multipart/related; boundary=MIME_boundary; type=\"text/xml\"; start=\"http://claiming-it.com/claim061400a.xml\"");
-        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/bugfixes/data/missing-angle-brackets.txt")));
+        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/resources/bugfixes/data/missing-angle-brackets.txt")));
         SOAPBody body = msg.getSOAPBody();
     }
 
@@ -1500,7 +1500,7 @@ FileInputStream(new File("bigmessage.xml")));
         MessageFactory fact = MessageFactory.newInstance();
         MimeHeaders mh = new MimeHeaders();
         mh.addHeader("Content-Type", "multipart/related; boundary=MIME_boundary; type=\"text/xml\"; start=\"http://claiming-it.com/claim061400a.xml\"");
-        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/bugfixes/data/missing-cid.txt")));
+        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/resources/bugfixes/data/missing-cid.txt")));
         SOAPBody body = msg.getSOAPBody();
 
     }
@@ -1513,7 +1513,7 @@ FileInputStream(new File("bigmessage.xml")));
         MessageFactory fact = MessageFactory.newInstance();
         MimeHeaders mh = new MimeHeaders();
         mh.addHeader("Content-Type", "multipart/related; boundary=MIME_boundary; type=text/xml; start=\"<http://claiming-it.com/claim061400a.xml>\"");
-        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/bugfixes/data/missing-quotes.txt")));
+        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/resources/bugfixes/data/missing-quotes.txt")));
         SOAPBody body = msg.getSOAPBody();
         assertTrue(false);
         } catch (Exception ex) {
@@ -1525,7 +1525,7 @@ FileInputStream(new File("bigmessage.xml")));
         MessageFactory fact = MessageFactory.newInstance();
         MimeHeaders mh = new MimeHeaders();
         mh.addHeader("Content-Type", "multipart/related; boundary=MIME_boundary; type=\"text/xml\"; start=\"<http://claiming-it.com/claim061400a.xml>\"");
-        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/bugfixes/data/extra-boundary-white-space.txt")));
+        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/resources/bugfixes/data/extra-boundary-white-space.txt")));
         SOAPBody body = msg.getSOAPBody();
          Iterator it = msg.getAttachments();
         while(it.hasNext()) {
@@ -1538,7 +1538,7 @@ FileInputStream(new File("bigmessage.xml")));
         MessageFactory fact = MessageFactory.newInstance();
         MimeHeaders mh = new MimeHeaders();
         mh.addHeader("Content-Type", "MulTipart/RelaTed; boundary=MIME_boundary; type=\"text/xml\"; start=\"<http://claiming-it.com/claim061400a.xml>\"");
-        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/bugfixes/data/mixed-case-content-type.txt")));
+        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/resources/bugfixes/data/mixed-case-content-type.txt")));
         SOAPBody body = msg.getSOAPBody();
     }
 
@@ -1552,7 +1552,7 @@ FileInputStream(new File("bigmessage.xml")));
         String foldedCT = "multipart/related; boundary=MIME_boundary; type=\"text/xml\";" + eol + "start=\"<http://claiming-it.com/claim061400a.xml>\"";
         System.out.println("Folded Header=\n" + foldedCT);
         mh.addHeader("Content-Type", foldedCT);
-        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/bugfixes/data/folded-content-type.txt")));
+        SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/resources/bugfixes/data/folded-content-type.txt")));
         SOAPBody body = msg.getSOAPBody();
 
     }

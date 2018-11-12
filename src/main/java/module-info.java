@@ -18,7 +18,25 @@ module com.sun.xml.messaging.saaj {
     requires transitive java.xml.soap;
     requires java.logging;
     requires java.desktop;
+    requires java.xml;
 
     exports com.sun.xml.messaging.saaj;
+    exports com.sun.xml.messaging.saaj.packaging.mime;
+    exports com.sun.xml.messaging.saaj.packaging.mime.internet;
+    exports com.sun.xml.messaging.saaj.packaging.mime.util;
     exports com.sun.xml.messaging.saaj.soap;
+    exports com.sun.xml.messaging.saaj.soap.dynamic;
+    exports com.sun.xml.messaging.saaj.soap.name;
+    exports com.sun.xml.messaging.saaj.util;
+    exports com.sun.xml.messaging.saaj.util.stax;
+    exports com.sun.xml.messaging.saaj.util.transform;
+
+    provides javax.xml.soap.MessageFactory
+            with com.sun.xml.messaging.saaj.soap.ver1_1.SOAPMessageFactory1_1Impl;
+    provides javax.xml.soap.SAAJMetaFactory
+            with com.sun.xml.messaging.saaj.soap.SAAJMetaFactoryImpl;
+    provides javax.xml.soap.SOAPConnectionFactory
+            with com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnectionFactory;
+    provides javax.xml.soap.SOAPFactory
+            with com.sun.xml.messaging.saaj.soap.ver1_1.SOAPFactory1_1Impl;
 }

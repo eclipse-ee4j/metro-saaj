@@ -58,7 +58,7 @@ public class SAAJ67Test extends TestCase {
         } else {
             assertEquals(EXTERNAL_1_1_NAME, mf.getClass().getName());
         }
-        runWithFactory(mf, "src/test/bugfixes/data/empty-message.xml", "text/xml");
+        runWithFactory(mf, "src/test/resources/bugfixes/data/empty-message.xml", "text/xml");
     }
 
     public void testFactory1_2() throws IOException, SOAPException {
@@ -69,6 +69,6 @@ public class SAAJ67Test extends TestCase {
         } else {
             assertEquals(EXTERNAL_1_2_NAME, mf.getClass().getName());
         }
-        runWithFactory(mf, "src/test/bugfixes/data/empty-message12.xml", "application/soap+xml");
+        runWithFactory(mf, "src/test/resources/bugfixes/data/empty-message12.xml", "application/soap+xml");
     }
 }

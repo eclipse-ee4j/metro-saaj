@@ -17,7 +17,7 @@
     <parent>
         <groupId>org.eclipse.ee4j</groupId>
         <artifactId>project</artifactId>
-        <version>1.0.4</version>
+        <version>1.0.5</version>
     </parent>
 
     <groupId>com.sun.xml.messaging.saaj</groupId>
@@ -80,33 +80,26 @@
         <findbugs.threshold>Low</findbugs.threshold>
         <upgrade.mods>${project.build.directory}/upgrade-mods</upgrade.mods>
         <mods>${project.build.directory}/mods</mods>
-        <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
         <proxyOpts/>
         <config.dir>${project.basedir}/etc/config</config.dir>
+        <legal.doc.source>${project.basedir}</legal.doc.source>
     </properties>
 
     <build>
-
-        <sourceDirectory>src/java</sourceDirectory>
-        <testSourceDirectory>src/test</testSourceDirectory>
-
-        <testResources>
-            <testResource>
-                <directory>src/test/mime/data</directory>
-            </testResource>
-            <testResource>
-                <directory>src/test/resources</directory>
-            </testResource>
-        </testResources>
-
         <pluginManagement>
             <plugins>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>3.0.0</version>
+                </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
                     <configuration>
-                        <release>7</release>
+                        <source>1.7</source>
+                        <target>1.7</target>
                     </configuration>
                 </plugin>
                 <plugin>
@@ -128,10 +121,6 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
                     <version>2.22.1</version>
-                    <configuration>
-                        <forkCount>1</forkCount>
-                        <reuseForks>false</reuseForks>
-                    </configuration>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -158,6 +147,31 @@
 
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>add-legal-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>add-resource</goal>
+                        </goals>
+                        <configuration>
+                            <resources>
+                                <resource>
+                                    <directory>${legal.doc.source}</directory>
+                                    <includes>
+                                        <include>NOTICE.md</include>
+                                        <include>LICENSE.md</include>
+                                    </includes>
+                                    <targetPath>META-INF</targetPath>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
@@ -170,7 +184,7 @@
                         <configuration>
                             <outputDirectory>${upgrade.mods}</outputDirectory>
                             <silent>false</silent>
-                            <includeArtifactIds>jakarta.xml.soap-api,jakarta.activation-api</includeArtifactIds>
+                            <includeArtifactIds>jakarta.xml.soap-api,jakarta.activation</includeArtifactIds>
                         </configuration>
                     </execution>
                     <execution>
@@ -194,31 +208,39 @@
                     <execution>
                         <id>default-compile</id>
                         <configuration>
-                            <release>9</release>
-<!--                            <compilerArgs>
-                                <arg>- -upgrade-module-path</arg>
-                                <arg>${upgrade.mods}</arg>
-                            </compilerArgs>-->
+                            <source>9</source>
+                            <target>9</target>
                         </configuration>
                     </execution>
                     <execution>
-                        <!--Replaces all files with 7, with exception to module-info -->
+                        <id>default-testCompile</id>
+                        <configuration>
+                            <source>9</source>
+                            <target>9</target>
+                            <compilerArgs>
+                                <arg>--add-exports</arg>
+                                <arg>com.sun.xml.messaging.saaj/com.sun.xml.messaging.saaj.soap.impl=com.sun.xml.messaging.saaj.test</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>base-compile</id>
                         <goals>
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <release>7</release>
-                            <compilerArgs>
-                                <arg>-Djava.endorsed.dirs=${upgrade.mods}</arg>
-                            </compilerArgs>
                             <excludes>
                                 <exclude>module-info.java</exclude>
                             </excludes>
+                            <compilerArgs>
+                                <arg>-Djava.endorsed.dirs=${upgrade.mods}</arg>
+                            </compilerArgs>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
                     <compilerArgs>
                         <compilerArg>-Xlint:all</compilerArg>
                     </compilerArgs>
@@ -290,19 +312,14 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <additionalJOptions>
-                        <additionalJOption>--module-path</additionalJOption>
-                        <additionalJOption>${mods}:${upgrade.mods}</additionalJOption>
-                    </additionalJOptions>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <argLine>${proxyOpts} --add-modules java.xml.soap --module-path ${upgrade.mods}</argLine>
+                    <!-- jakarta.activation impl is required for tests -->
+                    <classpathDependencyExcludes>jakarta.activation:jakarta.activation-api</classpathDependencyExcludes>
+                    <argLine>${proxyOpts}</argLine>
+                    <systemProperties>
+                        <java.awt.headless>true</java.awt.headless>
+                    </systemProperties>
                 </configuration>
             </plugin>
         </plugins>
@@ -312,46 +329,6 @@
         <!-- invoke unit tests against JDK like this:
          mvn clean test -DtestInJdk -Djdk.to.test=$jdk/home/path/bin/java
          -->
-        <profile>
-            <id>sources-profile</id>
-            <activation>
-                <property>
-                    <name>!skipSources</name>
-                </property>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <configuration>
-                            <additionalparam>-Xdoclint:none</additionalparam>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>jdk</id>
             <activation>
@@ -396,7 +373,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-surefire-plugin</artifactId>
                         <configuration>
-                            <argLine>${proxyOpts} -Djdk.build=true -Djava.security.manager -Djava.security.policy=./src/test/test.policy</argLine>
+                            <argLine>${proxyOpts} -Djdk.build=true -Djava.security.manager -Djava.security.policy=./src/test/resources/test.policy</argLine>
                             <!-- some random non-existing directory to make sure the built classes are not found, instead the ones from jdk are used -->
                             <classesDirectory>jerreAbfAFgfreu</classesDirectory>
                             <excludes>
@@ -419,21 +396,6 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>jakarta.xml.soap</groupId>
-                <artifactId>jakarta.xml.soap-api</artifactId>
-                <version>1.4.1</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jvnet.mimepull</groupId>
-                <artifactId>mimepull</artifactId>
-                <version>1.9.7</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jvnet.staxex</groupId>
-                <artifactId>stax-ex</artifactId>
-                <version>1.7.8</version>
-            </dependency>
-            <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
                 <version>2.3.2</version>
@@ -444,21 +406,47 @@
                 <version>1.2.1</version>
             </dependency>
             <dependency>
+                <groupId>jakarta.xml.soap</groupId>
+                <artifactId>jakarta.xml.soap-api</artifactId>
+                <version>1.4.1</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jvnet.mimepull</groupId>
+                <artifactId>mimepull</artifactId>
+                <version>1.9.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jvnet.staxex</groupId>
+                <artifactId>stax-ex</artifactId>
+                <version>1.8.1</version>
+            </dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.12</version>
-                <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>jakarta.servlet</groupId>
                 <artifactId>jakarta.servlet-api</artifactId>
                 <version>4.0.2</version>
-                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.sun.activation</groupId>
+                <artifactId>jakarta.activation</artifactId>
+                <version>1.2.1</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+        </dependency>
         <dependency>
             <groupId>jakarta.xml.soap</groupId>
             <artifactId>jakarta.xml.soap-api</artifactId>
@@ -468,24 +456,23 @@
             <artifactId>mimepull</artifactId>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jvnet.staxex</groupId>
             <artifactId>stax-ex</artifactId>
         </dependency>
         <dependency>
-            <groupId>jakarta.xml.bind</groupId>
-            <artifactId>jakarta.xml.bind-api</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>jakarta.activation</groupId>
-            <artifactId>jakarta.activation-api</artifactId>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.activation</groupId>
+            <artifactId>jakarta.activation</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

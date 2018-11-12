@@ -41,7 +41,7 @@ public class QuoteTest extends TestCase {
      * encountering quot;
      */ 
     public void testQuoteGetValue() {
-        String arg = "src/test/bugfixes/data/quot.xml";
+        String arg = "src/test/resources/bugfixes/data/quot.xml";
         try {
             doit1(arg);
         } catch (Throwable t) {
