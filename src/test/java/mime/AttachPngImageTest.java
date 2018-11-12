@@ -12,6 +12,7 @@ package mime;
 
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Iterator;
@@ -25,9 +26,9 @@ import junit.framework.TestCase;
  */
 public class AttachPngImageTest extends TestCase {
 
-    private static final String IMAGE_JPG = "src/test/mime/data/cup.jpg";
-    private static final String IMAGE_PNG = "src/test/mime/data/image.png";
-    private static final String IMAGE_SENT_PNG = "src/test/mime/data/image_sent.png";
+    private static final String IMAGE_JPG = "src/test/resources/mime/data/cup.jpg";
+    private static final String IMAGE_PNG = "src/test/resources/mime/data/image.png";
+    private static final String IMAGE_SENT_PNG = "target/test-out/image_sent.png";
 
     public AttachPngImageTest(String name) {
         super(name);
@@ -64,13 +65,17 @@ public class AttachPngImageTest extends TestCase {
 
         msg.saveChanges();
 
+        File f = new File(IMAGE_SENT_PNG);
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
         try ( // Save the soap message to file
-                FileOutputStream sentFile = new FileOutputStream(IMAGE_SENT_PNG)) {
+                FileOutputStream sentFile = new FileOutputStream(f)) {
             msg.writeTo(sentFile);
         }
 
         try ( // See if we get the image object back
-                FileInputStream fin = new FileInputStream(IMAGE_SENT_PNG)) {
+                FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
             Iterator i = newMsg.getAttachments();
             while(i.hasNext()) {

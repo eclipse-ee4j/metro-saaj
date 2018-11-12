@@ -36,7 +36,7 @@ public class SOAPFaultTests extends TestCase {
         SOAPPart soapPart = msg.getSOAPPart();
         soapPart.setContent(
             new StreamSource(
-                new FileInputStream("src/test/soap12/data/fault.xml")));
+                new FileInputStream("src/test/resources/soap12/data/fault.xml")));
         SOAPBody body = msg.getSOAPBody();
         assertTrue(body.hasFault());
         SOAPFault fault = body.getFault();
