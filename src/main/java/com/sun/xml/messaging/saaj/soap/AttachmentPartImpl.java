@@ -611,7 +611,7 @@ public class AttachmentPartImpl extends AttachmentPart {
             return false;
         }
 
-        String saajClassName = "com.sun.xml.internal.ws.binding.FastInfosetDataContentHandler";
+        String saajClassName = "com.sun.xml.messaging.saaj.soap.FastInfosetDataContentHandler";
         for (CommandInfo command : commands) {
             String commandClass = command.getCommandClass();
             if (saajClassName.equals(commandClass)) {
