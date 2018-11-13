@@ -31,8 +31,15 @@ public class MimeUtilityTest extends TestCase {
   }
 
   public void testEncodeDecodeWithDefaults() throws UnsupportedEncodingException, ParseException {
-    //use non-ascii word since ascii is not encoded
-    String word = "abc\u0b85";
+    String word = null;
+    String encoding = System.getProperty("file.encoding");
+        //use non-ascii word since ascii is not encoded
+    if (encoding != null && encoding.toLowerCase().startsWith("utf")) {
+        word = "abc\u0b85";
+    } else {
+        //use a character from first 256 values for non-UTF encodings
+        word = "abc\u00F5";
+    }
     String encodedWord = MimeUtility.encodeWord(word);
     String decodedWord = MimeUtility.decodeWord(encodedWord);
     assertEquals(word, decodedWord);
