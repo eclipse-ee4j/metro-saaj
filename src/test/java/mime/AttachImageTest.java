@@ -28,9 +28,9 @@ import junit.framework.TestCase;
  */
 public class AttachImageTest extends TestCase {
 
-//    private static final String IMAGE_GIF = "src/test/mime/data/cup.gif";
-    private static final String IMAGE_JPG = "src/test/mime/data/cup.jpg";
-    private static final String IMAGE_JPG_SENT = "src/test/mime/data/cup_sent.jpg";
+//    private static final String IMAGE_GIF = "src/test/resources/mime/data/cup.gif";
+    private static final String IMAGE_JPG = "src/test/resources/mime/data/cup.jpg";
+    private static final String IMAGE_JPG_SENT = "target/test-out/cup_sent.jpg";
 
     public AttachImageTest(String name) {
         super(name);
@@ -47,7 +47,7 @@ public class AttachImageTest extends TestCase {
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
 
-        // Add to body 
+        // Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(
                 envelope.createName("GetLastTradePrice", "ztrade",
                         "http://wombat.ztrade.com"));
@@ -55,7 +55,7 @@ public class AttachImageTest extends TestCase {
         gltp.addChildElement(envelope.createName("symbol", "ztrade",
                 "http://wombat.ztrade.com")).addTextNode("SUNW");
 
-        // Attach Image        
+        // Attach Image
         Image img = Toolkit.getDefaultToolkit().getImage(IMAGE_JPG);
         AttachmentPart ap = msg.createAttachmentPart(img, "image/jpeg");
         AttachmentPart ap1 = msg.createAttachmentPart(img, "image/jpeg");
@@ -63,18 +63,22 @@ public class AttachImageTest extends TestCase {
         msg.addAttachmentPart(ap1);
         msg.saveChanges();
 
+        File f = new File(IMAGE_JPG_SENT);
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
         try ( // Save the soap message to file
-                FileOutputStream sentFile = new FileOutputStream(IMAGE_JPG_SENT)) {
+                FileOutputStream sentFile = new FileOutputStream(f)) {
             msg.writeTo(sentFile);
         }
 
         try ( // See if we get the image object back
-                FileInputStream fin = new FileInputStream(IMAGE_JPG_SENT)) {
+                FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
-            
+
             SOAPElement elment = newMsg.getSOAPBody();
             newMsg.writeTo(new ByteArrayOutputStream());
-            
+
             Iterator i = newMsg.getAttachments();
             while (i.hasNext()) {
                 AttachmentPart att = (AttachmentPart) i.next();
@@ -88,33 +92,33 @@ public class AttachImageTest extends TestCase {
 
     /*
     public void testAddGifImageAndVerify() throws Exception {
-        
+
         MessageFactory mf = MessageFactory.newInstance();
-        SOAPMessage msg = mf.createMessage();        
+        SOAPMessage msg = mf.createMessage();
         SOAPPart sp = msg.getSOAPPart();
-        
+
         SOAPEnvelope envelope = sp.getEnvelope();
-        
+
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
 
-		// Add to body 
+		// Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(
 			envelope.createName("GetLastTradePrice", "ztrade",
 				"http://wombat.ztrade.com"));
-        
+
         gltp.addChildElement(envelope.createName("symbol", "ztrade",
 			"http://wombat.ztrade.com")).addTextNode("SUNW");
-        
+
            System.out.println("Setting content via Image");
 
-           Image image = Toolkit.getDefaultToolkit().createImage(IMAGE_GIF);           
-            
+           Image image = Toolkit.getDefaultToolkit().createImage(IMAGE_GIF);
+
            AttachmentPart ap = msg.createAttachmentPart(image, "image/gif");
            ap.setContentType("image/gif");
-           
+
            System.out.println("Created the IMAGE object OK");
-           
+
             Object o = ap.getContent();
             System.out.println("Content type " + ap.getContentType());
             if (o!=null) {
@@ -124,13 +128,13 @@ public class AttachImageTest extends TestCase {
                     System.out.println("Unexpected object was found" + o);
                 }
             } else {
-                    System.out.println("null was returned");                
+                    System.out.println("null was returned");
             }
-            
+
             msg.addAttachmentPart(ap);
-            msg.saveChanges();    
+            msg.saveChanges();
             //msg.writeTo(System.out);
-	
+
     }
      */
     public void testGetAttachmentByHref() throws Exception {
@@ -144,7 +148,7 @@ public class AttachImageTest extends TestCase {
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
 
-        // Add to body 
+        // Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(
                 envelope.createName("GetLastTradePrice", "ztrade",
                         "http://wombat.ztrade.com"));
@@ -153,7 +157,7 @@ public class AttachImageTest extends TestCase {
                 "http://wombat.ztrade.com")).addTextNode("SUNW");
         gltp.setAttribute("href", "cid:MYIMG");
 
-        // Attach Image        
+        // Attach Image
         Image img = Toolkit.getDefaultToolkit().getImage(IMAGE_JPG);
         AttachmentPart ap = msg.createAttachmentPart(img, "image/jpeg");
         ap.setContentId("<MYIMG>");
@@ -173,14 +177,14 @@ public class AttachImageTest extends TestCase {
 
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
-        // Add to body 
+        // Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(
                 envelope.createName("GetLastTradePrice", "ztrade",
                         "http://wombat.ztrade.com"));
 
         gltp.addTextNode("cid:MYIMG");
 
-        // Attach Image        
+        // Attach Image
         Image img = Toolkit.getDefaultToolkit().getImage(IMAGE_JPG);
         AttachmentPart ap = msg.createAttachmentPart(img, "image/jpeg");
         ap.setContentId("<MYIMG>");
@@ -200,23 +204,23 @@ public class AttachImageTest extends TestCase {
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
 
-        // Add to body 
+        // Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(envelope.createName(
                 "GetLastTradePrice", "ztrade", "http://wombat.ztrade.com"));
         gltp.addChildElement(envelope.createName("symbol", "ztrade",
                 "http://wombat.ztrade.com")).addTextNode("SUNW");
 
-        // Attachment1 :  XML from DataHandler(URL)  
+        // Attachment1 :  XML from DataHandler(URL)
         {
-            URL url1 = new URL("file:src/test/mime/data/attach1.xml");
+            URL url1 = new URL("file:src/test/resources/mime/data/attach1.xml");
             AttachmentPart ap1 = msg.createAttachmentPart(new DataHandler(url1));
             ap1.setContentType("text/xml");
             msg.addAttachmentPart(ap1);
         }
 
-        // Attachment1 :  XML from DataHandler(URL)  
+        // Attachment1 :  XML from DataHandler(URL)
         {
-            URL url1 = new URL("file:src/test/mime/data/attach1.xml");
+            URL url1 = new URL("file:src/test/resources/mime/data/attach1.xml");
             AttachmentPart ap1 = msg.createAttachmentPart(new DataHandler(url1));
             ap1.setContentType("text/xml");
             msg.addAttachmentPart(ap1);
@@ -252,15 +256,17 @@ public class AttachImageTest extends TestCase {
             msg.addAttachmentPart(ap4);
         }
 
+        File f = new File("target/test-out/saving.cnt");
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
         try ( // Save the soap message to file
-                FileOutputStream sentFile = new FileOutputStream(
-                        "src/test/mime/data/saving.cnt")) {
+                FileOutputStream sentFile = new FileOutputStream(f)) {
             msg.writeTo(sentFile);
         }
 
         try ( // See if we get the attachment back
-                FileInputStream fin = new FileInputStream(
-                        "src/test/mime/data/saving.cnt")) {
+                FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
             Iterator i = newMsg.getAttachments();
             while (i.hasNext()) {
@@ -283,29 +289,31 @@ public class AttachImageTest extends TestCase {
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
 
-        // Add to body 
+        // Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(envelope.createName(
                 "GetLastTradePrice", "ztrade", "http://wombat.ztrade.com"));
         gltp.addChildElement(envelope.createName("symbol", "ztrade",
                 "http://wombat.ztrade.com")).addTextNode("SUNW");
 
-        // Attachment1 :  XML from DataHandler(URL)  
+        // Attachment1 :  XML from DataHandler(URL)
         {
-            URL url1 = new URL("file:src/test/mime/data/attach1.xml");
+            URL url1 = new URL("file:src/test/resources/mime/data/attach1.xml");
             AttachmentPart ap1 = msg.createAttachmentPart(new DataHandler(url1));
             ap1.setContentType("text/plain");
             msg.addAttachmentPart(ap1);
         }
 
+        File f = new File("target/test-out/saving_text.cnt");
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
         try ( // Save the soap message to file
-                FileOutputStream sentFile = new FileOutputStream(
-                        "src/test/mime/data/saving_text.cnt")) {
+                FileOutputStream sentFile = new FileOutputStream(f)) {
             msg.writeTo(sentFile);
         }
 
         try ( // See if we get the attachment back
-                FileInputStream fin = new FileInputStream(
-                        "src/test/mime/data/saving_text.cnt")) {
+                FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
             Iterator i = newMsg.getAttachments();
             while (i.hasNext()) {
@@ -335,7 +343,7 @@ public class AttachImageTest extends TestCase {
                 "http://wombat.ztrade.com")).addTextNode("SUNW");
 
         // Attachment1 :  XML from file
-        FileInputStream fis = new FileInputStream("src/test/mime/data/attach1.xml");
+        FileInputStream fis = new FileInputStream("src/test/resources/mime/data/attach1.xml");
         AttachmentPart ap1 = msg.createAttachmentPart();
         ap1.setRawContent(fis, "text/xml");
         msg.addAttachmentPart(ap1);
@@ -403,31 +411,31 @@ public class AttachImageTest extends TestCase {
         AttachmentPart ap = msg.createAttachmentPart();
 
         int length1;
-        try (FileInputStream is1 = new FileInputStream("src/test/mime/data/attach1.xml")) {
+        try (FileInputStream is1 = new FileInputStream("src/test/resources/mime/data/attach1.xml")) {
             length1 = is1.read(buf1, 0, 30000);
             //System.out.println("Length1 =" + length1);
         }
 
-        FileInputStream is2 = new FileInputStream("src/test/mime/data/attach1.xml");
+        FileInputStream is2 = new FileInputStream("src/test/resources/mime/data/attach1.xml");
         ap.setRawContent(is2, "text/xml");
         InputStream is3 = ap.getRawContent();
         int length2 = is3.read(buf2, 0, 30000);
         //System.out.println("Length2 =" + length2);
         assertTrue(length2 == length1);
 
-        FileInputStream fis2 = new FileInputStream("src/test/mime/data/attach1.xml");
+        FileInputStream fis2 = new FileInputStream("src/test/resources/mime/data/attach1.xml");
         ap.setContent(fis2, "text/xml");
         InputStream is4 = ap.getDataHandler().getInputStream();
         int length3 = is4.read(buf3, 0, 30000);
         //System.out.println("Length3 =" + length3);
 
         /*
-            FileDataSource fis3 = new FileDataSource("src/test/mime/data/attach1.xml");
+            FileDataSource fis3 = new FileDataSource("src/test/resources/mime/data/attach1.xml");
             ap.setContent(fis3 ,"text/xml");
             int length4 = ap.getSize();
             System.out.println("Length4 =" + length4);
          */
-        FileInputStream fis4 = new FileInputStream("src/test/mime/data/attach1.xml");
+        FileInputStream fis4 = new FileInputStream("src/test/resources/mime/data/attach1.xml");
         DataHandler dh = new DataHandler(fis4, "text/xml");
         InputStream is5 = dh.getInputStream();
         int length5 = is5.read(buf4, 0, 30000);
@@ -446,7 +454,7 @@ public class AttachImageTest extends TestCase {
         AttachmentPart ap = msg.createAttachmentPart();
 
         int length1;
-        try (FileInputStream is1 = new FileInputStream("src/test/mime/data/attach1.xml")) {
+        try (FileInputStream is1 = new FileInputStream("src/test/resources/mime/data/attach1.xml")) {
             length1 = is1.read(buf1, 0, 30000);
         }
 
@@ -476,7 +484,7 @@ public class AttachImageTest extends TestCase {
                 "http://wombat.ztrade.com")).addTextNode("SUNW");
 
         // Attachment1 :  XML from file
-        FileInputStream fis = new FileInputStream("src/test/mime/data/attach1.xml");
+        FileInputStream fis = new FileInputStream("src/test/resources/mime/data/attach1.xml");
         AttachmentPart ap1 = msg.createAttachmentPart();
         ap1.setRawContent(fis, "text/xml");
         msg.addAttachmentPart(ap1);
@@ -499,20 +507,20 @@ public class AttachImageTest extends TestCase {
                 MessageFactory mf = MessageFactory.newInstance();
                 SOAPMessage msg = mf.createMessage();
                 SOAPPart sp = msg.getSOAPPart();
-                                                                                                        
+
                 SOAPEnvelope envelope = sp.getEnvelope();
-                                                                                                        
+
                 SOAPHeader hdr = envelope.getHeader();
                 SOAPBody bdy = envelope.getBody();
-                                                                                                        
+
                 // Add to body
                 SOAPBodyElement gltp = bdy.addBodyElement(envelope.createName(
                         "GetLastTradePrice", "ztrade", "http://wombat.ztrade.com"));
                 gltp.addChildElement(envelope.createName("symbol", "ztrade",
                         "http://wombat.ztrade.com")).addTextNode("SUNW");
-                                                                                                        
+
                 // Attachment1 :  XML from file
-                FileInputStream fis = new FileInputStream("src/test/mime/data/attach1.xml");
+                FileInputStream fis = new FileInputStream("src/test/resources/mime/data/attach1.xml");
                 AttachmentPart ap1 = msg.createAttachmentPart();
 
                 InputStream stream = null;
@@ -535,7 +543,7 @@ public class AttachImageTest extends TestCase {
                 ap1.setBase64Content(stream,"text/xml");
                 msg.addAttachmentPart(ap1);
                 InputStream content = ap1.getRawContent();
-                assertTrue(content != null); 
+                assertTrue(content != null);
          */
  /*
                 buf = new byte[size];
@@ -556,7 +564,7 @@ public class AttachImageTest extends TestCase {
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
 
-        // Add to body 
+        // Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(
                 envelope.createName("GetLastTradePrice", "ztrade",
                         "http://wombat.ztrade.com"));
@@ -564,25 +572,29 @@ public class AttachImageTest extends TestCase {
         gltp.addChildElement(envelope.createName("symbol", "ztrade",
                 "http://wombat.ztrade.com")).addTextNode("SUNW");
 
-        // Attach Image        
+        // Attach Image
         Image img = Toolkit.getDefaultToolkit().getImage(IMAGE_JPG);
         AttachmentPart ap = msg.createAttachmentPart(img, "image/jpeg");
         msg.addAttachmentPart(ap);
         AttachmentPart ap1 = msg.createAttachmentPart(img, "image/jpeg");
         msg.addAttachmentPart(ap1);
-        FileInputStream fis = new FileInputStream("src/test/mime/data/attach1.xml");
+        FileInputStream fis = new FileInputStream("src/test/resources/mime/data/attach1.xml");
         AttachmentPart ap2 = msg.createAttachmentPart();
         ap2.setRawContent(fis, "text/xml");
         msg.addAttachmentPart(ap2);
         msg.saveChanges();
 
         // Save the soap message to file
-        try (FileOutputStream sentFile = new FileOutputStream(IMAGE_JPG_SENT)) {
+        File f = new File(IMAGE_JPG_SENT);
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
+        try (FileOutputStream sentFile = new FileOutputStream(f)) {
             msg.writeTo(sentFile);
         }
 
         try ( // See if we get the image object back
-                FileInputStream fin = new FileInputStream(IMAGE_JPG_SENT)) {
+                FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
             Iterator i = newMsg.getAttachments();
             //System.out.println("Count before remove:" + newMsg.countAttachments());

@@ -7,18 +7,11 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-
-/**
- * Reference Implementation of JSR-67: SOAP with Attachments API for Java.
- */
-module com.sun.xml.messaging.saaj {
-    requires org.jvnet.mimepull;
-    requires transitive java.xml.bind;
-    requires org.jvnet.staxex;
+module com.sun.xml.messaging.saaj.test {
+    requires jakarta.activation;
+    requires transitive java.desktop;
     requires transitive java.xml.soap;
-    requires java.logging;
-    requires java.desktop;
-
-    exports com.sun.xml.messaging.saaj;
-    exports com.sun.xml.messaging.saaj.soap;
+    requires transitive com.sun.xml.messaging.saaj;
+    
+    exports mime.custom;
 }

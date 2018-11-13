@@ -111,7 +111,7 @@ public class StartParameterTest extends TestCase {
                        "http://wombat.ztrade.com")).addTextNode("SUNW");
         
         // Attach an xml file containing empty Body message     
-        URL url = new URL("file", null, "src/test/mime/data/message.xml");
+        URL url = new URL("file", null, "src/test/resources/mime/data/message.xml");
 
         AttachmentPart ap = msg.createAttachmentPart(new DataHandler(url));
 
@@ -123,14 +123,14 @@ public class StartParameterTest extends TestCase {
         msg.saveChanges();
 
 	FileOutputStream sentFile =
-            new FileOutputStream("src/test/mime/data/message.txt");
+            new FileOutputStream("src/test/resources/mime/data/message.txt");
 	msg.writeTo(sentFile);
 	sentFile.close();
-        changeAndSaveMimeHeaders(msg, "src/test/mime/data/headers.txt");
+        changeAndSaveMimeHeaders(msg, "src/test/resources/mime/data/headers.txt");
 
         SOAPMessage newMsg = 
-            getModifiedMessage("src/test/mime/data/headers.txt", 
-                               "src/test/mime/data/message.txt");
+            getModifiedMessage("src/test/resources/mime/data/headers.txt", 
+                               "src/test/resources/mime/data/message.txt");
         assertFalse("newMsg has an empty body",
                     newMsg.getSOAPBody().getChildElements().hasNext());
         assertTrue("Soap part has the Content-Id: attachmentPart",
@@ -152,7 +152,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Connection","close");
 
         FileInputStream fis = 
-            new FileInputStream("src/test/mime/data/msg.txt");
+            new FileInputStream("src/test/resources/mime/data/msg.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         SOAPMessage msg = factory.createMessage(hdrs,fis);
         String[] s = msg.getSOAPPart().getMimeHeader("Content-Description");
@@ -169,7 +169,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Connection","close");
 
         FileInputStream fis = 
-            new FileInputStream("src/test/mime/data/msg.txt");
+            new FileInputStream("src/test/resources/mime/data/msg.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         try {
             factory.createMessage(hdrs,fis);
@@ -189,7 +189,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Connection","close");
 
         FileInputStream fis = 
-            new FileInputStream("src/test/mime/data/msg.txt");
+            new FileInputStream("src/test/resources/mime/data/msg.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         try {
             factory.createMessage(hdrs,fis);
@@ -210,7 +210,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Connection","close");
 
         FileInputStream fis = 
-            new FileInputStream("src/test/mime/data/msg2.txt");
+            new FileInputStream("src/test/resources/mime/data/msg2.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         factory.createMessage(hdrs,fis);
     }
