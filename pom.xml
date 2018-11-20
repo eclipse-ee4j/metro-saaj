@@ -267,7 +267,7 @@
                 <configuration>
                     <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
                     <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm:ssZ}</timestampFormat>
-                    <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+                    <shortRevisionLength>7</shortRevisionLength>
                     <revisionOnScmFailure>false</revisionOnScmFailure>
                 </configuration>
                 <executions>
@@ -344,7 +344,7 @@
                     <execution>
                         <phase>validate</phase>
                         <goals>
-                            <goal>copyright</goal>
+                            <goal>check</goal>
                         </goals>
                     </execution>
                 </executions>
@@ -490,11 +490,6 @@
                 <version>4.12</version>
             </dependency>
             <dependency>
-                <groupId>jakarta.servlet</groupId>
-                <artifactId>jakarta.servlet-api</artifactId>
-                <version>4.0.2</version>
-            </dependency>
-            <dependency>
                 <groupId>com.sun.activation</groupId>
                 <artifactId>jakarta.activation</artifactId>
                 <version>1.2.1</version>
@@ -526,11 +521,6 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>jakarta.servlet</groupId>
-            <artifactId>jakarta.servlet-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

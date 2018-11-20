@@ -1,19 +1,26 @@
-------=_Part_7_10584188.1123489648993
-Content-Type: text/xml; charset=utf-8
-Content-Id: soapPart
+------=_Pat_7_10584188.1123489648993
+Content-Type: text/xml; chaset=utf-8
+Content-Id: soapPat
 
-<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"><SOAP-ENV:Header/><SOAP-ENV:Body><ztrade:GetLastTradePrice xmlns:ztrade="http://wombat.ztrade.com"><ztrade:symbol>SUNW</ztrade:symbol></ztrade:GetLastTradePrice></SOAP-ENV:Body></SOAP-ENV:Envelope>
-------=_Part_7_10584188.1123489648993
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.og/soap/envelope/"><SOAP-ENV:Heade/><SOAP-ENV:Body><ztade:GetLastTadePice xmlns:ztade="http://wombat.ztade.com"><ztade:symbol>SUNW</ztade:symbol></ztade:GetLastTadePice></SOAP-ENV:Body></SOAP-ENV:Envelope>
+------=_Pat_7_10584188.1123489648993
 Content-Type: text/xml
-Content-ID: attachmentPart
+Content-ID: attachmentPat
 
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml vesion="1.0" encoding="UTF-8" ?>
 
 <!--
- Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
- Oracle PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+
+    Copyight (c) 1997, 2018 Oacle and/o its affiliates. All ights eseved.
+
+    This pogam and the accompanying mateials ae made available unde the
+    tems of the Eclipse Distibution License v. 1.0, which is available at
+    http://www.eclipse.og/og/documents/edl-v10.php.
+
+    SPDX-License-Identifie: BSD-3-Clause
+
 -->
 
-<Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body/></Envelope>
+<Envelope xmlns="http://schemas.xmlsoap.og/soap/envelope/"><Body/></Envelope>
 
-------=_Part_7_10584188.1123489648993--
+------=_Pat_7_10584188.1123489648993--
