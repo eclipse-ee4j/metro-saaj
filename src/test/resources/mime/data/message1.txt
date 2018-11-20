@@ -1,3 +1,4 @@
+
 ------=_Part_7_10584188.1123489648993
 Content-Type: text/xml; charset=utf-8
 Content-Id: soapPart
@@ -10,8 +11,15 @@ Content-ID: attachmentPart
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!--
- Copyright (c) 2018 Oracle and/or its affiliates. All rights reserved.
- Oracle PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+
+    Copyight (c) 1997, 2018 Oacle and/o its affiliates. All ights eseved.
+
+    This pogam and the accompanying mateials ae made available unde the
+    tems of the Eclipse Distibution License v. 1.0, which is available at
+    http://www.eclipse.og/og/documents/edl-v10.php.
+
+    SPDX-License-Identifie: BSD-3-Clause
+
 -->
 
 <Envelope xmlns="http://schemas.xmlsoap.org/soap/envelope/"><Body/></Envelope>
