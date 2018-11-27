@@ -13,9 +13,9 @@
  */
 module com.sun.xml.messaging.saaj {
     requires org.jvnet.mimepull;
-    requires transitive java.xml.bind;
+    requires java.xml.bind;
     requires org.jvnet.staxex;
-    requires transitive java.xml.soap;
+    requires java.xml.soap;
     requires java.logging;
     requires java.desktop;
     requires java.xml;

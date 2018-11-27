@@ -79,7 +79,6 @@
         <findbugs.exclude>${project.basedir}/exclude.xml</findbugs.exclude>
         <findbugs.threshold>Low</findbugs.threshold>
         <upgrade.mods>${project.build.directory}/upgrade-mods</upgrade.mods>
-        <mods>${project.build.directory}/mods</mods>
         <proxyOpts/>
         <config.dir>${project.basedir}/etc/config</config.dir>
         <legal.doc.source>${project.basedir}</legal.doc.source>
@@ -152,11 +151,6 @@
                     <artifactId>maven-enforcer-plugin</artifactId>
                     <version>3.0.0-M2</version>
                 </plugin>
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-gpg-plugin</artifactId>
-                    <version>1.6</version>
-                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -200,18 +194,6 @@
                             <outputDirectory>${upgrade.mods}</outputDirectory>
                             <silent>false</silent>
                             <includeArtifactIds>jakarta.xml.soap-api,jakarta.activation</includeArtifactIds>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>copy-module-path</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${mods}</outputDirectory>
-                            <silent>false</silent>
-                            <includeArtifactIds>stax-ex,mimepull</includeArtifactIds>
                         </configuration>
                     </execution>
                 </executions>
@@ -291,6 +273,7 @@
                         </goals>
                         <configuration>
                             <instructions>
+                                <Import-Package>javax.activation;version=!,javax.xml.bind.attachment;version=!,*</Import-Package>
                                 <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}, ${timestamp}</Implementation-Build-Id>
                                 <_noee>true</_noee>
                             </instructions>
@@ -369,10 +352,6 @@
                         <version>1.0</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
