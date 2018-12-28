@@ -22,7 +22,7 @@
 
     <groupId>com.sun.xml.messaging.saaj</groupId>
     <artifactId>saaj-impl</artifactId>
-    <version>1.5.1</version>
+    <version>1.5.2-SNAPSHOT</version>
     <description>
         Open source Reference Implementation of JSR-67: SOAP with Attachments API for Java (SAAJ MR: 1.4)
     </description>
