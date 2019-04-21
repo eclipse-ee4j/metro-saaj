@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2014 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,8 +32,6 @@ import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
 import com.sun.xml.messaging.saaj.soap.impl.EnvelopeImpl;
 import com.sun.xml.messaging.saaj.util.*;
 import org.jvnet.mimepull.MIMEPart;
-
-import static java.lang.String.format;
 
 /**
  * The message implementation for SOAP messages with
@@ -508,7 +506,7 @@ public abstract class MessageImpl
                             soapMessagePart =
                                     bmMultipart.getNextPart(stream, bndbytes, sin);
                             if (soapBodyPartSizeLimit != null && soapMessagePart.getSize() > soapBodyPartSizeLimit) {
-                                throw new SOAPExceptionImpl(format("SOAP body part of size %s exceeded size limitation: %s", soapMessagePart.getSize(), soapBodyPartSizeLimit));
+                                throw new SOAPExceptionImpl("SOAP body part of size " + soapMessagePart.getSize() + " exceeded size limitation: " + soapBodyPartSizeLimit);
                             }
                             bmMultipart.removeBodyPart(soapMessagePart);
                         } else {
