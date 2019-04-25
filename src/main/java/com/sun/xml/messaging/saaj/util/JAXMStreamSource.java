@@ -15,7 +15,6 @@ import java.io.*;
 import javax.xml.transform.stream.StreamSource;
 
 import static com.sun.xml.messaging.saaj.soap.MessageImpl.SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT;
-import static java.lang.String.format;
 
 
 /**
@@ -46,7 +45,7 @@ public class JAXMStreamSource extends StreamSource {
                 bout.write(is);
                 ByteInputStream byteInputStream = bout.newInputStream();
                 if (soapBodyPartSizeLimit != null && byteInputStream.getCount() > soapBodyPartSizeLimit) {
-                    throw new IOException(format("SOAP body part of size %s exceeded size limitation: %s", byteInputStream.getCount(), soapBodyPartSizeLimit));
+                    throw new IOException("SOAP body part of size " + byteInputStream.getCount() + " exceeded size limitation: " + soapBodyPartSizeLimit);
                 }
                 this.in = byteInputStream;
             } finally {
@@ -65,10 +64,10 @@ public class JAXMStreamSource extends StreamSource {
         CharArrayWriter cout = new CharArrayWriter();
         char[] temp = new char[1024];
         int len;
-                                                                                
+
         while (-1 != (len = rdr.read(temp)))
             cout.write(temp, 0, len);
-                                                                                
+
         this.reader = new CharArrayReader(cout.toCharArray(), 0, cout.size());
     }
 
@@ -76,7 +75,7 @@ public class JAXMStreamSource extends StreamSource {
     public InputStream getInputStream() {
 	return in;
     }
-    
+
     @Override
     public Reader getReader() {
 	return reader;
