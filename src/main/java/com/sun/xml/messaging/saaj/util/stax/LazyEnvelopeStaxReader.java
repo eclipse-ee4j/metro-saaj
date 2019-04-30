@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,7 @@
 
 package com.sun.xml.messaging.saaj.util.stax;
 
+import com.sun.xml.messaging.saaj.soap.LazyEnvelope;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPException;
@@ -17,10 +18,6 @@ import javax.xml.stream.Location;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 
-import org.w3c.dom.Node;
-
-import com.sun.xml.messaging.saaj.soap.impl.BodyImpl;
-import com.sun.xml.messaging.saaj.soap.impl.EnvelopeImpl;
 
 /**
  * "Hybrid" reader which 
@@ -33,7 +30,7 @@ public class LazyEnvelopeStaxReader extends org.jvnet.staxex.util.DOMStreamReade
     boolean usePayloadReaderDelegate = false;
     private QName bodyQName;
     
-    public LazyEnvelopeStaxReader(EnvelopeImpl env) throws SOAPException, XMLStreamException {
+    public LazyEnvelopeStaxReader(LazyEnvelope env) throws SOAPException, XMLStreamException {
         super(env);
 //        this.env = env;
         bodyQName = new QName(env.getNamespaceURI(), "Body");
@@ -366,24 +363,4 @@ public class LazyEnvelopeStaxReader extends org.jvnet.staxex.util.DOMStreamReade
         return super.getPIData();
     }
     
-    //make sure that message is not realized as a result of call
-    //to getFirstChild
-    protected Node getFirstChild(Node node) {
-        if (node instanceof BodyImpl) {
-            return ((BodyImpl) node).getFirstChildNoMaterialize();
-        } else {
-            return node.getFirstChild();
-        }
-    }
-    
-    protected Node getNextSibling(Node node) {
-        if (node instanceof BodyImpl) {
-            //body is not expected to have a next sibling - even if it does
-            //we would have to materialize the node to retrieve it.
-            //Since we don't want to materialize it right now, just return null
-            return null;
-        }
-        return node.getNextSibling();
-    }
-
 }

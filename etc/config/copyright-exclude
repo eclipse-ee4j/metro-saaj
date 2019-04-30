@@ -17,8 +17,6 @@
 .svg
 .tif
 .txt
-.war
-.zip
 /CONTRIBUTING.md
 /LICENSE.md
 /META-INF/services
@@ -26,8 +24,5 @@
 /README
 /README.md
 /copyright-exclude
-etc/
-site
+/exclude
 src/test/bugfixes/data/examine.xml
-www
-zip
