@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,18 +14,25 @@ import java.io.*;
 
 import javax.xml.transform.stream.StreamSource;
 
+import static com.sun.xml.messaging.saaj.soap.MessageImpl.SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT;
+
 
 /**
  *
  * @author Anil Vijendran
  */
 public class JAXMStreamSource extends StreamSource {
+
+    private static final Integer soapBodyPartSizeLimit;
+
     InputStream in;
     Reader reader;
     private static final boolean lazyContentLength;
     static {
         lazyContentLength = SAAJUtil.getSystemBoolean("saaj.lazy.contentlength");
+        soapBodyPartSizeLimit = SAAJUtil.getSystemInteger(SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT);
     }
+
     public JAXMStreamSource(InputStream is) throws IOException {
         if (lazyContentLength) {
             in = is;
@@ -36,7 +43,11 @@ public class JAXMStreamSource extends StreamSource {
             try {
                 bout = new ByteOutputStream();
                 bout.write(is);
-                this.in = bout.newInputStream();
+                ByteInputStream byteInputStream = bout.newInputStream();
+                if (soapBodyPartSizeLimit != null && byteInputStream.getCount() > soapBodyPartSizeLimit) {
+                    throw new IOException("SOAP body part of size " + byteInputStream.getCount() + " exceeded size limitation: " + soapBodyPartSizeLimit);
+                }
+                this.in = byteInputStream;
             } finally {
                 if (bout != null)
                     bout.close();
@@ -53,10 +64,10 @@ public class JAXMStreamSource extends StreamSource {
         CharArrayWriter cout = new CharArrayWriter();
         char[] temp = new char[1024];
         int len;
-                                                                                
+
         while (-1 != (len = rdr.read(temp)))
             cout.write(temp, 0, len);
-                                                                                
+
         this.reader = new CharArrayReader(cout.toCharArray(), 0, cout.size());
     }
 
@@ -64,7 +75,7 @@ public class JAXMStreamSource extends StreamSource {
     public InputStream getInputStream() {
 	return in;
     }
-    
+
     @Override
     public Reader getReader() {
 	return reader;

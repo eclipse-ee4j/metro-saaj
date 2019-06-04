@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -104,6 +104,10 @@ public abstract class MessageImpl
     private static boolean switchOffLazyAttachment = false;
     private static boolean useMimePull = false;
 
+    private static Integer soapBodyPartSizeLimit;
+
+    public static final String SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT = "saaj.mime.soapBodyPartSizeLimit";
+
     static {
             String s = SAAJUtil.getSystemProperty("saaj.mime.optimization");
             if ((s != null) && s.equals("false")) {
@@ -114,6 +118,8 @@ public abstract class MessageImpl
                 switchOffLazyAttachment = true;
             }
             useMimePull = SAAJUtil.getSystemBoolean("saaj.use.mimepull");
+
+            soapBodyPartSizeLimit = SAAJUtil.getSystemInteger(SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT);
       
     }
 
@@ -499,6 +505,9 @@ public abstract class MessageImpl
                         if (startParam == null) {
                             soapMessagePart =
                                     bmMultipart.getNextPart(stream, bndbytes, sin);
+                            if (soapBodyPartSizeLimit != null && soapMessagePart.getSize() > soapBodyPartSizeLimit) {
+                                throw new SOAPExceptionImpl("SOAP body part of size " + soapMessagePart.getSize() + " exceeded size limitation: " + soapBodyPartSizeLimit);
+                            }
                             bmMultipart.removeBodyPart(soapMessagePart);
                         } else {
                             MimeBodyPart bp = null;
