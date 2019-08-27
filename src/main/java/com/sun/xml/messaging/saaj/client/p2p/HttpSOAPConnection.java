@@ -11,7 +11,6 @@
 package com.sun.xml.messaging.saaj.client.p2p;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.net.*;
 import java.security.*;
 import java.util.Iterator;
