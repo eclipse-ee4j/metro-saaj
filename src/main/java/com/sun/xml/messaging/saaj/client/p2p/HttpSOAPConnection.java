@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,6 @@
 package com.sun.xml.messaging.saaj.client.p2p;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.net.*;
 import java.security.*;
 import java.util.Iterator;
@@ -37,7 +36,6 @@ class HttpSOAPConnection extends SOAPConnection {
     public static final String vmVendor = SAAJUtil.getSystemProperty("java.vendor.url");
     private static final String ibmVmVendor = "http://www.ibm.com/";
     private static final boolean isIBMVM = ibmVmVendor.equals(vmVendor) ? true : false;
-    private static final String JAXM_URLENDPOINT="javax.xml.messaging.URLEndpoint";
     
     protected static final Logger log =
         Logger.getLogger(LogDomainConstants.HTTP_CONN_DOMAIN,
@@ -78,42 +76,6 @@ class HttpSOAPConnection extends SOAPConnection {
         if (closed) {
             log.severe("SAAJ0003.p2p.call.already.closed.conn");
             throw new SOAPExceptionImpl("Connection is closed");
-        }
-
-        Class<?> urlEndpointClass = null;
-        ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try {
-            if (loader != null) {
-                urlEndpointClass = loader.loadClass(JAXM_URLENDPOINT);
-            } else {
-                urlEndpointClass = Class.forName(JAXM_URLENDPOINT);
-            }
-        } catch (ClassNotFoundException ex) {
-            //Do nothing. URLEndpoint is available only when JAXM is there.
-            if (log.isLoggable(Level.FINEST))
-                log.finest("SAAJ0090.p2p.endpoint.available.only.for.JAXM");
-        }
-
-        if (urlEndpointClass != null) {
-            if (urlEndpointClass.isInstance(endPoint)) {
-                String url = null;
-
-                try {
-                    Method m = urlEndpointClass.getMethod("getURL", (Class[])null);
-                    url = (String) m.invoke(endPoint, (Object[])null);
-                } catch (Exception ex) {
-                    // TBD -- exception chaining
-                    log.log(Level.SEVERE,"SAAJ0004.p2p.internal.err",ex);
-                    throw new SOAPExceptionImpl(
-                        "Internal error: " + ex.getMessage());
-                }
-                try {
-                    endPoint = new URL(url);
-                } catch (MalformedURLException mex) {
-                    log.log(Level.SEVERE,"SAAJ0005.p2p.", mex);
-                    throw new SOAPExceptionImpl("Bad URL: " + mex.getMessage());
-                }
-            }
         }
 
         if (endPoint instanceof java.lang.String) {
@@ -340,34 +302,6 @@ class HttpSOAPConnection extends SOAPConnection {
         if (closed) {
             log.severe("SAAJ0011.p2p.get.already.closed.conn");
             throw new SOAPExceptionImpl("Connection is closed");
-        }
-        Class<?> urlEndpointClass = null;
-
-        try {
-            urlEndpointClass = Class.forName("javax.xml.messaging.URLEndpoint");
-        } catch (Exception ex) {
-            //Do nothing. URLEndpoint is available only when JAXM is there.
-        }
-
-        if (urlEndpointClass != null) {
-            if (urlEndpointClass.isInstance(endPoint)) {
-                String url = null;
-
-                try {
-                    Method m = urlEndpointClass.getMethod("getURL", (Class[])null);
-                    url = (String) m.invoke(endPoint, (Object[])null);
-                } catch (Exception ex) {
-                    log.severe("SAAJ0004.p2p.internal.err");
-                    throw new SOAPExceptionImpl(
-                        "Internal error: " + ex.getMessage());
-                }
-                try {
-                    endPoint = new URL(url);
-                } catch (MalformedURLException mex) {
-                    log.severe("SAAJ0005.p2p.");
-                    throw new SOAPExceptionImpl("Bad URL: " + mex.getMessage());
-                }
-            }
         }
 
         if (endPoint instanceof java.lang.String) {
