@@ -10,7 +10,7 @@ following is a summary of the TCK results for releases of Eclipse Implementation
 - [x] Organization Name ("Organization") and, if applicable, URL:<br/>
   [Eclipse Foundation](https://www.eclipse.org/)
 - [x] Product Name, Version and download URL (if applicable):<br/>
-  [Eclipse Implementation of JAXB 2.3.2](index.html)
+  [Jakarta SOAP with Attachments Implementation 1.5.1](index.html)
 - [x] Specification Name, Version and download URL:<br/>
    [Jakarta SOAP with Attachments 1.4](https://jakarta.ee/specifications/soap-attachments/1.4/)
 - [x] TCK Version, digital SHA-256 fingerprint and download URL:<br/>
