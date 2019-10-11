@@ -5,3 +5,6 @@ This project contains Reference Implementation (RI) of SAAJ API.
 ### Licensing and Governance
 
 SOAP with Attachments API for Java is licensed under a license - [EDL 1.0](LICENSE.md).
+
+#### Samples
+Runnable samples with description are available [here](saaj-samples/README.md)

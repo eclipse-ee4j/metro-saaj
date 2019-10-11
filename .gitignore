@@ -1,6 +1,6 @@
 /target/
-/src/test/resources/mime/data/headers.txt
-/src/test/resources/mime/data/message.txt
+/saaj-ri/src/test/resources/mime/data/headers.txt
+/saaj-ri/src/test/resources/mime/data/message.txt
 *.iml
 *.ipr
 .idea

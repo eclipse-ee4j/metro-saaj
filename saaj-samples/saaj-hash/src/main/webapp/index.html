@@ -1,0 +1,91 @@
+<!--
+
+    Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Hashing Service SAAJ Sample Application</title>
+    <style>
+        html {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+            white-space: nowrap;
+        }
+
+        label, table {
+            white-space: nowrap;
+        }
+
+        .translate-panel {
+            border-radius: 4px;
+            padding: 20px;
+            margin: auto;
+            width: min-content;
+            border: 3px solid #87cefa;
+        }
+
+        .hash-button {
+            float: right;
+        }
+
+        .hash-inbox {
+            width: 100%;
+        }
+
+        h2 {
+            border-radius: 4px;
+            padding: 20px;
+            margin: auto;
+            width: min-content;
+        }
+    </style>
+</head>
+<body>
+<h2>Hashing Service SAAJ Sample Application</h2>
+
+<form name=f action="translation" method="get">
+    <div class="translate-panel">
+        <div>Enter the text to make the hashes from:</div>
+        <div style="display: flex;">
+            <input id="hash-inbox" class="hash-inbox" type="text" value="" name="translate"
+                   maxlength="256"/>
+            <input id="hash-button" class="hash-button" type=submit value="Digest" disabled="true">
+        </div>
+        <div>
+            Add hashes to reply message:
+            <label>
+                <input type='radio' name="trAs" value="body">
+                In SOAPBody
+            </label>
+            <label>
+                <input type='radio' name="trAs" value="attachments" checked/>
+                As Attachments
+            </label>
+        </div>
+    </div>
+
+</form>
+<script>
+    document.getElementById("hash-inbox").addEventListener("input", function () {
+        document.getElementById("hash-button").disabled =
+            !document.getElementById("hash-inbox").value;
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("hash-button").disabled =
+            !document.getElementById("hash-inbox").value;
+    });
+
+</script>
+</body>
+</html>
+
+
+

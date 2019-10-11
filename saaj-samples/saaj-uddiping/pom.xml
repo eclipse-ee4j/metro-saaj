@@ -1,0 +1,190 @@
+<!--
+
+    Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.sun.xml.messaging.saaj</groupId>
+        <artifactId>saaj-samples</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+    
+    <groupId>com.sun.xml.messaging.saaj.samples</groupId>
+    <artifactId>saaj-uddiping</artifactId>
+    <packaging>jar</packaging>
+    <version>1.6.0-SNAPSHOT</version>
+    <name>SAAJ UDDI Ping sample</name>
+
+    <properties>
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
+        <juddi-dir>${project.basedir}/juddi</juddi-dir>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>create-distribution</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>${project.basedir}/juddi/assembly-root-war.xml</descriptor>
+                            </descriptors>
+                            <finalName>sample-juddi</finalName>
+                            <outputDirectory>${project.build.directory}/wars</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <artifactItems>
+                        <artifactItem>
+                            <groupId>org.apache.juddi</groupId>
+                            <artifactId>juddiv3-war</artifactId>
+                            <version>3.3.6</version>
+                            <type>war</type>
+                            <overWrite>false</overWrite>
+                        </artifactItem>
+                        <artifactItem>
+                            <groupId>org.apache.juddi</groupId>
+                            <artifactId>juddi-gui-war</artifactId>
+                            <version>3.3.6</version>
+                            <type>war</type>
+                        </artifactItem>
+                    </artifactItems>
+                    <stripVersion>true</stripVersion>
+                    <outputDirectory>${project.build.directory}/wars</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <!-- Newer versions with asm 4.1 causes https://www.eclipse.org/lists/jetty-users/msg04281.html -->
+                <version>9.0.7.v20131107</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.apache.geronimo.modules</groupId>
+                        <artifactId>geronimo-jaxws</artifactId>
+                        <version>3.0.1</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.glassfish.main</groupId>
+                        <artifactId>javax.jws</artifactId>
+                        <version>4.0-b33</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.apache.derby</groupId>
+                        <artifactId>derby</artifactId>
+                        <version>10.14.2.0</version>
+                    </dependency>
+                </dependencies>
+                <executions>
+                    <execution>
+                        <id>run-jUDDI</id>
+                        <goals>
+                            <goal>run-war</goal>
+                        </goals>
+
+                        <configuration>
+                            <supportedPackagings>jar</supportedPackagings>
+                            <war>${project.build.directory}/wars/sample-juddi-root.war</war>
+                            <contextPath>/</contextPath>
+                            <systemProperties>
+                                <systemProperty>
+                                    <name>log4j.configuration</name>
+                                    <value>file:${juddi-dir}/log4j.properties</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <name>javax.persistence.jdbc.driver</name>
+                                    <value>org.apache.derby.jdbc.EmbeddedDriver</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <name>javax.persistence.jdbc.url</name>
+                                    <value>jdbc:derby:${project.build.directory}/juddidb;create=true</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <name>com.sun.xml.bind.v2.bytecode.ClassTailor.noOptimize</name>
+                                    <value>true</value>
+                                </systemProperty>
+                                <systemProperty>
+                                    <name>derby.stream.error.file</name>
+                                    <value>${project.build.directory}/derby.log</value>
+                                </systemProperty>
+                            </systemProperties>
+                            <contextHandlers>
+                                <contextHandler implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+                                    <war>${project.basedir}/target/wars/juddiv3-war.war</war>
+                                    <jettyEnvXml>${juddi-dir}/jetty-wac.xml</jettyEnvXml>
+                                    <contextPath>/juddiv3</contextPath>
+                                </contextHandler>
+                                <contextHandler implementation="org.eclipse.jetty.maven.plugin.JettyWebAppContext">
+                                    <war>${project.basedir}/target/wars/juddi-gui-war.war</war>
+                                    <jettyEnvXml>${juddi-dir}/jetty-wac.xml</jettyEnvXml>
+                                    <contextPath>/juddiv3-gui</contextPath>
+                                </contextHandler>
+                            </contextHandlers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <executions>
+                    <execution>
+                        <id>uddi-ping</id>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>UddiPing</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

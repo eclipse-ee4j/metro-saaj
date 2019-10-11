@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure.dtd">
+<Configure id="wac" class="org.eclipse.jetty.webapp.WebAppContext">
+    <Get name="securityHandler">
+        <Set name="loginService">
+            <New class="org.eclipse.jetty.security.HashLoginService">
+                <Set name="name">Apache jUDDI - Make sure you're using HTTPS!</Set>
+                <Set name="config">juddi/jetty-users.properties</Set>
+                <Call name="start"/>
+            </New>
+        </Set>
+        <Set name="checkWelcomeFiles">true</Set>
+    </Get>
+    <New id="myds" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg><Ref refid="wac"/></Arg>
+        <Arg>jdbc/JuddiDS</Arg>
+        <Arg>
+            <New class="org.apache.derby.jdbc.EmbeddedDataSource">
+                <Set name="DatabaseName">test</Set>
+                <Set name="createDatabase">create</Set>
+            </New>
+        </Arg>
+    </New>
+    <New id="myds" class="org.eclipse.jetty.plus.jndi.Resource">
+        <Arg><Ref refid="wac"/></Arg>
+        <Arg>jdbc/juddiDB</Arg>
+        <Arg>
+            <New class="org.apache.derby.jdbc.EmbeddedDataSource">
+                <Set name="DatabaseName">test</Set>
+                <Set name="createDatabase">create</Set>
+            </New>
+        </Arg>
+    </New>
+    <Call class="java.lang.System" name="setProperties">
+        <Arg>
+            <New class="java.util.Properties">
+                <Call name="putAll">
+                    <Arg><Call class="java.lang.System" name="getProperties"/></Arg>
+                </Call>
+                <Call name="setProperty">
+                    <Arg>org.ops4j.pax.logging.DefaultServiceLog.level</Arg>
+                    <Arg>INFO</Arg>
+                </Call>
+            </New>
+        </Arg>
+    </Call>
+</Configure>
