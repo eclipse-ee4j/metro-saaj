@@ -361,7 +361,7 @@
 
     <modules>
         <module>saaj-ri</module>
-        <module>samples</module>
+        <module>saaj-samples</module>
     </modules>
 
 </project>
