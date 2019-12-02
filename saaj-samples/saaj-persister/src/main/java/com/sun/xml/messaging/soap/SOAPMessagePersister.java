@@ -38,6 +38,11 @@ public class SOAPMessagePersister {
     /**
      * Saves a given <code>SOAPMessage</code> to a given file location in a
      * human readable format.
+     *
+     * @param msg soap message
+     * @param location file to save to
+     * @throws java.io.IOException when saving the file is not possible
+     * @throws javax.xml.soap.SOAPException if there was a problem saving changes to this message.
      */
     public void save(SOAPMessage msg, File location)
         throws IOException, SOAPException {
@@ -88,6 +93,11 @@ public class SOAPMessagePersister {
      * Loads a <code>SOAPMessage</code> from a given file location.
      * The message in the given file location should have been stored using
      * the <code>save</code> method of this class.
+     *
+     * @param location file with saved soap message location
+     * @return soap message loaded from the file
+     * @throws java.io.IOException when saving the file is not possible
+     * @throws javax.xml.soap.SOAPException if there was a problem saving changes to this message.
      */
     public SOAPMessage load(String location)
         throws IOException, SOAPException {
