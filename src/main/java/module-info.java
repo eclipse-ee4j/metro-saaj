@@ -13,12 +13,12 @@
  */
 module com.sun.xml.messaging.saaj {
 
-    requires jakarta.activation;
-    requires java.xml.soap;
+    requires transitive jakarta.activation;
+    requires transitive java.xml.soap;
     requires java.logging;
     requires java.desktop;
     requires java.xml;
-    requires org.jvnet.staxex;
+    requires transitive org.jvnet.staxex;
 
     requires static java.xml.bind;
     requires static com.sun.xml.fastinfoset;
