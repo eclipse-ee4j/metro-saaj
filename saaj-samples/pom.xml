@@ -1,0 +1,197 @@
+<!--
+
+    Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project
+        xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.sun.xml.messaging.saaj</groupId>
+        <artifactId>metro-saaj</artifactId>
+        <version>1.6.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <groupId>com.sun.xml.messaging.saaj</groupId>
+    <artifactId>saaj-samples</artifactId>
+    <packaging>pom</packaging>
+    <version>1.6.0-SNAPSHOT</version>
+    <name>SAAJ Samples</name>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <bundles.dir>${project.build.directory}/bundles</bundles.dir>
+    </properties>
+
+    <modules>
+        <module>saaj-persister</module>
+        <module>saaj-soapprocessor</module>
+        <module>saaj-servlet</module>
+        <module>saaj-saveload</module>
+        <module>saaj-soapnode</module>
+        <module>saaj-simple</module>
+        <module>saaj-progress</module>
+        <module>saaj-uddiping</module>
+        <module>saaj-book</module>
+        <module>saaj-hash</module>
+    </modules>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>prep-bundle-root</id>
+            <activation>
+                <property>
+                    <name>!skipSamples</name>
+                </property>
+                <file>
+                    <exists>sample-pom-cleanup.xsl</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <inherited>false</inherited>
+                        <executions>
+                            <execution>
+                                <id>prepare-bundles</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo>Creating root of sample bundle</echo>
+                                        <xslt style="sample-root.xsl"
+                                              in="./pom.xml"
+                                              out="./target/bundle/pom.xml">
+                                            <param name="version" expression="${project.version}" type="STRING"/>
+                                        </xslt>
+                                        <copy todir="./target/bundle">
+                                            <fileset dir="${project.basedir}">
+                                                <include name="*.md"/>
+                                            </fileset>
+                                        </copy>
+                                        <zip update="true"
+                                             baseDir="${project.build.directory}/bundle"
+                                             destfile="${project.basedir}/target/saaj-sample-bundle-${project.version}.zip"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>prep-bundle-internal</id>
+            <activation>
+                <property>
+                    <name>!skipSamples</name>
+                </property>
+                <file>
+                    <exists>../sample-pom-cleanup.xsl</exists>
+                </file>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.8</version>
+                        <inherited>true</inherited>
+                        <executions>
+                            <execution>
+                                <id>prepare-bundles</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <target>
+                                        <echo>Adding ${project.artifactId}-${project.version} to bundle</echo>
+                                        <xslt style="../sample-pom-cleanup.xsl"
+                                              in="./pom.xml"
+                                              out="./target/bundle/${project.artifactId}/pom.xml">
+                                            <param name="version" expression="${project.version}" type="STRING"/>
+                                        </xslt>
+                                        <copy todir="./target/bundle/${project.artifactId}">
+                                            <fileset dir="${project.basedir}">
+                                                <!-- Transformed pom already there -->
+                                                <exclude name="pom.xml"/>
+                                                <!-- Usual ignored files -->
+                                                <exclude name="*.iml"/>
+                                                <exclude name="*.ipr"/>
+                                                <exclude name="*.iws"/>
+                                                <exclude name=".DS_Store"/>
+                                                <exclude name="target/**"/>
+                                            </fileset>
+                                        </copy>
+                                        <zip update="true"
+                                             baseDir="${project.build.directory}/bundle"
+                                             destfile="${project.basedir}/../target/saaj-sample-bundle-${project.version}.zip"/>
+                                    </target>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>bundle-test</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <executable>mvn</executable>
+                            <workingDirectory>${project.build.directory}/bundle/${project.artifactId}</workingDirectory>
+                            <arguments>
+                                <argument>install</argument>
+                                <argument>-Pstaging</argument>
+                            </arguments>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

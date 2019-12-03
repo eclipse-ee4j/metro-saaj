@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>SAAJ UDDI Ping sample</title>
+    <style>
+        html {
+            font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji;
+        }
+
+        pre {
+            background-color: black;
+            color: whitesmoke;
+            border-radius: 4px;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+<div id="content"></div>
+<script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+    $.ajax({
+        url: "README.md",
+        success: function (data) {
+            document.getElementById('content').innerHTML =
+                marked(data);
+        }
+    });
+</script>
+</body>
+</html>
