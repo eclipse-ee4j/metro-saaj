@@ -14,7 +14,7 @@ import java.io.*;
 import java.util.Iterator;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import junit.framework.TestCase;
 import org.w3c.dom.*;

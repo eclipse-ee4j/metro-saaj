@@ -12,8 +12,8 @@ package com.sun.xml.soap;
 
 import java.util.*;
 
+import jakarta.xml.soap.*;
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
 
 public class SOAPProcessorImpl extends SOAPProcessor {
 

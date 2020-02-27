@@ -10,11 +10,11 @@
 
 package com.sun.xml.messaging.saaj.soap;
 
-import javax.xml.soap.SAAJMetaFactory;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPFactory;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SAAJMetaFactory;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPException;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

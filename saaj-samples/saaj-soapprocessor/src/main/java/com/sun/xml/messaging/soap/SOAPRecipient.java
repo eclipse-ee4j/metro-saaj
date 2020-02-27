@@ -13,8 +13,8 @@ package com.sun.xml.messaging.soap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import javax.xml.soap.SOAPHeaderElement;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPHeaderElement;
+import jakarta.xml.soap.SOAPException;
 
 public abstract class SOAPRecipient {
 

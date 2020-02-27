@@ -10,8 +10,8 @@
 
 package com.sun.xml.soap;
 
+import jakarta.xml.soap.*;
 import java.util.Vector;
-import javax.xml.soap.*;
 
 public abstract class SOAPProcessor {
 

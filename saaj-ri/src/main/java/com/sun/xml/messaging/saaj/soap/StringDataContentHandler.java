@@ -13,7 +13,7 @@ package com.sun.xml.messaging.saaj.soap;
 import java.awt.datatransfer.DataFlavor;
 import java.io.*;
 
-import javax.activation.*;
+import jakarta.activation.*;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.MimeUtility;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.ContentType;
 
@@ -37,8 +37,8 @@ public class StringDataContentHandler implements DataContentHandler {
      * @return The DataFlavors
      */
     @Override
-    public DataFlavor[] getTransferDataFlavors() {
-	return new DataFlavor[] { getDF() };
+    public ActivationDataFlavor[] getTransferDataFlavors() {
+	return new ActivationDataFlavor[] { getDF() };
     }
 
     /**
@@ -49,7 +49,7 @@ public class StringDataContentHandler implements DataContentHandler {
      * @return String object
      */
     @Override
-    public Object getTransferData(DataFlavor df, DataSource ds)
+    public Object getTransferData(ActivationDataFlavor df, DataSource ds)
 			throws IOException {
 	// use myDF.equals to be sure to get ActivationDataFlavor.equals,
 	// which properly ignores Content-Type parameters in comparison

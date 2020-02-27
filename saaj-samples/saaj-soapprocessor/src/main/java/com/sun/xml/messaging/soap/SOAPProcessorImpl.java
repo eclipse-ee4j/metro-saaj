@@ -10,8 +10,8 @@
 
 package com.sun.xml.messaging.soap;
 
+import jakarta.xml.soap.*;
 import java.util.Iterator;
-import javax.xml.soap.*;
 
 public class SOAPProcessorImpl extends SOAPProcessor {
 

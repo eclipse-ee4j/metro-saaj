@@ -14,7 +14,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import com.sun.xml.messaging.saaj.util.SAAJUtil;
 import org.w3c.dom.Element;

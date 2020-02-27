@@ -13,8 +13,8 @@ package soap;
 import java.io.ByteArrayInputStream;
 import java.util.Iterator;
 
+import jakarta.xml.soap.*;
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
 import javax.xml.transform.stream.StreamSource;
 
 import junit.framework.TestCase;

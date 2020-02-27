@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,9 +15,9 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.xml.soap.*;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.xml.soap.*;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Source;
 import javax.xml.transform.stax.StAXSource;
@@ -629,7 +629,7 @@ public abstract class MessageImpl
                 }
             } catch (Exception e) {
                 log.log(Level.SEVERE, "SAAJ0591.soap.exception.in.set.property", 
-                    new Object[] {e.getMessage(), "javax.xml.soap.write-xml-declaration"});
+                    new Object[] {e.getMessage(), "jakarta.xml.soap.write-xml-declaration"});
                 throw new RuntimeException(e);
             }
             return;
@@ -640,7 +640,7 @@ public abstract class MessageImpl
                 ((EnvelopeImpl) getSOAPPart().getEnvelope()).setCharsetEncoding((String)value);
             } catch (Exception e) {
                 log.log(Level.SEVERE, "SAAJ0591.soap.exception.in.set.property", 
-                    new Object[] {e.getMessage(), "javax.xml.soap.character-set-encoding"});
+                    new Object[] {e.getMessage(), "jakarta.xml.soap.character-set-encoding"});
                 throw new RuntimeException(e);
             }
         }

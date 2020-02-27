@@ -13,8 +13,8 @@ package com.sun.xml.soap;
 import java.util.Iterator;
 import java.util.Vector;
 
+import jakarta.xml.soap.SOAPHeaderElement;
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPHeaderElement;
 
 public abstract class SOAPRecipient implements ProcessingFaultHandler {
 

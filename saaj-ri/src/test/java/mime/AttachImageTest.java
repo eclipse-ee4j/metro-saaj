@@ -17,8 +17,8 @@ import java.io.*;
 import java.net.URL;
 import java.util.Iterator;
 
-import javax.activation.DataHandler;
-import javax.xml.soap.*;
+import jakarta.activation.DataHandler;
+import jakarta.xml.soap.*;
 import javax.xml.transform.stream.StreamSource;
 
 import junit.framework.TestCase;

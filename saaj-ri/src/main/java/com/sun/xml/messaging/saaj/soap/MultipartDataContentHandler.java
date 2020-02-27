@@ -11,8 +11,7 @@
 package com.sun.xml.messaging.saaj.soap;
 
 import java.io.*;
-import java.awt.datatransfer.DataFlavor;
-import javax.activation.*;
+import jakarta.activation.*;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.MimeMultipart;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.ContentType;
 import com.sun.xml.messaging.saaj.util.ByteOutputStream;
@@ -29,8 +28,8 @@ public class MultipartDataContentHandler implements DataContentHandler {
      * @return The DataFlavors
      */
     @Override
-    public DataFlavor[] getTransferDataFlavors() { // throws Exception;
-	return new DataFlavor[] { myDF };
+    public ActivationDataFlavor[] getTransferDataFlavors() { // throws Exception;
+	return new ActivationDataFlavor[] { myDF };
     }
 
     /**
@@ -41,7 +40,7 @@ public class MultipartDataContentHandler implements DataContentHandler {
      * @return String object
      */
     @Override
-    public Object getTransferData(DataFlavor df, DataSource ds) {
+    public Object getTransferData(ActivationDataFlavor df, DataSource ds) {
 	// use myDF.equals to be sure to get ActivationDataFlavor.equals,
 	// which properly ignores Content-Type parameters in comparison
 	if (myDF.equals(df))

@@ -11,11 +11,10 @@
 package com.sun.xml.messaging.saaj.soap;
 
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.image.BufferedImage;
 import java.io.*;
 
-import javax.activation.*;
+import jakarta.activation.*;
 
 //import com.sun.image.codec.jpeg.*;
 import javax.imageio.ImageIO;
@@ -36,8 +35,8 @@ public class JpegDataContentHandler
      * @return The DataFlavors.
      */
     @Override
-    public DataFlavor[] getTransferDataFlavors() { // throws Exception;
-        DataFlavor flavors[] = new DataFlavor[1];
+    public ActivationDataFlavor[] getTransferDataFlavors() { // throws Exception;
+        ActivationDataFlavor flavors[] = new ActivationDataFlavor[1];
 
         try {
             flavors[0] =
@@ -59,7 +58,7 @@ public class JpegDataContentHandler
      * @return The constructed Object.
      */
     @Override
-    public Object getTransferData(DataFlavor df, DataSource ds) {
+    public Object getTransferData(ActivationDataFlavor df, DataSource ds) {
 
         // this is sort of hacky, but will work for the
         // sake of testing...

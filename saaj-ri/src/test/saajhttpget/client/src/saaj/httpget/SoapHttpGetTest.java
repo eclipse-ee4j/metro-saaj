@@ -15,7 +15,7 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import java.net.*;
 import java.io.*;

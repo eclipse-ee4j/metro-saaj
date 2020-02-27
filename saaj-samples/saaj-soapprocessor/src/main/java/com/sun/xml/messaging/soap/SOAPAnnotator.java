@@ -10,8 +10,8 @@
 
 package com.sun.xml.messaging.soap;
 
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPException;
 
 public abstract class SOAPAnnotator {
 

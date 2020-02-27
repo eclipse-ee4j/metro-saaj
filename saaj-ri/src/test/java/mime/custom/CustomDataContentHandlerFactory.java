@@ -10,8 +10,8 @@
 
 package mime.custom;
 
-import javax.activation.DataContentHandler;
-import javax.activation.DataContentHandlerFactory;
+import jakarta.activation.DataContentHandler;
+import jakarta.activation.DataContentHandlerFactory;
 
 /**
  * The data content handler factory.

@@ -14,7 +14,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import org.w3c.dom.Element;
 
@@ -59,7 +59,7 @@ public abstract class DetailImpl extends FaultElementImpl implements Detail {
 
     @Override
     protected SOAPElement convertToSoapElement(Element element) {
-        final javax.xml.soap.Node soapNode = getSoapDocument().find(element);
+        final jakarta.xml.soap.Node soapNode = getSoapDocument().find(element);
         if (soapNode instanceof DetailEntry) {
             return (SOAPElement) soapNode;
         } else {

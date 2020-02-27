@@ -15,7 +15,7 @@
 package com.sun.xml.messaging.saaj.soap.dynamic;
 
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import com.sun.xml.messaging.saaj.soap.MessageFactoryImpl;
 

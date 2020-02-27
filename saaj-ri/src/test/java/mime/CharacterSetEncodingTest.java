@@ -10,7 +10,7 @@
 
 package mime;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import java.io.ByteArrayInputStream;
 import javax.xml.transform.stream.StreamSource;

@@ -15,7 +15,7 @@ import java.io.StringWriter;
 
 import java.util.Iterator;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.Transformer;

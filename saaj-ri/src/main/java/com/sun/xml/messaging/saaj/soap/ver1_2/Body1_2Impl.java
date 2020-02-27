@@ -17,7 +17,7 @@ package com.sun.xml.messaging.saaj.soap.ver1_2;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

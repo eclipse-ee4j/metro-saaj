@@ -15,7 +15,7 @@ import com.sun.xml.messaging.saaj.soap.AttachmentPartImpl;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 import org.jvnet.mimepull.MIMEConfig;
 import org.jvnet.mimepull.MIMEMessage;
 import org.jvnet.mimepull.MIMEPart;

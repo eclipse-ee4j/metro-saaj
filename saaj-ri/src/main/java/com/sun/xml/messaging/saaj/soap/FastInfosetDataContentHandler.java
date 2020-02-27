@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;
 
-import javax.activation.*;
+import jakarta.activation.*;
 import javax.xml.transform.Source;
 
 import com.sun.xml.messaging.saaj.util.FastInfosetReflection;
@@ -36,8 +36,8 @@ public class FastInfosetDataContentHandler implements DataContentHandler {
      * @return The DataFlavors.
      */
     @Override
-    public DataFlavor[] getTransferDataFlavors() { // throws Exception;
-        DataFlavor flavors[] = new DataFlavor[1];
+    public ActivationDataFlavor[] getTransferDataFlavors() { // throws Exception;
+        ActivationDataFlavor flavors[] = new ActivationDataFlavor[1];
         flavors[0] = new ActivationDataFlavor(
                 FastInfosetReflection.getFastInfosetSource_class(), 
                 "application/fastinfoset", "Fast Infoset");
@@ -52,7 +52,7 @@ public class FastInfosetDataContentHandler implements DataContentHandler {
      * @exception IOException in case of an I/O error
      */
     @Override
-    public Object getTransferData(DataFlavor flavor, DataSource dataSource)
+    public Object getTransferData(ActivationDataFlavor flavor, DataSource dataSource)
         throws IOException 
     {
         if (flavor.getMimeType().startsWith("application/fastinfoset")) {

@@ -18,7 +18,7 @@ package soap;
 import java.io.ByteArrayInputStream;
 import java.util.Iterator;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.transform.stream.*;
 import javax.xml.namespace.QName;
 

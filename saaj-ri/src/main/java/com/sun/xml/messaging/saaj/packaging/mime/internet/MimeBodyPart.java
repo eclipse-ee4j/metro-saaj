@@ -22,7 +22,7 @@ import com.sun.xml.messaging.saaj.packaging.mime.util.OutputUtil;
 import com.sun.xml.messaging.saaj.util.ByteOutputStream;
 import com.sun.xml.messaging.saaj.util.FinalArrayList;
 
-import javax.activation.DataHandler;
+import jakarta.activation.DataHandler;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 import org.jvnet.mimepull.MIMEPart;
 
 /**
@@ -743,7 +743,7 @@ public final class MimeBodyPart {
      * @return 		an InputStream
      * @exception       IOException this is typically thrown by the
      *			DataHandler. Refer to the documentation for
-     *			javax.activation.DataHandler for more details.
+     *			jakarta.activation.DataHandler for more details.
      *
      * @see	#getContentStream
      * @see 	DataHandler#getInputStream
@@ -851,7 +851,7 @@ public final class MimeBodyPart {
      * @return          Object
      * @exception       IOException this is typically thrown by the
      *			DataHandler. Refer to the documentation for
-     *			javax.activation.DataHandler for more details.
+     *			jakarta.activation.DataHandler for more details.
      */  
     public Object getContent() throws IOException {
 	return getDataHandler().getContent();
@@ -968,7 +968,7 @@ public final class MimeBodyPart {
      * @exception MessagingException in case of error
      * @exception IOException	if an error occurs writing to the
      *				stream or if an error is generated
-     *				by the javax.activation layer.
+     *				by the jakarta.activation layer.
      * @see DataHandler#writeTo
      */
     public void writeTo(OutputStream os)

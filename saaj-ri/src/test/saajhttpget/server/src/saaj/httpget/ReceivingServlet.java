@@ -16,7 +16,7 @@ import java.util.*;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 
 /**

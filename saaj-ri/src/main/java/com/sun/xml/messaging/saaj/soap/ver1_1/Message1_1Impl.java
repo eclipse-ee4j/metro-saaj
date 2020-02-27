@@ -19,7 +19,7 @@ import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.stream.XMLStreamReader;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;

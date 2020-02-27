@@ -115,8 +115,8 @@
                                     *
                                 </Export-Package>
                                 <Import-Package>
-                                    javax.activation;version=!,
-                                    javax.xml.bind.attachment;version=!,
+                                    jakarta.activation;version=!,
+                                    jakarta.xml.bind.attachment;version=!,
                                     *
                                 </Import-Package>
                                 <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
