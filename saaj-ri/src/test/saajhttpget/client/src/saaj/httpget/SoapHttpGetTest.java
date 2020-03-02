@@ -21,8 +21,8 @@ import java.net.*;
 import java.io.*;
 import java.util.*;
 
-import javax.servlet.http.*;
-import javax.servlet.*;
+import jakarta.servlet.http.*;
+import jakarta.servlet.*;
 
 public class SoapHttpGetTest {
     
