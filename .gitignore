@@ -1,4 +1,4 @@
-/target/
+target/
 /saaj-ri/src/test/resources/mime/data/headers.txt
 /saaj-ri/src/test/resources/mime/data/message.txt
 *.iml

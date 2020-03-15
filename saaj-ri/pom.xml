@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2011, 2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,130 +23,21 @@
     <groupId>com.sun.xml.messaging.saaj</groupId>
     <artifactId>saaj-impl</artifactId>
     <version>1.6.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
     
     <name>Jakarta SOAP Implementation</name>
     <description>
-       Implementation of Jakarta SOAP with Attachments Specification 1.4
+       Implementation of Jakarta SOAP with Attachments Specification
     </description>
 
-    <scm>
-        <connection>scm:git:git@github.com:eclipse-ee4j/metro-saaj.git</connection>
-        <developerConnection>scm:git:git@github.com:eclipse-ee4j/metro-saaj.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/metro-saaj</url>
-        <tag>HEAD</tag>
-    </scm>
-
-    <licenses>
-        <license>
-            <name>Eclipse Distribution License - v 1.0</name>
-            <url>http://www.eclipse.org/org/documents/edl-v10.php</url>
-            <distribution>repo</distribution>
-        </license>
-    </licenses>
-
-    <developers>
-        <developer>
-            <id>bravehorsie</id>
-            <name>Roman Grigoriadi</name>
-            <email>Roman.Grigoriadi@oracle.com</email>
-        </developer>
-        <developer>
-            <id>lukasj</id>
-            <name>Lukas Jungmann</name>
-            <email>Lukas.Jungmann@oracle.com</email>
-        </developer>
-    </developers>
-
-    <organization>
-        <name>Oracle Corporation</name>
-        <url>http://www.oracle.com/</url>
-    </organization>
-
-    <issueManagement>
-        <system>IssueTracker</system>
-        <url>https://github.com/eclipse-ee4j/metro-saaj/issues</url>
-    </issueManagement>
-
-    <mailingLists>
-        <mailingList>
-            <name>Metro mailing list</name>
-            <post>metro-dev@eclipse.org</post>
-            <subscribe>https://accounts.eclipse.org/mailing-list/metro-dev</subscribe>
-            <unsubscribe>https://accounts.eclipse.org/mailing-list/metro-dev</unsubscribe>
-            <archive>https://www.eclipse.org/lists/metro-dev</archive>
-        </mailingList>
-    </mailingLists>
-
     <properties>
-        <copyright.exclude>${config.dir}/copyright-exclude</copyright.exclude>
-        <copyright.ignoreyear>false</copyright.ignoreyear>
-        <copyright.scmonly>true</copyright.scmonly>
-        <copyright.template>${config.dir}/edl-copyright.txt</copyright.template>
-        <copyright.update>false</copyright.update>
-        <spotbugs.exclude>${config.dir}/exclude.xml</spotbugs.exclude>
-        <spotbugs.skip>false</spotbugs.skip>
-        <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>3.1.12.2</spotbugs.version>
-
         <upgrade.mods>${project.build.directory}/upgrade-mods</upgrade.mods>
         <proxyOpts/>
-        <config.dir>${project.basedir}/etc/config</config.dir>
-        <legal.doc.source>${project.basedir}</legal.doc.source>
-
         <!-- arguments for surefire-plugin -->
         <argLine>${proxyOpts}</argLine>
     </properties>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>enforce-maven</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireJavaVersion>
-                                    <version>[11,)</version>
-                                </requireJavaVersion>
-                                <requireMavenVersion>
-                                    <version>[3.6.0,)</version>
-                                </requireMavenVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>add-legal-resource</id>
-                        <phase>generate-resources</phase>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                        <configuration>
-                            <resources>
-                                <resource>
-                                    <directory>${legal.doc.source}</directory>
-                                    <includes>
-                                        <include>NOTICE.md</include>
-                                        <include>LICENSE.md</include>
-                                    </includes>
-                                    <targetPath>META-INF</targetPath>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -191,7 +82,6 @@
                         </configuration>
                     </execution>
                     <execution>
-                        <!--compile test classes with source/target 7-->
                         <id>default-testCompile</id>
                         <goals>
                             <goal>testCompile</goal>
@@ -203,24 +93,6 @@
                                 <arg>com.sun.xml.messaging.saaj/com.sun.xml.messaging.saaj.soap.impl=com.sun.xml.messaging.saaj.test</arg>
                             </compilerArgs>
                         </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>buildnumber-maven-plugin</artifactId>
-                <configuration>
-                    <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-                    <timestampFormat>{0,date,yyyy-MM-dd'T'HH:mm:ssZ}</timestampFormat>
-                    <shortRevisionLength>7</shortRevisionLength>
-                    <revisionOnScmFailure>false</revisionOnScmFailure>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>validate</phase>
-                        <goals>
-                            <goal>create</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
@@ -248,7 +120,7 @@
                                     javax.xml.bind.attachment;version=!,
                                     *
                                 </Import-Package>
-                                <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}, ${timestamp}</Implementation-Build-Id>
+                                <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}</Implementation-Build-Id>
                             </instructions>
                         </configuration>
                     </execution>
@@ -275,7 +147,7 @@
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}, ${timestamp}</Implementation-Build-Id>
+                            <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}</Implementation-Build-Id>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -288,86 +160,34 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>com.github.spotbugs</groupId>
-                <artifactId>spotbugs-maven-plugin</artifactId>
-                <configuration>
-                    <skip>${spotbugs.skip}</skip>
-                    <threshold>${spotbugs.threshold}</threshold>
-                    <findbugsXmlWithMessages>true</findbugsXmlWithMessages>
-                    <excludeFilterFile>
-                        ${spotbugs.exclude}
-                    </excludeFilterFile>
-                    <fork>true</fork>
-                    <jvmArgs>-Xms64m -Xmx256m</jvmArgs>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <!-- jakarta.activation impl is required for tests -->
                     <classpathDependencyExcludes>
                         <classpathDependencyExclude>jakarta.activation:jakarta.activation-api</classpathDependencyExclude>
-                        <classpathDependencyExclude>jakarta.xml.bind:jakarta.xml.bind-api</classpathDependencyExclude>
                     </classpathDependencyExcludes>
                     <systemProperties>
                         <java.awt.headless>true</java.awt.headless>
                     </systemProperties>
+                    <argLine>
+                        --add-opens jakarta.activation/javax.activation=com.sun.xml.messaging.saaj
+                    </argLine>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>jakarta.activation</groupId>
-                <artifactId>jakarta.activation-api</artifactId>
-                <version>1.2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.xml.bind</groupId>
-                <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>2.3.3</version>
-            </dependency>
-            <dependency>
-                <groupId>jakarta.xml.soap</groupId>
-                <artifactId>jakarta.xml.soap-api</artifactId>
-                <version>1.4.2</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jvnet.mimepull</groupId>
-                <artifactId>mimepull</artifactId>
-                <version>1.9.12</version>
-            </dependency>
-            <dependency>
-                <groupId>org.jvnet.staxex</groupId>
-                <artifactId>stax-ex</artifactId>
-                <version>1.8.2</version>
-            </dependency>
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>4.12</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.activation</groupId>
-                <artifactId>jakarta.activation</artifactId>
-                <version>1.2.1</version>
-            </dependency>
-            <dependency>
-                <groupId>com.sun.xml.fastinfoset</groupId>
-                <artifactId>FastInfoset</artifactId>
-                <version>1.2.17</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
-
     <dependencies>
         <dependency>
             <groupId>jakarta.xml.soap</groupId>
             <artifactId>jakarta.xml.soap-api</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>jakarta.activation</groupId>
+                    <artifactId>jakarta.activation-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.jvnet.staxex</groupId>
