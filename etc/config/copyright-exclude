@@ -17,12 +17,8 @@
 .svg
 .tif
 .txt
-/CONTRIBUTING.md
-/LICENSE.md
 /META-INF/services
-/NOTICE.md
-/README
-/README.md
 /copyright-exclude
 /exclude
 src/test/bugfixes/data/examine.xml
+saaj-ri/src/test/saajhttpget/README
