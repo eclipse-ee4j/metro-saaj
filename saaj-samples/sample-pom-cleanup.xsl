@@ -1,6 +1,6 @@
 <!--
 
-    Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2019, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,7 +37,7 @@
                 <xsl:text>project</xsl:text>
             </xsl:element>
             <xsl:element name="version" namespace="{$thisns}">
-                <xsl:text>1.0.5</xsl:text>
+                <xsl:text>1.0.6</xsl:text>
             </xsl:element>
         </xsl:element>
     </xsl:template>
