@@ -19,6 +19,4 @@
 .txt
 /META-INF/services
 /copyright-exclude
-/exclude
-src/test/bugfixes/data/examine.xml
 saaj-ri/src/test/saajhttpget/README
