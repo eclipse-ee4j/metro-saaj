@@ -10,11 +10,26 @@
 
 # Jakarta SOAP Implementation (SAAJ)
 
-This project contains Jakarta SOAP Implementation project.
+This project contains Jakarta SOAP Implementation project,
+ an implementation of [Jakarta SOAP Specification](https://jakarta.ee/specifications/soap-attachments)
 
-### Licensing and Governance
+This project is part of [Eclipse Metro project](https://projects.eclipse.org/projects/ee4j.metro).
+
+
+## License
 
 Jakarta SOAP Implementation is licensed under a license - [EDL 1.0](LICENSE.md).
 
-#### Samples
-Runnable samples with description are available [here](saaj-samples/README.md)
+
+## Contributing
+
+We use [contribution policy](CONTRIBUTING.md), which means we can only accept contributions under
+the terms of [Eclipse Contributor Agreement](http://www.eclipse.org/legal/ECA.php).
+
+
+## Links
+
+* [Project home page](https://eclipse-ee4j.github.io/metro-saaj)
+* [Samples](saaj-samples/README.md)
+* [Jakarta SOAP Specification](https://jakarta.ee/specifications/soap-attachments)
+* [Jakarta SOAP Specification project](https://github.com/eclipse-ee4j/saaj-api)
