@@ -202,8 +202,8 @@ class HttpSOAPConnection extends SOAPConnection {
 
                 responseCode = httpConnection.getResponseCode();
 
-                // let HTTP_INTERNAL_ERROR (500) through because it is used for SOAP faults
-                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                // let HTTP_INTERNAL_ERROR (500) and HTTP_BAD_REQUEST (400) through because it is used for SOAP faults
+                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR || responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
                     isFailure = true;
                 }
                 //else if (responseCode != HttpURLConnection.HTTP_OK)
@@ -221,7 +221,7 @@ class HttpSOAPConnection extends SOAPConnection {
             } catch (IOException e) {
                 // on JDK1.3.1_01, we end up here, but then getResponseCode() succeeds!
                 responseCode = httpConnection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR || responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
                     isFailure = true;
                 } else {
                     throw e;
@@ -373,8 +373,8 @@ class HttpSOAPConnection extends SOAPConnection {
 
                 responseCode = httpConnection.getResponseCode();
 
-                // let HTTP_INTERNAL_ERROR (500) through because it is used for SOAP faults
-                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                // let HTTP_INTERNAL_ERROR (500) and HTTP_BAD_REQUEST (400) through because it is used for SOAP faults
+                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR || responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
                     isFailure = true;
                 } else if ((responseCode / 100) != 2) {
                     log.log(Level.SEVERE,
@@ -389,7 +389,7 @@ class HttpSOAPConnection extends SOAPConnection {
             } catch (IOException e) {
                 // on JDK1.3.1_01, we end up here, but then getResponseCode() succeeds!
                 responseCode = httpConnection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR) {
+                if (responseCode == HttpURLConnection.HTTP_INTERNAL_ERROR || responseCode == HttpURLConnection.HTTP_BAD_REQUEST) {
                     isFailure = true;
                 } else {
                     throw e;
