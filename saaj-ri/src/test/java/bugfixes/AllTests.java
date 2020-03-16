@@ -31,6 +31,7 @@ public class AllTests extends TestCase {
         suite.addTestSuite(QuoteTest.class);
         suite.addTestSuite(SAAJConnectionTest.class);
         suite.addTestSuite(SAAJ67Test.class);
+        suite.addTestSuite(SSLTest.class);
         return suite;
     }
 }

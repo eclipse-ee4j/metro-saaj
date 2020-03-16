@@ -169,6 +169,7 @@
                     <systemProperties>
                         <java.awt.headless>true</java.awt.headless>
                     </systemProperties>
+                    <reuseForks>false</reuseForks>
                     <argLine>
                         @{argLine} --add-opens jakarta.activation/javax.activation=com.sun.xml.messaging.saaj
                     </argLine>
