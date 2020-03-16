@@ -170,7 +170,7 @@
                         <java.awt.headless>true</java.awt.headless>
                     </systemProperties>
                     <argLine>
-                        --add-opens jakarta.activation/javax.activation=com.sun.xml.messaging.saaj
+                        @{argLine} --add-opens jakarta.activation/javax.activation=com.sun.xml.messaging.saaj
                     </argLine>
                 </configuration>
             </plugin>
@@ -309,7 +309,7 @@
                         <plugin>
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>0.8.4</version>
+                            <version>0.8.5</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>
