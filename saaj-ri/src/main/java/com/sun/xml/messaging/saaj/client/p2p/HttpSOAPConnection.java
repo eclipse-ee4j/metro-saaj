@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,18 +10,32 @@
 
 package com.sun.xml.messaging.saaj.client.p2p;
 
-import java.io.*;
-import java.net.*;
-import java.security.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.xml.soap.*;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.MimeHeader;
+import javax.xml.soap.MimeHeaders;
+import javax.xml.soap.SOAPConnection;
+import javax.xml.soap.SOAPConstants;
+import javax.xml.soap.SOAPException;
+import javax.xml.soap.SOAPMessage;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
-import com.sun.xml.messaging.saaj.util.*;
+import com.sun.xml.messaging.saaj.util.Base64;
+import com.sun.xml.messaging.saaj.util.ByteInputStream;
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
+import com.sun.xml.messaging.saaj.util.ParseUtil;
 
 /**
  * This represents a "connection" to the simple HTTP-based provider.
@@ -33,10 +47,6 @@ import com.sun.xml.messaging.saaj.util.*;
  */
 class HttpSOAPConnection extends SOAPConnection {
 
-    public static final String vmVendor = SAAJUtil.getSystemProperty("java.vendor.url");
-    private static final String ibmVmVendor = "http://www.ibm.com/";
-    private static final boolean isIBMVM = ibmVmVendor.equals(vmVendor) ? true : false;
-    
     protected static final Logger log =
         Logger.getLogger(LogDomainConstants.HTTP_CONN_DOMAIN,
                          "com.sun.xml.messaging.saaj.client.p2p.LocalStrings");
@@ -108,9 +118,6 @@ class HttpSOAPConnection extends SOAPConnection {
 
         int responseCode = 0;
         try {
-            if (endPoint.getProtocol().equals("https"))
-                //if(!setHttps)
-                initHttps();
             // Process the URL
             URI uri = new URI(endPoint.toString());
             String userInfo = uri.getRawUserInfo();
@@ -268,7 +275,7 @@ class HttpSOAPConnection extends SOAPConnection {
                     httpConnection.getContentLength() == -1
                         ? bytes.length
                         : httpConnection.getContentLength();
-                        
+
                 // If no reply message is returned,
                 // content-Length header field value is expected to be zero.
                 if (length == 0) {
@@ -331,9 +338,6 @@ class HttpSOAPConnection extends SOAPConnection {
 
         int responseCode = 0;
         try {
-            /// Is https GET allowed??
-            if (endPoint.getProtocol().equals("https"))
-                initHttps();
             // Process the URL
             URI uri = new URI(endPoint.toString());
             String userInfo = uri.getRawUserInfo();
@@ -478,53 +482,6 @@ class HttpSOAPConnection extends SOAPConnection {
         return ret;
     }
 
-    //private static String SSL_PKG = "com.sun.net.ssl.internal.www.protocol";
-    //private static String SSL_PROVIDER =
-      //  "com.sun.net.ssl.internal.ssl.Provider";
-    private static final String SSL_PKG;
-    private static final String SSL_PROVIDER;
-    
-    static {    
-        if (isIBMVM) {
-            SSL_PKG ="com.ibm.net.ssl.internal.www.protocol";
-            SSL_PROVIDER ="com.ibm.net.ssl.internal.ssl.Provider";
-        } else {
-            //if not IBM VM default to Sun.
-            SSL_PKG = "com.sun.net.ssl.internal.www.protocol";
-            SSL_PROVIDER ="com.sun.net.ssl.internal.ssl.Provider";
-        }
-    }
-    
-    private void initHttps() {
-        //if(!setHttps) {
-        String pkgs = SAAJUtil.getSystemProperty("java.protocol.handler.pkgs");
-        if (log.isLoggable(Level.FINE))
-            log.log(Level.FINE, "SAAJ0053.p2p.providers", new String[] { pkgs });
-
-        if (pkgs == null || pkgs.indexOf(SSL_PKG) < 0) {
-            if (pkgs == null)
-                pkgs = SSL_PKG;
-            else
-                pkgs = pkgs + "|" + SSL_PKG;
-            System.setProperty("java.protocol.handler.pkgs", pkgs);
-            if (log.isLoggable(Level.FINE))
-                log.log(Level.FINE, "SAAJ0054.p2p.set.providers",
-                        new String[] { pkgs });
-            try {
-                Class<?> c = Class.forName(SSL_PROVIDER);
-                Provider p = (Provider) c.newInstance();
-                Security.addProvider(p);
-                if (log.isLoggable(Level.FINE))
-                    log.log(Level.FINE, "SAAJ0055.p2p.added.ssl.provider",
-                            new String[] { SSL_PROVIDER });
-                //System.out.println("Added SSL_PROVIDER " + SSL_PROVIDER);
-                //setHttps = true;
-            } catch (Exception ex) {
-            }
-        }
-        //}
-    }
-
     private void initAuthUserInfo(HttpURLConnection conn, String userInfo) {
         String user;
         String password;
@@ -564,7 +521,7 @@ class HttpSOAPConnection extends SOAPConnection {
     private static final int dL = 0;
     private void d(String s) {
         log.log(Level.SEVERE,
-                "SAAJ0013.p2p.HttpSOAPConnection", 
+                "SAAJ0013.p2p.HttpSOAPConnection",
                 new String[] { s });
         System.err.println("HttpSOAPConnection: " + s);
     }
