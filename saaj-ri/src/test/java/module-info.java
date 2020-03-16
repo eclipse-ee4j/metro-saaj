@@ -8,11 +8,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 module com.sun.xml.messaging.saaj.test {
-    requires jakarta.activation;
-    requires transitive java.desktop;
-    requires transitive java.xml.soap;
-    requires transitive com.sun.xml.messaging.saaj;
+
+    requires java.desktop;
+    requires com.sun.xml.messaging.saaj;
     requires junit;
-    
+
     exports mime.custom;
 }

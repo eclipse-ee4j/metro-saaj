@@ -28,17 +28,17 @@ public class StartParameterTest extends TestCase {
            System.setProperty("saaj.mime.multipart.ignoremissingendboundary", "true");
         }
     }
-    
+
     public void changeAndSaveMimeHeaders(SOAPMessage msg, String fileName)
     throws IOException {
-                
-        FileOutputStream fos = new FileOutputStream(fileName);        
+
+        FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        
+
         Hashtable hashTable = new Hashtable();
         MimeHeaders mimeHeaders = msg.getMimeHeaders();
         Iterator iterator = mimeHeaders.getAllHeaders();
-        
+
         while(iterator.hasNext()) {
             MimeHeader mimeHeader = (MimeHeader) iterator.next();
             if(mimeHeader.getName().equals("Content-Type"))
@@ -48,27 +48,27 @@ public class StartParameterTest extends TestCase {
             else
                 hashTable.put(mimeHeader.getName(), mimeHeader.getValue());
         }
-        
+
         oos.writeObject(hashTable);
         oos.flush();
         oos.close();
-        
+
         fos.flush();
         fos.close();
     }
-    
+
     public SOAPMessage getModifiedMessage(String mimeHdrsFile, String msgFile)
     throws Exception {
         SOAPMessage message;
-        
+
         MimeHeaders mimeHeaders = new MimeHeaders();
         FileInputStream fis = new FileInputStream(msgFile);
-        
+
         ObjectInputStream ois = new ObjectInputStream(
         new FileInputStream(mimeHdrsFile));
         Hashtable hashTable = (Hashtable) ois.readObject();
         ois.close();
-        
+
         if(hashTable.isEmpty())
             fail("MimeHeaders Hashtable is empty");
         else {
@@ -82,35 +82,35 @@ public class StartParameterTest extends TestCase {
                 }
             }
         }
-        
+
         MessageFactory messageFactory = MessageFactory.newInstance();
         message = messageFactory.createMessage(mimeHeaders, fis);
-        
+
         message.saveChanges();
-        
+
         return message;
     }
 
     public void testStartParameter() throws Exception {
         MessageFactory mf = MessageFactory.newInstance();
-        SOAPMessage msg = mf.createMessage();        
+        SOAPMessage msg = mf.createMessage();
         SOAPPart sp = msg.getSOAPPart();
         sp.setContentId("soapPart");
-        
+
         SOAPEnvelope envelope = sp.getEnvelope();
-       
+
         SOAPHeader hdr = envelope.getHeader();
         SOAPBody bdy = envelope.getBody();
 
-        // Add to body 
+        // Add to body
         SOAPBodyElement gltp = bdy.addBodyElement(
                        envelope.createName("GetLastTradePrice", "ztrade",
 				"http://wombat.ztrade.com"));
-        
+
         gltp.addChildElement(envelope.createName("symbol", "ztrade",
                        "http://wombat.ztrade.com")).addTextNode("SUNW");
-        
-        // Attach an xml file containing empty Body message     
+
+        // Attach an xml file containing empty Body message
         URL url = new URL("file", null, "src/test/resources/mime/data/message.xml");
 
         AttachmentPart ap = msg.createAttachmentPart(new DataHandler(url));
@@ -119,18 +119,18 @@ public class StartParameterTest extends TestCase {
         ap.setContentId("attachmentPart");
 
         msg.addAttachmentPart(ap);
- 
+
         msg.saveChanges();
 
 	FileOutputStream sentFile =
-            new FileOutputStream("src/test/resources/mime/data/message.txt");
+            new FileOutputStream("target/test-out/message.txt");
 	msg.writeTo(sentFile);
 	sentFile.close();
-        changeAndSaveMimeHeaders(msg, "src/test/resources/mime/data/headers.txt");
+        changeAndSaveMimeHeaders(msg, "target/test-out/headers.txt");
 
-        SOAPMessage newMsg = 
-            getModifiedMessage("src/test/resources/mime/data/headers.txt", 
-                               "src/test/resources/mime/data/message.txt");
+        SOAPMessage newMsg =
+            getModifiedMessage("target/test-out/headers.txt",
+                               "target/test-out/message.txt");
         assertFalse("newMsg has an empty body",
                     newMsg.getSOAPBody().getChildElements().hasNext());
         assertTrue("Soap part has the Content-Id: attachmentPart",
@@ -151,7 +151,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Content-Language","en-US");
         hdrs.addHeader("Connection","close");
 
-        FileInputStream fis = 
+        FileInputStream fis =
             new FileInputStream("src/test/resources/mime/data/msg.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         SOAPMessage msg = factory.createMessage(hdrs,fis);
@@ -168,7 +168,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Content-Language","en-US");
         hdrs.addHeader("Connection","close");
 
-        FileInputStream fis = 
+        FileInputStream fis =
             new FileInputStream("src/test/resources/mime/data/msg.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         try {
@@ -188,7 +188,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Content-Language","en-US");
         hdrs.addHeader("Connection","close");
 
-        FileInputStream fis = 
+        FileInputStream fis =
             new FileInputStream("src/test/resources/mime/data/msg.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         try {
@@ -197,7 +197,7 @@ public class StartParameterTest extends TestCase {
             fail("Exception should not be thrown " +
                  "while internalizing the message");
         }
-    } 
+    }
 
     public void testSampleMessageTwo() throws Exception {
         MimeHeaders hdrs = new MimeHeaders();
@@ -209,7 +209,7 @@ public class StartParameterTest extends TestCase {
         hdrs.addHeader("Content-Language","en-US");
         hdrs.addHeader("Connection","close");
 
-        FileInputStream fis = 
+        FileInputStream fis =
             new FileInputStream("src/test/resources/mime/data/msg2.txt");
         MessageFactory factory =  MessageFactory.newInstance();
         factory.createMessage(hdrs,fis);
