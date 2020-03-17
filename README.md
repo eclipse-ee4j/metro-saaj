@@ -29,7 +29,8 @@ the terms of [Eclipse Contributor Agreement](http://www.eclipse.org/legal/ECA.ph
 
 ## Links
 
-* [Project home page](https://eclipse-ee4j.github.io/metro-saaj)
+* [Home page](https://eclipse-ee4j.github.io/metro-saaj)
+* [Mailing list](https://accounts.eclipse.org/mailing-list/metro-dev)
 * [Samples](saaj-samples/README.md)
 * [Jakarta SOAP Specification](https://jakarta.ee/specifications/soap-attachments)
 * [Jakarta SOAP Specification project](https://github.com/eclipse-ee4j/saaj-api)
