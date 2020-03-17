@@ -63,6 +63,9 @@ public class SOAPFaultTests extends TestCase {
         String englishText = fault.getFaultReasonText(Locale.US);
         assertNotNull(englishText);
         assertEquals("The reason text is as expected", englishText, "Processing error");
+        String czechText = fault.getFaultReasonText(Locale.forLanguageTag("cs"));
+        assertNotNull(czechText);
+        assertEquals("The reason text is as expected", czechText, "Chyba zpracování");
         Iterator locales = fault.getFaultReasonLocales();
         Iterator texts = fault.getFaultReasonTexts();
         assertTrue(locales.hasNext() && texts.hasNext());

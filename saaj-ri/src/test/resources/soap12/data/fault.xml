@@ -23,7 +23,7 @@
     </env:Code>
     <env:Reason>
      <env:Text xml:lang="en-US">Processing error</env:Text>
-     <env:Text xml:lang="cs">Chyba zpracov?n?</env:Text>
+     <env:Text xml:lang="cs">Chyba zpracování</env:Text>
     </env:Reason>
     <env:Detail>
      <e:myFaultDetails xmlns:e="http://travelcompany.example.org/faults">
