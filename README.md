@@ -31,6 +31,7 @@ the terms of [Eclipse Contributor Agreement](http://www.eclipse.org/legal/ECA.ph
 
 * [Home page](https://eclipse-ee4j.github.io/metro-saaj)
 * [Mailing list](https://accounts.eclipse.org/mailing-list/metro-dev)
+* [Proprietary features](https://javadoc.io/doc/com.sun.xml.messaging.saaj/saaj-impl/latest/com.sun.xml.messaging.saaj/module-summary.html) ([old blog](https://community.oracle.com/blogs/kumarjayanti/2009/12/09/summary-proprietary-features-saaj-ri-134))
 * [Samples](saaj-samples/README.md)
 * [Jakarta SOAP Specification](https://jakarta.ee/specifications/soap-attachments)
 * [Jakarta SOAP Specification project](https://github.com/eclipse-ee4j/saaj-api)
