@@ -121,7 +121,7 @@
  *  <td>integer</td>
  *  <td>The {@code saaj.mime.soapBodyPartSizeLimit} property is used to specify the max amount in bytes a SOAP body part
  * is allowed to contain. This property can (should) be used to protect against maliciously crafted requests which
- * can take down the server with {@code OutOfMemoryError}. The default is true.</td>
+ * can take down the server with {@code OutOfMemoryError}. The default is to not enforce any limit.</td>
  * </tr>
  *
  * <tr>
