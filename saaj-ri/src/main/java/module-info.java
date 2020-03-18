@@ -69,7 +69,7 @@
  *  <td><a id="mail.mime.foldencodedwords">mail.mime.foldencodedwords</a></td>
  *  <td>boolean</td>
  *  <td><strong>DEPRECATED</strong> If set to {@code "true"}, {@code Content-Description} header field will be folded
- * (broken into 76 character lines) during encoding when set and unfolded during decoding. The default is false.</td>
+ * (broken into 76 character lines) during encoding and unfolded during decoding. The default is false.</td>
  * </tr>
  *
  * <tr>
