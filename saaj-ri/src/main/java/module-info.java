@@ -81,6 +81,15 @@
  * </tr>
  *
  * <tr>
+ *  <td><a id="saaj.connect.timeout">saaj.connect.timeout</a></td>
+ *  <td>integer</td>
+ *  <td>Sets a specified timeout value, in milliseconds, to be used when opening a communications link to the resource
+ * referenced by {@code SOAPConnection}. If the timeout expires before the connection can be established,
+ * a {@code SOAPException} is raised. A timeout of zero is interpreted as an infinite timeout.
+ * The default timeout value is 0.</td>
+ * </tr>
+ *
+ * <tr>
  *  <td><a id="saaj.lazy.contentlength">saaj.lazy.contentlength</a></td>
  *  <td>boolean</td>
  *  <td>The {@code saaj.lazy.contentlength} property can be set by applications that do not care
@@ -122,6 +131,15 @@
  *  <td>The {@code saaj.mime.soapBodyPartSizeLimit} property is used to specify the max amount in bytes a SOAP body part
  * is allowed to contain. This property can (should) be used to protect against maliciously crafted requests which
  * can take down the server with {@code OutOfMemoryError}. The default is to not enforce any limit.</td>
+ * </tr>
+ *
+ * <tr>
+ *  <td><a id="saaj.read.timeout">saaj.read.timeout</a></td>
+ *  <td>integer</td>
+ *  <td>Sets the read timeout to a specified timeout, in milliseconds. A non-zero value specifies the timeout when reading
+ * from Input stream when a {@code SOAPConnection} is established to a resource. If the timeout expires before there is data
+ * available for read, a {@code SOAPException} is raised. A timeout of zero is interpreted as an infinite timeout.
+ * The default timeout value is 0.</td>
  * </tr>
  *
  * <tr>

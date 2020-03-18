@@ -36,6 +36,7 @@ import com.sun.xml.messaging.saaj.util.Base64;
 import com.sun.xml.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.ParseUtil;
+import com.sun.xml.messaging.saaj.util.SAAJUtil;
 
 /**
  * This represents a "connection" to the simple HTTP-based provider.
@@ -51,6 +52,26 @@ class HttpSOAPConnection extends SOAPConnection {
         Logger.getLogger(LogDomainConstants.HTTP_CONN_DOMAIN,
                          "com.sun.xml.messaging.saaj.client.p2p.LocalStrings");
 
+    /**
+     * URLConnection connect timeout
+     */
+    private static int CONNECT_TIMEOUT;
+
+    /**
+     * URLConnection read timeout
+     */
+    private static int READ_TIMEOUT;
+
+    static {
+        Integer i = SAAJUtil.getSystemInteger("saaj.connect.timeout");
+        if (i != null) {
+            CONNECT_TIMEOUT = i;
+        }
+        i = SAAJUtil.getSystemInteger("saaj.read.timeout");
+        if (i != null) {
+            READ_TIMEOUT = i;
+        }
+    }
 
     MessageFactory messageFactory = null;
 
@@ -138,7 +159,7 @@ class HttpSOAPConnection extends SOAPConnection {
                         + " not supported in URL "
                         + url);
             }
-            httpConnection = (HttpURLConnection) createConnection(url);
+            httpConnection = createConnection(url);
 
             httpConnection.setRequestMethod("POST");
 
@@ -146,6 +167,8 @@ class HttpSOAPConnection extends SOAPConnection {
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setInstanceFollowRedirects(true);
+            httpConnection.setConnectTimeout(CONNECT_TIMEOUT);
+            httpConnection.setReadTimeout(READ_TIMEOUT);
 
             if (message.saveRequired())
                 message.saveChanges();
@@ -358,7 +381,7 @@ class HttpSOAPConnection extends SOAPConnection {
                         + " not supported in URL "
                         + url);
             }
-            httpConnection = (HttpURLConnection) createConnection(url);
+            httpConnection = createConnection(url);
 
             httpConnection.setRequestMethod("GET");
 
@@ -366,6 +389,8 @@ class HttpSOAPConnection extends SOAPConnection {
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setInstanceFollowRedirects(true);
+            httpConnection.setConnectTimeout(CONNECT_TIMEOUT);
+            httpConnection.setReadTimeout(READ_TIMEOUT);
 
             httpConnection.connect();
 
