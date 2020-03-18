@@ -121,7 +121,7 @@ Some sample programs showing how to use the Jakarta SOAP with Attachments APIs a
 # <a name="links">Related Information</a>
 
 * [Security](security.html)
-
+* [Proprietary features](https://javadoc.io/doc/com.sun.xml.messaging.saaj/saaj-impl/latest/com.sun.xml.messaging.saaj/module-summary.html) ([old blog](https://community.oracle.com/blogs/kumarjayanti/2009/12/09/summary-proprietary-features-saaj-ri-134))
 
 * * *
 
