@@ -9,13 +9,10 @@
  */
 
 /**
- * <p>
  * Jakarta SOAP Implementation, an implementation of Jakarta SOAP Specification
- * </p>
  * <br>
- * <p>
- * <strong>Properties</strong>
- * </p>
+ * <br>
+ * <a id="properties"><strong>Properties</strong></a>
  * <p>
  * The following properties are supported by the EE4J implementation of Jakarta SOAP, but are not currently a required part of the specification.
  * These must be set as System properties. The names, types, defaults, and semantics of these properties may change in future releases.
