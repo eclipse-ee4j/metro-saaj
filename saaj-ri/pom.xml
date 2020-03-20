@@ -156,6 +156,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <release>11</release>
+                    <notimestamp>true</notimestamp>
                 </configuration>
             </plugin>
             <plugin>
