@@ -119,7 +119,7 @@
                                     javax.xml.bind.attachment;version=!,
                                     *
                                 </Import-Package>
-                                <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}</Implementation-Build-Id>
+                                <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
                             </instructions>
                         </configuration>
                     </execution>
@@ -132,6 +132,7 @@
                     <archive>
                         <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
                         <manifest>
+                            <addDefaultEntries>false</addDefaultEntries>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                     </archive>
@@ -143,10 +144,11 @@
                 <configuration>
                     <archive>
                         <manifest>
+                            <addDefaultEntries>false</addDefaultEntries>
                             <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
                         </manifest>
                         <manifestEntries>
-                            <Implementation-Build-Id>${project.version} - ${scmBranch}-${buildNumber}</Implementation-Build-Id>
+                            <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -155,6 +157,11 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultEntries>false</addDefaultEntries>
+                        </manifest>
+                    </archive>
                     <release>11</release>
                     <notimestamp>true</notimestamp>
                 </configuration>
