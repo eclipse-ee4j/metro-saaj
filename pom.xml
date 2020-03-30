@@ -305,7 +305,14 @@
 
     <modules>
         <module>saaj-ri</module>
-        <module>saaj-samples</module>
     </modules>
 
+    <profiles>
+        <profile>
+            <id>samples</id>
+            <modules>
+                <module>saaj-samples</module>
+            </modules>
+        </profile>
+    </profiles>
 </project>
