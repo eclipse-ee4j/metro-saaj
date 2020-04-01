@@ -25,7 +25,7 @@ import com.sun.xml.messaging.saaj.util.ByteOutputStream;
 import com.sun.xml.messaging.saaj.util.FinalArrayList;
 import com.sun.xml.messaging.saaj.util.SAAJUtil;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

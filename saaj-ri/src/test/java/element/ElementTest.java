@@ -20,7 +20,7 @@ import java.io.Writer;
 import java.util.Iterator;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.parsers.*;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
@@ -72,7 +72,7 @@ public class ElementTest extends TestCase {
         SOAPEnvelope envelope = sp.getEnvelope();
         envelope.getHeader();
         SAAJResult result = new SAAJResult(message);
-        javax.xml.soap.Node res = result.getResult();
+        jakarta.xml.soap.Node res = result.getResult();
 
         Assert.assertNotNull(res);
     }
@@ -395,7 +395,7 @@ public class ElementTest extends TestCase {
 
         NodeList nl = soapElementCopy.getChildNodes();
         assertTrue(nl.getLength() == 1);
-        final javax.xml.soap.Node foundSoapElement = (javax.xml.soap.Node) nl.item(0);
+        final jakarta.xml.soap.Node foundSoapElement = (jakarta.xml.soap.Node) nl.item(0);
         assertTrue(foundSoapElement instanceof SOAPElement);
         assertTrue(soapElementCopy.getAttribute("junk").equals("true"));
     }

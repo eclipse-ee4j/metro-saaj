@@ -13,10 +13,10 @@ package saaj.httpget;
 import java.io.*;
 import java.util.*;
 
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.http.*;
-import javax.xml.soap.*;
+import jakarta.servlet.ServletConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.*;
+import jakarta.xml.soap.*;
 
 
 /**

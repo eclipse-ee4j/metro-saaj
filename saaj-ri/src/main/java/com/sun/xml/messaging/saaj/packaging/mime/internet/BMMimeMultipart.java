@@ -20,7 +20,7 @@ import com.sun.xml.messaging.saaj.packaging.mime.util.ASCIIUtility;
 import com.sun.xml.messaging.saaj.packaging.mime.util.OutputUtil;
 import com.sun.xml.messaging.saaj.util.ByteOutputStream;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;

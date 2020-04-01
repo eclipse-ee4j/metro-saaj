@@ -15,9 +15,9 @@
 package com.sun.xml.messaging.saaj.soap.ver1_2;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.Name;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.Name;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.impl.FaultElementImpl;

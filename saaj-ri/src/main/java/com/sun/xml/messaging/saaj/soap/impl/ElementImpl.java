@@ -28,11 +28,11 @@ import com.sun.xml.messaging.saaj.util.NamespaceContextIterator;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPBodyElement;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPBodyElement;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.DOMException;
@@ -544,7 +544,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                    log.severe("SAAJ0158.impl.version.mismatch.fault");
                    throw new SOAPExceptionImpl("SOAP Version mismatch encountered when trying to add SOAPFault to SOAPBody");
                }
-               Iterator<javax.xml.soap.Node> it = this.getChildElements();
+               Iterator<jakarta.xml.soap.Node> it = this.getChildElements();
                if (it.hasNext()) {
                    log.severe("SAAJ0156.impl.adding.fault.error");
                    throw new SOAPExceptionImpl("Cannot add SOAPFault as a child of a non-Empty SOAPBody");
@@ -904,7 +904,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     }
 
     @Override
-    public Iterator<javax.xml.soap.Node> getChildElements() {
+    public Iterator<jakarta.xml.soap.Node> getChildElements() {
         return getChildElementsFrom(this);
     }
 
@@ -1027,7 +1027,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     protected Iterator<Node> getChildElementNodes() {
         return new Iterator<Node>() {
-            Iterator<javax.xml.soap.Node> eachNode = getChildElements();
+            Iterator<jakarta.xml.soap.Node> eachNode = getChildElements();
             Node next = null;
             Node last = null;
 
@@ -1046,11 +1046,11 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
             }
 
             @Override
-            public javax.xml.soap.Node next() {
+            public jakarta.xml.soap.Node next() {
                 if (hasNext()) {
                     last = next;
                     next = null;
-                    return (javax.xml.soap.Node) last;
+                    return (jakarta.xml.soap.Node) last;
                 }
                 throw new NoSuchElementException();
             }
@@ -1068,17 +1068,17 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     }
 
     @Override
-    public Iterator<javax.xml.soap.Node> getChildElements(final Name name) {
+    public Iterator<jakarta.xml.soap.Node> getChildElements(final Name name) {
        return getChildElements(name.getURI(), name.getLocalName());
     }
 
     @Override
-    public Iterator<javax.xml.soap.Node> getChildElements(final QName qname) {
+    public Iterator<jakarta.xml.soap.Node> getChildElements(final QName qname) {
         return getChildElements(qname.getNamespaceURI(), qname.getLocalPart());
     }
     
-    private Iterator<javax.xml.soap.Node> getChildElements(final String nameUri, final String nameLocal) {
-        return new Iterator<javax.xml.soap.Node>() {
+    private Iterator<jakarta.xml.soap.Node> getChildElements(final String nameUri, final String nameLocal) {
+        return new Iterator<jakarta.xml.soap.Node>() {
             Iterator<Node> eachElement = getChildElementNodes();
             Node next = null;
             Node last = null;
@@ -1102,13 +1102,13 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
             }
 
             @Override
-            public javax.xml.soap.Node next() {
+            public jakarta.xml.soap.Node next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
                 last = next;
                 next = null;
-                return (javax.xml.soap.Node) last;
+                return (jakarta.xml.soap.Node) last;
             }
 
             @Override
@@ -1129,8 +1129,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
         while (currentChild != null) {
             Node temp = currentChild.getNextSibling();
-            if (currentChild instanceof javax.xml.soap.Node) {
-                ((javax.xml.soap.Node) currentChild).detachNode();
+            if (currentChild instanceof jakarta.xml.soap.Node) {
+                ((jakarta.xml.soap.Node) currentChild).detachNode();
             } else {
                 Node parent = currentChild.getParentNode();
                 if (parent != null) {
@@ -1184,7 +1184,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     // Node methods
     @Override
     public String getValue() {
-        javax.xml.soap.Node valueNode = getValueNode();
+        jakarta.xml.soap.Node valueNode = getValueNode();
         return valueNode == null ? null : valueNode.getValue();
     }
 
@@ -1217,8 +1217,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         return null;
     }
 
-    protected javax.xml.soap.Node getValueNode() {
-        Iterator<javax.xml.soap.Node> i = getChildElements();
+    protected jakarta.xml.soap.Node getValueNode() {
+        Iterator<jakarta.xml.soap.Node> i = getChildElements();
         while (i.hasNext()) {
             Node n = i.next();
             if (n.getNodeType() == org.w3c.dom.Node.TEXT_NODE ||
@@ -1464,8 +1464,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         return attribute == null ? null : attribute.getValue();
     }
 
-    protected Iterator<javax.xml.soap.Node> getChildElementsFrom(final Element element) {
-        return new Iterator<javax.xml.soap.Node>() {
+    protected Iterator<jakarta.xml.soap.Node> getChildElementsFrom(final Element element) {
+        return new Iterator<jakarta.xml.soap.Node>() {
             Node next = element.getFirstChild();
             Node nextNext = null;
             Node last = null;
@@ -1484,7 +1484,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
             }
 
             @Override
-            public javax.xml.soap.Node next() {
+            public jakarta.xml.soap.Node next() {
                 if (hasNext()) {
                     last = next;
                     next = null;
@@ -1497,7 +1497,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                     }
 
                     nextNext = last.getNextSibling();
-                    return (javax.xml.soap.Node) soapDocument.findIfPresent(last);
+                    return (jakarta.xml.soap.Node) soapDocument.findIfPresent(last);
                 }
                 throw new NoSuchElementException();
             }

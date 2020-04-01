@@ -10,14 +10,14 @@
 
 package mime;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
+import jakarta.activation.DataHandler;
+
 import javax.xml.transform.stream.StreamSource;
 
 import java.io.StringReader;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
-
-import javax.activation.DataHandler;
 
 import junit.framework.TestCase;
 

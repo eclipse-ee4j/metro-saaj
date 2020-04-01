@@ -154,13 +154,13 @@
 module com.sun.xml.messaging.saaj {
 
     requires transitive jakarta.activation;
-    requires transitive java.xml.soap;
+    requires transitive jakarta.xml.soap;
     requires java.logging;
     requires java.desktop;
     requires java.xml;
     requires transitive org.jvnet.staxex;
 
-    requires static java.xml.bind;
+    requires static jakarta.xml.bind;
     requires static com.sun.xml.fastinfoset;
     requires static org.jvnet.mimepull;
 
@@ -176,14 +176,14 @@ module com.sun.xml.messaging.saaj {
     exports com.sun.xml.messaging.saaj.util.transform;
     exports com.sun.xml.messaging.saaj.soap.impl;
 
-    provides javax.xml.soap.MessageFactory
+    provides jakarta.xml.soap.MessageFactory
             with com.sun.xml.messaging.saaj.soap.ver1_1.SOAPMessageFactory1_1Impl,
                  com.sun.xml.messaging.saaj.soap.ver1_2.SOAPMessageFactory1_2Impl;
-    provides javax.xml.soap.SAAJMetaFactory
+    provides jakarta.xml.soap.SAAJMetaFactory
             with com.sun.xml.messaging.saaj.soap.SAAJMetaFactoryImpl;
-    provides javax.xml.soap.SOAPConnectionFactory
+    provides jakarta.xml.soap.SOAPConnectionFactory
             with com.sun.xml.messaging.saaj.client.p2p.HttpSOAPConnectionFactory;
-    provides javax.xml.soap.SOAPFactory
+    provides jakarta.xml.soap.SOAPFactory
             with com.sun.xml.messaging.saaj.soap.ver1_1.SOAPFactory1_1Impl,
                  com.sun.xml.messaging.saaj.soap.ver1_2.SOAPFactory1_2Impl;
 }

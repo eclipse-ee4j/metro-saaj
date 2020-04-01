@@ -18,9 +18,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPElement;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPElement;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.impl.HeaderElementImpl;

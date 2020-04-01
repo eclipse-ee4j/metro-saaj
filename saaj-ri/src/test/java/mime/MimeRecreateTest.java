@@ -17,8 +17,8 @@ package mime;
 import java.io.ByteArrayOutputStream;
 import java.net.URL;
 
-import javax.activation.*;
-import javax.xml.soap.*;
+import jakarta.activation.*;
+import jakarta.xml.soap.*;
 
 import junit.framework.TestCase;
 

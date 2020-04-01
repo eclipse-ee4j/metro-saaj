@@ -10,9 +10,9 @@
 
 package soap;
 
+import jakarta.xml.soap.*;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
-import javax.xml.soap.*;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;

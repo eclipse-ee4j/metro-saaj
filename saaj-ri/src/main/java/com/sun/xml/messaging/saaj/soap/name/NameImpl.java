@@ -14,8 +14,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPConstants;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPConstants;
 
 //import com.sun.org.apache.xerces.internal.xni.NamespaceContext;
 import org.w3c.dom.Element;

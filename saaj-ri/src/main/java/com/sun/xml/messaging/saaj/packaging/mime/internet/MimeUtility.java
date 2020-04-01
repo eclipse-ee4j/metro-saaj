@@ -19,8 +19,8 @@ package com.sun.xml.messaging.saaj.packaging.mime.internet;
 import java.io.*;
 import java.util.*;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
 
 import com.sun.xml.messaging.saaj.packaging.mime.MessagingException;
 import com.sun.xml.messaging.saaj.packaging.mime.util.*;

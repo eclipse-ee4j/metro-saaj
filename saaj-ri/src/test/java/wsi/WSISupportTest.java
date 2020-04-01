@@ -17,7 +17,7 @@ package wsi;
 import java.io.ByteArrayOutputStream;
 import java.util.Locale;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.transform.dom.DOMSource;
 
 import junit.framework.TestCase;

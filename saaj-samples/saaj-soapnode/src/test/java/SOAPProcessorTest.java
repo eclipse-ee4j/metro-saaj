@@ -13,8 +13,8 @@ import com.sun.xml.soap.SOAPAnnotator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPMessage;
 import java.util.Collections;
 
 public class SOAPProcessorTest {

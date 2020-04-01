@@ -23,12 +23,12 @@ import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPHeader;
-import javax.xml.soap.SOAPHeaderElement;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPHeaderElement;
 
 public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
     protected static final boolean MUST_UNDERSTAND_ONLY = false;
@@ -134,7 +134,7 @@ public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
         boolean mustUnderstand) {
         List<SOAPHeaderElement> elementList = new ArrayList<>();
 
-        Iterator<javax.xml.soap.Node> eachChild = getChildElements();
+        Iterator<jakarta.xml.soap.Node> eachChild = getChildElements();
 
         org.w3c.dom.Node currentChild = iterate(eachChild);
         while (currentChild != null) {

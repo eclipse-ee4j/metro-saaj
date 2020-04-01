@@ -10,7 +10,7 @@
 
 package soap12;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.namespace.QName;
 import javax.xml.transform.stream.*;
 

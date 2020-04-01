@@ -18,8 +18,8 @@ import com.sun.xml.messaging.saaj.util.SAAJUtil;
 
 import java.io.*;
 
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
 

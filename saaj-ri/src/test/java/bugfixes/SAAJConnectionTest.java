@@ -11,11 +11,11 @@
 package bugfixes;
 
 import java.net.URL;
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.SOAPConnection;
-import javax.xml.soap.SOAPConnectionFactory;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.SOAPConnection;
+import jakarta.xml.soap.SOAPConnectionFactory;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPException;
 import junit.framework.TestCase;
 
 

@@ -39,13 +39,13 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.UserDataHandler;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPPart;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPPart;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.sax.SAXSource;
@@ -60,7 +60,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.xml.soap.MimeHeader;
+import jakarta.xml.soap.MimeHeader;
 
 /**
  * SOAPPartImpl is the first attachment. This contains the XML/SOAP document.

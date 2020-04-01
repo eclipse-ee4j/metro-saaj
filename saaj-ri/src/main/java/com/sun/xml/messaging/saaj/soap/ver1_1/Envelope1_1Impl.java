@@ -14,7 +14,7 @@
 */
 package com.sun.xml.messaging.saaj.soap.ver1_1;
 
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPException;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.impl.EnvelopeImpl;

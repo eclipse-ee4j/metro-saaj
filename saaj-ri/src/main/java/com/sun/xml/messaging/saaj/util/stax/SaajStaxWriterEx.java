@@ -15,10 +15,10 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.UUID;
 
-import javax.activation.DataHandler;
-import javax.xml.bind.attachment.AttachmentMarshaller;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.activation.DataHandler;
+import jakarta.xml.bind.attachment.AttachmentMarshaller;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLStreamException;
 
 import org.jvnet.staxex.Base64Data;

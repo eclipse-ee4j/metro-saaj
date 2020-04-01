@@ -27,13 +27,13 @@ import com.sun.xml.messaging.saaj.soap.SOAPDocument;
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.StaxBridge;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
-import javax.xml.soap.Name;
-import javax.xml.soap.SOAPBody;
-import javax.xml.soap.SOAPBodyElement;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPFault;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPBodyElement;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPFault;
 import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
@@ -259,7 +259,7 @@ public abstract class BodyImpl extends ElementImpl implements SOAPBody {
             org.w3c.dom.Node replacingNode = ownerDoc.importNode(docFrag, true);
             // Adding replacingNode at the last of the children list of body
             addNode(replacingNode);
-            Iterator<javax.xml.soap.Node> i =
+            Iterator<jakarta.xml.soap.Node> i =
                 getChildElements(NameImpl.copyElementName(rootElement));
             // Return the child element with the required name which is at the
             // end of the list
@@ -300,12 +300,12 @@ public abstract class BodyImpl extends ElementImpl implements SOAPBody {
     @Override
     public Document extractContentAsDocument() throws SOAPException {
 
-        Iterator<javax.xml.soap.Node> eachChild = getChildElements();
-        javax.xml.soap.Node firstBodyElement = null;
+        Iterator<jakarta.xml.soap.Node> eachChild = getChildElements();
+        jakarta.xml.soap.Node firstBodyElement = null;
 
         while (eachChild.hasNext() &&
                !(firstBodyElement instanceof SOAPElement))
-            firstBodyElement = (javax.xml.soap.Node) eachChild.next();
+            firstBodyElement = (jakarta.xml.soap.Node) eachChild.next();
 
         boolean exactlyOneChildElement = true;
         if (firstBodyElement == null)

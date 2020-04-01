@@ -18,7 +18,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocument;
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;

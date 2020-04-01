@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,12 +10,12 @@
 
 package com.sun.xml.messaging.soap;
 
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeader;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
-import javax.xml.soap.SOAPPart;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.MimeHeader;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,7 +42,7 @@ public class SOAPMessagePersister {
      * @param msg soap message
      * @param location file to save to
      * @throws java.io.IOException when saving the file is not possible
-     * @throws javax.xml.soap.SOAPException if there was a problem saving changes to this message.
+     * @throws jakarta.xml.soap.SOAPException if there was a problem saving changes to this message.
      */
     public void save(SOAPMessage msg, File location)
         throws IOException, SOAPException {
@@ -97,7 +97,7 @@ public class SOAPMessagePersister {
      * @param location file with saved soap message location
      * @return soap message loaded from the file
      * @throws java.io.IOException when saving the file is not possible
-     * @throws javax.xml.soap.SOAPException if there was a problem saving changes to this message.
+     * @throws jakarta.xml.soap.SOAPException if there was a problem saving changes to this message.
      */
     public SOAPMessage load(String location)
         throws IOException, SOAPException {

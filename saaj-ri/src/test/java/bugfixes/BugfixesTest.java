@@ -20,9 +20,9 @@ import java.util.Locale;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.soap.*;
-import javax.xml.soap.Node;
-import javax.xml.soap.Text;
+import jakarta.xml.soap.*;
+import jakarta.xml.soap.Node;
+import jakarta.xml.soap.Text;
 import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMResult;
 
@@ -39,8 +39,8 @@ import org.w3c.dom.*;
 
 import util.TestHelper;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
+import jakarta.activation.DataHandler;
+import jakarta.activation.FileDataSource;
 import javax.xml.transform.dom.DOMSource;
 
 /*
@@ -161,7 +161,7 @@ public class BugfixesTest extends TestCase {
         msg.addAttachmentPart(ap1);
 */      
         java.io.File file = new File("src/test/resources/bugfixes/data/setContent.xml");
-        javax.activation.FileDataSource fd = new javax.activation.FileDataSource(file);
+        jakarta.activation.FileDataSource fd = new jakarta.activation.FileDataSource(file);
         StreamSource stream = new StreamSource(fd.getInputStream());
         AttachmentPart ap2 = msg.createAttachmentPart(fd,"text/xml");
         msg.addAttachmentPart(ap2);
@@ -1121,7 +1121,7 @@ public class BugfixesTest extends TestCase {
         ByteArrayOutputStream incorrect = new ByteArrayOutputStream();
         recvMsg.writeTo(incorrect);
         fin.close();
-        Iterator it = ((javax.xml.soap.SOAPHeader)recvHdr).getChildElements();
+        Iterator it = ((jakarta.xml.soap.SOAPHeader)recvHdr).getChildElements();
         SOAPHeaderElement n = (SOAPHeaderElement)it.next();
         //making sure there was a Actor.
         assertTrue(n.getActor() != null);

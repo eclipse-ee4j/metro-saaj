@@ -11,7 +11,7 @@
 package com.sun.xml.messaging.saaj.soap;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPException;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamReader;
 

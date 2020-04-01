@@ -14,11 +14,11 @@ package bugfixes;
 //import com.sun.xml.messaging.saaj.soap.ver1_2.SOAPMessageFactory1_2Impl;
 import junit.framework.TestCase;
 
-import javax.xml.soap.MessageFactory;
-import javax.xml.soap.MimeHeaders;
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
-import javax.xml.soap.SOAPMessage;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPMessage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;

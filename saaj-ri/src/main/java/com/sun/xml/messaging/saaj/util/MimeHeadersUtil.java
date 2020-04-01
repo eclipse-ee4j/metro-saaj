@@ -16,8 +16,8 @@ package com.sun.xml.messaging.saaj.util;
 
 import java.util.Iterator;
 
-import javax.xml.soap.MimeHeader;
-import javax.xml.soap.MimeHeaders;
+import jakarta.xml.soap.MimeHeader;
+import jakarta.xml.soap.MimeHeaders;
 
 public class MimeHeadersUtil {
     public static MimeHeaders copy(MimeHeaders headers) {

@@ -14,7 +14,7 @@ import java.awt.datatransfer.DataFlavor;
 import java.io.*;
 import java.awt.*;
 
-import javax.activation.*;
+import jakarta.activation.*;
 
 /**
  * DataContentHandler for image/gif.
@@ -38,8 +38,8 @@ public class GifDataContentHandler extends Component implements DataContentHandl
      * @return The DataFlavors
      */
     @Override
-    public DataFlavor[] getTransferDataFlavors() { // throws Exception;
-        return new DataFlavor[] { getDF()};
+    public ActivationDataFlavor[] getTransferDataFlavors() { // throws Exception;
+        return new ActivationDataFlavor[] { getDF()};
     }
 
     /**
@@ -51,7 +51,7 @@ public class GifDataContentHandler extends Component implements DataContentHandl
      * @exception IOException in case of an I/O error
      */
     @Override
-    public Object getTransferData(DataFlavor df, DataSource ds)
+    public Object getTransferData(ActivationDataFlavor df, DataSource ds)
         throws IOException {
         // use myDF.equals to be sure to get ActivationDataFlavor.equals,
         // which properly ignores Content-Type parameters in comparison

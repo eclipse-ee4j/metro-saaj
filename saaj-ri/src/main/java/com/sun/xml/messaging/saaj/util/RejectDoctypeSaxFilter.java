@@ -13,7 +13,7 @@ package com.sun.xml.messaging.saaj.util;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPException;
 
 import org.xml.sax.*;
 import org.xml.sax.ext.LexicalHandler;

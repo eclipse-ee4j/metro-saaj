@@ -32,8 +32,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.activation.*;
-import javax.xml.soap.*;
+import jakarta.activation.*;
+import jakarta.xml.soap.*;
 import org.jvnet.mimepull.MIMEPart;
 
 /**

@@ -13,7 +13,7 @@ package com.sun.xml.messaging.saaj;
 import java.io.PrintStream;
 import java.io.PrintWriter;
 
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPException;
 
 /**
  * An exception that signals that a SOAP exception has occurred. A

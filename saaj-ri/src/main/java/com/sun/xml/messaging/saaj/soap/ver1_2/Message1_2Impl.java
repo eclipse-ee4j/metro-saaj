@@ -17,7 +17,7 @@ package com.sun.xml.messaging.saaj.soap.ver1_2;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.stream.XMLStreamReader;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;

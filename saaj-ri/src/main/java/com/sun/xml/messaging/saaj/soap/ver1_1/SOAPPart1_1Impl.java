@@ -16,8 +16,8 @@ package com.sun.xml.messaging.saaj.soap.ver1_1;
 
 import java.util.logging.Logger;
 
-import javax.xml.soap.SOAPConstants;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPException;
 import javax.xml.transform.Source;
 
 import com.sun.xml.messaging.saaj.soap.*;

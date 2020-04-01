@@ -17,7 +17,7 @@ package com.sun.xml.messaging.saaj.packaging.mime.internet;
 
 import com.sun.xml.messaging.saaj.packaging.mime.MessagingException;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

@@ -18,7 +18,7 @@ package com.sun.xml.messaging.saaj.packaging.mime;
 
 import com.sun.xml.messaging.saaj.packaging.mime.internet.MimeBodyPart;
 
-import javax.activation.DataSource;
+import jakarta.activation.DataSource;
 
 /**
  * MultipartDataSource is a <code>DataSource</code> that contains body
@@ -35,7 +35,7 @@ import javax.activation.DataSource;
  *
  * @version	1.6, 02/03/27
  * @author	John Mani
- * @see		javax.activation.DataSource
+ * @see		jakarta.activation.DataSource
  */
 
 public interface MultipartDataSource extends DataSource {

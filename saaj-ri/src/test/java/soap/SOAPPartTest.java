@@ -12,7 +12,7 @@ package soap;
 
 import java.io.ByteArrayInputStream;
 
-import javax.xml.soap.*;
+import jakarta.xml.soap.*;
 import javax.xml.transform.stream.StreamSource;
 
 import junit.framework.TestCase;

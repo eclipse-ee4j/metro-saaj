@@ -13,8 +13,8 @@ package com.sun.xml.messaging.saaj.soap;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import javax.xml.soap.SOAPEnvelope;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
 import javax.xml.transform.Source;
 
 /**

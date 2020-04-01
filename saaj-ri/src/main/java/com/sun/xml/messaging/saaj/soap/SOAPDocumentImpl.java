@@ -46,15 +46,15 @@ import org.w3c.dom.UserDataHandler;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.soap.SOAPElement;
-import javax.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
 import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 
-public class SOAPDocumentImpl implements SOAPDocument, javax.xml.soap.Node, Document {
+public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Document {
 
-    public static final String SAAJ_NODE = "javax.xml.soap.Node";
+    public static final String SAAJ_NODE = "jakarta.xml.soap.Node";
 
     private static final String XMLNS = "xmlns".intern();
     protected static final Logger log =
@@ -202,7 +202,7 @@ public class SOAPDocumentImpl implements SOAPDocument, javax.xml.soap.Node, Docu
         Node domNode = getDomNode(importedNode);
         final Node newNode = document.importNode(domNode, deep);
 
-        if (importedNode instanceof javax.xml.soap.Node) {
+        if (importedNode instanceof jakarta.xml.soap.Node) {
             Node newSoapNode = createSoapNode(importedNode.getClass(), newNode);
             newNode.setUserData(SAAJ_NODE, newSoapNode, null);
             if (deep && newSoapNode.hasChildNodes()) {
@@ -547,7 +547,7 @@ public class SOAPDocumentImpl implements SOAPDocument, javax.xml.soap.Node, Docu
     }
 
     /**
-     * Insert a mapping information for {@link org.w3c.dom.Node} - {@link javax.xml.soap.Node}.
+     * Insert a mapping information for {@link org.w3c.dom.Node} - {@link jakarta.xml.soap.Node}.
      *
      * In SAAJ, elements in DOM are expected to be interfaces of SAAJ, on the other hand in JDKs Xerces,
      * they are casted to internal impl classes. After removal of SAAJ dependency
@@ -555,7 +555,7 @@ public class SOAPDocumentImpl implements SOAPDocument, javax.xml.soap.Node, Docu
      *
      * @param node SAAJ wrapper node for w3c DOM node
      */
-    public void register(javax.xml.soap.Node node) {
+    public void register(jakarta.xml.soap.Node node) {
         final Node domElement = getDomNode(node);
         if (domElement.getUserData(SAAJ_NODE) != null) {
             throw new IllegalStateException("Element " + domElement.getNodeName()
@@ -570,18 +570,18 @@ public class SOAPDocumentImpl implements SOAPDocument, javax.xml.soap.Node, Docu
      * @param node w3c dom node nullable
      * @return soap wrapper for w3c dom node
      */
-    public javax.xml.soap.Node find(Node node) {
+    public jakarta.xml.soap.Node find(Node node) {
         return find(node, true);
     }
 
-    private javax.xml.soap.Node find(Node node, boolean required) {
+    private jakarta.xml.soap.Node find(Node node, boolean required) {
         if (node == null) {
             return null;
         }
-        if (node instanceof javax.xml.soap.Node) {
-            return (javax.xml.soap.Node) node;
+        if (node instanceof jakarta.xml.soap.Node) {
+            return (jakarta.xml.soap.Node) node;
         }
-        final javax.xml.soap.Node found = (javax.xml.soap.Node) node.getUserData(SAAJ_NODE);
+        final jakarta.xml.soap.Node found = (jakarta.xml.soap.Node) node.getUserData(SAAJ_NODE);
         if (found == null && required) {
             throw new IllegalArgumentException(MessageFormat.format("Cannot find SOAP wrapper for element {0}", node));
         }
@@ -596,7 +596,7 @@ public class SOAPDocumentImpl implements SOAPDocument, javax.xml.soap.Node, Docu
      * @return soap wrapper or passed w3c dom node if not found
      */
     public Node findIfPresent(Node node) {
-        final javax.xml.soap.Node found = find(node, false);
+        final jakarta.xml.soap.Node found = find(node, false);
         return found != null ? found : node;
     }
 

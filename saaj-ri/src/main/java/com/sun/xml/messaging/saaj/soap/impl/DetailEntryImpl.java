@@ -11,8 +11,8 @@
 package com.sun.xml.messaging.saaj.soap.impl;
 
 import javax.xml.namespace.QName;
-import javax.xml.soap.DetailEntry;
-import javax.xml.soap.Name;
+import jakarta.xml.soap.DetailEntry;
+import jakarta.xml.soap.Name;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import org.w3c.dom.Element;

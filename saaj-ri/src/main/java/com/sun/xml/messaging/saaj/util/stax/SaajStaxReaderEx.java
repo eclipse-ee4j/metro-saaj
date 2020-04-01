@@ -17,7 +17,7 @@ import org.jvnet.staxex.util.DOMStreamReader;
 import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
-import javax.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPElement;
 import javax.xml.stream.XMLStreamException;
 import java.util.Iterator;
 
