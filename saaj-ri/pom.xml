@@ -17,6 +17,7 @@
         <groupId>com.sun.xml.messaging.saaj</groupId>
         <artifactId>metro-saaj</artifactId>
         <version>2.0.0-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.sun.xml.messaging.saaj</groupId>
@@ -29,7 +30,6 @@
     </description>
 
     <properties>
-        <upgrade.mods>${project.build.directory}/upgrade-mods</upgrade.mods>
         <proxyOpts/>
         <!-- arguments for surefire-plugin -->
         <argLine>${proxyOpts}</argLine>
@@ -39,27 +39,9 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>copy-upgrade-module-path</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>copy-dependencies</goal>
-                        </goals>
-                        <configuration>
-                            <outputDirectory>${upgrade.mods}</outputDirectory>
-                            <includeArtifactIds>jakarta.xml.soap-api,jakarta.activation,jakarta.xml.bind-api</includeArtifactIds>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>9</source>
-                    <target>9</target>
+                    <release>9</release>
                     <compilerArgs>
                         <arg>-Xlint:all</arg>
                     </compilerArgs>
@@ -75,9 +57,6 @@
                             <excludes>
                                 <exclude>module-info.java</exclude>
                             </excludes>
-                            <compilerArgs>
-                                <arg>-Djava.endorsed.dirs=${upgrade.mods}</arg>
-                            </compilerArgs>
                         </configuration>
                     </execution>
                     <execution>
@@ -86,7 +65,6 @@
                             <goal>testCompile</goal>
                         </goals>
                         <configuration>
-                            <release>11</release>
                             <compilerArgs>
                                 <arg>--add-exports</arg>
                                 <arg>com.sun.xml.messaging.saaj/com.sun.xml.messaging.saaj.soap.impl=com.sun.xml.messaging.saaj.test</arg>
@@ -114,11 +92,6 @@
                                     !com.sun.xml.messaging.saaj.soap.ver1_2,
                                     *
                                 </Export-Package>
-                                <Import-Package>
-                                    jakarta.activation;version=!,
-                                    jakarta.xml.bind.attachment;version=!,
-                                    *
-                                </Import-Package>
                                 <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
                             </instructions>
                         </configuration>
@@ -178,9 +151,7 @@
                         <java.awt.headless>true</java.awt.headless>
                     </systemProperties>
                     <reuseForks>false</reuseForks>
-                    <argLine>
-                        @{argLine} --add-opens jakarta.activation/javax.activation=com.sun.xml.messaging.saaj
-                    </argLine>
+                    <argLine>@{argLine}</argLine>
                 </configuration>
                 <executions>
                     <execution>

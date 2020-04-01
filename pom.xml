@@ -59,11 +59,6 @@
         </developer>
     </developers>
 
-    <organization>
-        <name>Oracle Corporation</name>
-        <url>http://www.oracle.com/</url>
-    </organization>
-
     <issueManagement>
         <system>IssueTracker</system>
         <url>https://github.com/eclipse-ee4j/metro-saaj/issues</url>
