@@ -1,22 +1,23 @@
 <br>
 
-Revised: 28/12/2018
+Revised: 02/Apr/2020
 
 ## Table of Contents
 
 * [What This Release Includes](#what)
-* [Link to Specification (Maintenance Release 4 of JSR-000067)](http://jcp.org/aboutJava/communityprocess/mrel/jsr067/index4.html)
 * [Download Jakarta SOAP Release](#Download_Jakarta_SOAP_Release)
 
 ## <a name="what"></a>What This Release Includes
 
-This release is based on the specification for the SOAP with Attachments API for Java<sup><font size="-2">TM</font></sup> (SAAJ) 1.4.
+This release is based on the [Jakarta SOAP with Attachments specification 1.4](https://jakarta.ee/specifications/soap-attachments/1.4/)
+and follows the [Jakarta EE Specification Process](https://jakarta.ee/about/jesp/).
 
 Notable changes:
 
-* First release under Eclipse Foundation
+* Released by Eclipse Foundation
 * Changed license to Eclipse Distribution License - v 1.0 
 * JPMS compatibility
+* [Bug fixes](https://github.com/eclipse-ee4j/metro-saaj/issues?q=is%3Aissue+milestone%3A1.5.2+is%3Aclosed)
 
 ## <a name="Download_Jakarta_SOAP_Release"></a>Download Jakarta SOAP Release
 
@@ -26,7 +27,7 @@ The Jakarta SOAP with Attachments Specification and API:
             <dependency>
                 <groupId>jakarta.xml.soap</groupId>
                 <artifactId>jakarta.xml.soap-api</artifactId>
-                <version>1.4.1</version>
+                <version>1.4.2</version>
             </dependency>
         </dependencies>
 ```
@@ -37,7 +38,7 @@ The Jakarta SOAP with Attachments Implementation:
             <dependency>
                 <groupId>com.sun.xml.messaging.saaj</groupId>
                 <artifactId>saaj-impl</artifactId>
-                <version>1.5.1</version>
+                <version>1.5.2</version>
             </dependency>
         </dependencies>
 ```

@@ -8,8 +8,8 @@ description: [Jakarta SOAP with Attachments implementation]
 
 links:
   source: https://github.com/eclipse-ee4j/metro-saaj/
-  javadocs: https://javadoc.io/doc/com.sun.xml.messaging.saaj/saaj-impl/1.5.1
-  download: https://search.maven.org/artifact/com.sun.xml.messaging.saaj/saaj-impl/1.5.1/jar
+  javadocs: https://javadoc.io/doc/com.sun.xml.messaging.saaj/saaj-impl/1.5.2
+  download: https://search.maven.org/artifact/com.sun.xml.messaging.saaj/saaj-impl/1.5.2/jar
   mailinglist: https://accounts.eclipse.org/mailing-list/metro-dev
   
 include:
