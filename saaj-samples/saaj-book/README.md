@@ -14,12 +14,18 @@ Book sample
 Steps to run the sample :
 ------------------------------------------
 
-1. Start sample in local container
+1. Start tomcat server
 
 ```shell script
-mvn jetty:run-war -Pstaging
+$CATALINA_HOME/bin/startup.sh
+```
+
+2. Start sample in local container
+
+```shell script
+mvn tomcat7:deploy
 ```
 
 2. Open in browser following url and follow instructions
 
-    http://localhost:8080
+    http://localhost:8080/saaj-book

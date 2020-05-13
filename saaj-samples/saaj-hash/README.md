@@ -20,9 +20,18 @@ in the radio button from the application's index.html.
 Running the Sample
 -------------------
 
-1.
+1. Start tomcat server
+
 ```shell script
-mvn jetty:run -Pstaging
+$CATALINA_HOME/bin/startup.sh
 ```
 
-2. Open in browser http://localhost:8080
+2. Run sample
+
+```shell script
+mvn tomcat7:deploy
+```
+
+2. Open in browser
+
+http://localhost:8080/saaj-hash
