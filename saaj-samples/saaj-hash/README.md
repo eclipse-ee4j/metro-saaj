@@ -26,7 +26,7 @@ Running the Sample
 $CATALINA_HOME/bin/startup.sh
 ```
 
-2. Run sample
+2. Deploy sample
 
 ```shell script
 mvn tomcat7:deploy

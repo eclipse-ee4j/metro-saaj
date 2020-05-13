@@ -20,7 +20,7 @@ Steps to run the sample :
 $CATALINA_HOME/bin/startup.sh
 ```
 
-2. Start sample in local container
+2. Deploy sample
 
 ```shell script
 mvn tomcat7:deploy
