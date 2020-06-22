@@ -17,6 +17,12 @@ This project is part of [Eclipse Metro](https://projects.eclipse.org/projects/ee
 
 # <a name="Latest_News"></a>Latest News
 
+### June 2, 2020 - Jakarta SOAP with Attachments Implementation 2.0.0-M1 Milestone Release ###
+
+First milestone of Jakarta SOAP with Attachments Implementation to accommodate the move
+of the Jakarta SOAP with Attachments Specification to *jakarta* namespace.
+See [release notes](docs/relnotes-2.0.html).
+
 ### April 30, 2020 - Jakarta SOAP with Attachments Implementation 1.5.2 Release ###
 
 Updated Jakarta SOAP with Attachments Implementation to accommodate updated version
