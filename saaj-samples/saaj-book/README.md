@@ -37,7 +37,7 @@ mvn tomcat7:deploy -Ptomcat
 1. Deploy sample
         
 ```shell script
-mvn jetty:run -Pjetty
+mvn jetty:run
 ```
 
 2. Open in browser following url and follow instructions

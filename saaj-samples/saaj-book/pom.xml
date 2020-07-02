@@ -120,6 +120,9 @@
 
         <profile>
             <id>jetty</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
             <build>
                 <plugins>
                     <plugin>
