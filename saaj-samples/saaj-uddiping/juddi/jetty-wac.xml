@@ -33,7 +33,7 @@
             </New>
         </Arg>
     </New>
-    <New id="myds" class="org.eclipse.jetty.plus.jndi.Resource">
+    <New id="mydb" class="org.eclipse.jetty.plus.jndi.Resource">
         <Arg><Ref refid="wac"/></Arg>
         <Arg>jdbc/juddiDB</Arg>
         <Arg>
