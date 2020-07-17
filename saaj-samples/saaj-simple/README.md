@@ -14,12 +14,32 @@ Simple sample
 Steps to run the sample :
 ------------------------------------------
 
-1. Start sample in local container
+**Using tomcat**
+
+1. Start tomcat server
 
 ```shell script
-mvn jetty:run -Pstaging
+$CATALINA_HOME/bin/startup.sh
+```
+
+2. Deploy sample
+    
+```shell script
+mvn tomcat7:deploy -Ptomcat
+```
+    
+3. Open in browser following url and follow instructions
+    
+    http://localhost:8080/saaj-simple
+        
+**Using Jetty**
+
+1. Deploy sample
+        
+```shell script
+mvn jetty:run
 ```
 
 2. Open in browser following url and follow instructions
 
-    http://localhost:8080
+    http://localhost:8080/
