@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2019, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,6 +10,7 @@
 
 package classfile;
 
+import com.sun.xml.messaging.saaj.soap.SOAPDocument;
 import java.io.DataInputStream;
 import java.io.InputStream;
 import java.io.IOException;
@@ -38,7 +39,7 @@ public class ByteCodeVersionTest {
     }
     
     private static void verifyClassFileFormat(String resource, int expectedClassVersion) {
-        try (InputStream in = ByteCodeVersionTest.class.getModule().getResourceAsStream(resource);
+        try (InputStream in = SOAPDocument.class.getModule().getResourceAsStream(resource);
                 DataInputStream data = new DataInputStream(in)) {
             if (0xCAFEBABE != data.readInt()) {
                 Assert.fail("invalid header");

@@ -10,11 +10,9 @@
 
 package mime.custom;
 
-import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.lang.reflect.Field;
 import java.util.Iterator;
 
 import javax.activation.*;
@@ -45,8 +43,6 @@ public class CustomTypeTest extends TestCase {
             mailMap.addMailcap("custom/mailcap" + hndlrStr
                     + MailcapDataContentHandler.class.getName());
         }
-        //re-export MailcapDataContentHandler to jakarta.activation
-        SOAPExceptionImpl.class.getModule().addExports("mime.custom", DataHandler.class.getModule());
     }
 
     public CustomTypeTest(String name) {
@@ -112,7 +108,7 @@ public class CustomTypeTest extends TestCase {
             fail("No exception should have been thrown");
         }
     }
-
+    /*
     public void testCustomTypeUsingMailcap() {
         Object v = null;
         Field f = null;
@@ -133,5 +129,5 @@ public class CustomTypeTest extends TestCase {
                 throw new RuntimeException(t);
             }
         }
-    }
+    }*/
 }
