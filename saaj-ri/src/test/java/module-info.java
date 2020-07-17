@@ -7,11 +7,10 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-module com.sun.xml.messaging.saaj.test {
+open module com.sun.xml.messaging.saaj.test {
 
     requires java.desktop;
     requires com.sun.xml.messaging.saaj;
     requires junit;
 
-    exports mime.custom;
 }

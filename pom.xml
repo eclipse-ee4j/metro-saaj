@@ -83,10 +83,18 @@
         <spotbugs.exclude>${config.dir}/exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.0.0</spotbugs.version>
+        <spotbugs.version>4.0.4</spotbugs.version>
 
         <config.dir>etc/config</config.dir>
         <legal.doc.source>../</legal.doc.source>
+
+        <activation.version>2.0.0</activation.version>
+        <xml.bind-api.version>3.0.0</xml.bind-api.version>
+        <xml.soap-api.version>2.0.0</xml.soap-api.version>
+
+        <fastinfoset.version>2.0.0-M2</fastinfoset.version>
+        <mimepull.version>1.9.13</mimepull.version>
+        <stax-ex.version>2.0.0-M2</stax-ex.version>
     </properties>
 
     <build>
@@ -100,7 +108,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>build-helper-maven-plugin</artifactId>
-                    <version>3.1.0</version>
+                    <version>3.2.0</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -127,12 +135,12 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-surefire-plugin</artifactId>
-                    <version>3.0.0-M4</version>
+                    <version>3.0.0-M5</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.felix</groupId>
                     <artifactId>maven-bundle-plugin</artifactId>
-                    <version>4.2.1</version>
+                    <version>5.1.1</version>
                     <configuration>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
@@ -167,7 +175,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>3.0.0-M4</version>
+                    <version>3.0.0-M5</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -258,27 +266,27 @@
             <dependency>
                 <groupId>jakarta.activation</groupId>
                 <artifactId>jakarta.activation-api</artifactId>
-                <version>2.0.0-RC3</version>
+                <version>${activation.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
-                <version>3.0.0-RC3</version>
+                <version>${xml.bind-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>jakarta.xml.soap</groupId>
                 <artifactId>jakarta.xml.soap-api</artifactId>
-                <version>2.0.0-RC3</version>
+                <version>${xml.soap-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jvnet.mimepull</groupId>
                 <artifactId>mimepull</artifactId>
-                <version>1.9.13</version>
+                <version>${mimepull.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.jvnet.staxex</groupId>
                 <artifactId>stax-ex</artifactId>
-                <version>2.0.0-M2</version>
+                <version>${stax-ex.version}</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>
@@ -288,12 +296,12 @@
             <dependency>
                 <groupId>com.sun.activation</groupId>
                 <artifactId>jakarta.activation</artifactId>
-                <version>2.0.0-RC3</version>
+                <version>${activation.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.xml.fastinfoset</groupId>
                 <artifactId>FastInfoset</artifactId>
-                <version>2.0.0-M2</version>
+                <version>${fastinfoset.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
