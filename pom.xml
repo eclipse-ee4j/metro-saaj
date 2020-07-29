@@ -52,6 +52,10 @@
             <name>Lukas Jungmann</name>
             <email>Lukas.Jungmann@oracle.com</email>
         </developer>
+        <developer>
+            <id>bravehorsie</id>
+            <name>Roman Grigoriadi</name>
+        </developer>
     </developers>
 
     <issueManagement>
