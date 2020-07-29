@@ -48,11 +48,6 @@
 
     <developers>
         <developer>
-            <id>bravehorsie</id>
-            <name>Roman Grigoriadi</name>
-            <email>Roman.Grigoriadi@oracle.com</email>
-        </developer>
-        <developer>
             <id>lukasj</id>
             <name>Lukas Jungmann</name>
             <email>Lukas.Jungmann@oracle.com</email>
@@ -92,9 +87,10 @@
         <xml.bind-api.version>3.0.0</xml.bind-api.version>
         <xml.soap-api.version>2.0.0</xml.soap-api.version>
 
-        <fastinfoset.version>2.0.0-M2</fastinfoset.version>
+        <fastinfoset.version>2.0.0</fastinfoset.version>
         <mimepull.version>1.9.13</mimepull.version>
-        <stax-ex.version>2.0.0-M2</stax-ex.version>
+        <stax-ex.version>2.0.0</stax-ex.version>
+        <junit.version>4.13</junit.version>
     </properties>
 
     <build>
@@ -291,7 +287,7 @@
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
-                <version>4.13</version>
+                <version>${junit.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.activation</groupId>
@@ -318,4 +314,5 @@
             </modules>
         </profile>
     </profiles>
+
 </project>
