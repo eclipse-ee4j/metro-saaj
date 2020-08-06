@@ -7,21 +7,21 @@ following is a summary of the TCK results for releases of Eclipse Implementation
 
 # 2.0.0 Certification Request
 
-- [x] Organization Name ("Organization") and, if applicable, URL:
+- [x] Organization Name ("Organization") and, if applicable, URL:<br/>
   [Eclipse Foundation](https://www.eclipse.org/)
-- [x] Product Name, Version and download URL (if applicable):
+- [x] Product Name, Version and download URL (if applicable):<br/>
   [Jakarta SOAP with Attachments implementation 2.0.0](https://eclipse-ee4j.github.io/metro-saaj)
-- [x] Specification Name, Version and download URL:
+- [x] Specification Name, Version and download URL:<br/>
    [Jakarta SOAP with Attachments 2.0](https://jakarta.ee/specifications/soap-attachments/2.0/)
-- [x] TCK Version, digital SHA-256 fingerprint and download URL:
+- [x] TCK Version, digital SHA-256 fingerprint and download URL:<br/>
   [Jakarta SOAP with Attachments TCK 2.0.0](https://download.eclipse.org/jakartaee/soap-attachments/2.0/jakarta-soap-tck-2.0.0.zip), SHA-256: 20ae4d403ab2f4acb0cd7ef144c5d07117ca0ba45727c9104a34fdc115798b78
-- [x] Public URL of TCK Results Summary:
+- [x] Public URL of TCK Results Summary:<br/>
   [TCK results summary](https://eclipse-ee4j.github.io/metro-saaj/TCK-Results)
-- [x] Any Additional Specification Certification Requirements:
+- [x] Any Additional Specification Certification Requirements:<br/>
   None
-- [x] Java runtime used to run the implementation:
+- [x] Java runtime used to run the implementation:<br/>
   Oracle JDK 1.8.0_202
-- [x] Summary of the information for the certification environment, operating system, cloud, ...:
+- [x] Summary of the information for the certification environment, operating system, cloud, ...:<br/>
   Linux
 - [x] By checking this box I acknowledge that the Organization I represent accepts the terms of the [EFTL](https://www.eclipse.org/legal/tck.php).
 - [x] By checking this box I attest that all TCK requirements have been met, including any compatibility rules.
