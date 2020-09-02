@@ -10,24 +10,12 @@
 
 package com.sun.xml.messaging.saaj.soap.impl;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import javax.xml.namespace.QName;
-
-import org.w3c.dom.Node;
-
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
 import com.sun.xml.messaging.saaj.soap.SOAPDocument;
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.NamespaceContextIterator;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 import javax.xml.soap.Name;
 import javax.xml.soap.SOAPBodyElement;
 import javax.xml.soap.SOAPConstants;
@@ -40,9 +28,21 @@ import org.w3c.dom.Document;
 import org.w3c.dom.DocumentFragment;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.w3c.dom.Text;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
+import javax.xml.namespace.QName;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl.SAAJ_NODE;
 
 public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
@@ -85,6 +85,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
             }
         }
         element.setAttribute(name, value);
+        Attr attr = element.getAttributeNode(name);
+        register(attr);
     }
 
     @Override
@@ -94,16 +96,21 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public Attr getAttributeNode(String name) {
-        return element.getAttributeNode(name);
+        return find(element.getAttributeNode(name));
     }
 
     @Override
     public Attr setAttributeNode(Attr newAttr) throws DOMException {
-        return element.setAttributeNode(newAttr);
+        Attr attr =  element.setAttributeNode(newAttr);
+        register(attr);
+        return attr;
     }
 
     @Override
     public Attr removeAttributeNode(Attr oldAttr) throws DOMException {
+        if (oldAttr instanceof AttrImpl) {
+            oldAttr = ((AttrImpl)oldAttr).delegate;
+        }
         return element.removeAttributeNode(oldAttr);
     }
 
@@ -155,6 +162,10 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         this.soapDocument = ownerDoc;
         this.elementQName = new QName(domElement.getNamespaceURI(), domElement.getLocalName());
         soapDocument.register(this);
+        NamedNodeMap attributes = domElement.getAttributes();
+        for (int i = attributes.getLength() - 1; i >= 0; i--) {
+            register((Attr)attributes.item(i));
+        }
     }
 
     public ElementImpl(
@@ -269,6 +280,17 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     @Override
     public void setTextContent(String textContent) throws DOMException {
         element.setTextContent(textContent);
+        // The text node is always the first child (at least in xerces)
+        Node firstChild = element.getFirstChild();
+        if (firstChild instanceof Text) {
+            // This constructor self-registers the node presence
+            new SOAPTextImpl(soapDocument, textContent) {
+                @Override
+                protected Text createN(SOAPDocumentImpl ownerDoc, String text) {
+                    return (Text) firstChild; // Reuse the text node created by the DOM element
+                }
+            };
+        }
     }
 
     @Override
@@ -592,12 +614,12 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
         if (isNamespaceQualified(name)) {
             return (SOAPElement)
-                getOwnerDocument().createElementNS(
+                getSoapDocument().createElementNS(
                                        name.getURI(),
                                        name.getQualifiedName());
         } else {
             return (SOAPElement)
-                getOwnerDocument().createElement(name.getQualifiedName());
+                getSoapDocument().createElement(name.getQualifiedName());
         }
     }
 
@@ -605,12 +627,12 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
         if (isNamespaceQualified(name)) {
             return (SOAPElement)
-                getOwnerDocument().createElementNS(
+                getSoapDocument().createElementNS(
                                        name.getNamespaceURI(),
                                        getQualifiedName(name));
         } else {
             return (SOAPElement)
-                getOwnerDocument().createElement(getQualifiedName(name));
+                getSoapDocument().createElement(getQualifiedName(name));
         }
     }
 
@@ -1567,6 +1589,9 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     @Override
     public void setAttributeNS(
         String namespaceURI,String qualifiedName, String value) {
+        if (namespaceURI != null && namespaceURI.isEmpty()) {
+            namespaceURI = null;
+        }
         int index = qualifiedName.indexOf(':');
         String localName;
         if (index < 0)
@@ -1600,7 +1625,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                 setIdAttributeNS(namespaceURI,localName,true);
             }
         }
-                                                                                                                               
+        Attr attr = element.getAttributeNodeNS(namespaceURI, localName);
+        register(attr);
     }
 
     @Override
@@ -1610,12 +1636,28 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public Attr getAttributeNodeNS(String namespaceURI, String localName) throws DOMException {
-        return element.getAttributeNodeNS(namespaceURI, localName);
+        return find(element.getAttributeNodeNS(namespaceURI, localName));
     }
 
     @Override
     public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
         return element.setAttributeNodeNS(newAttr);
+    }
+    
+    private void register(Attr newAttr) {
+        if (newAttr != null) {
+            newAttr.setUserData(SAAJ_NODE, new AttrImpl(this, newAttr), null);
+        }
+    }
+    
+    private Attr find(Attr attr) {
+        if (attr != null) {
+            Object soapAttr = attr.getUserData(SAAJ_NODE);
+            if (soapAttr instanceof Attr) {
+                return (Attr) soapAttr;
+            }
+        }
+        return attr;
     }
 
     @Override

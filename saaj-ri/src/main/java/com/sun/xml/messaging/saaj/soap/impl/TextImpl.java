@@ -54,6 +54,8 @@ public abstract class TextImpl<T extends CharacterData> implements Text, Charact
 
     protected abstract T createN(SOAPDocumentImpl ownerDoc, String text);
 
+    protected abstract TextImpl<T> doClone();
+
     public T getDomElement() {
         return domNode;
     }
@@ -186,7 +188,7 @@ public abstract class TextImpl<T extends CharacterData> implements Text, Charact
 
     @Override
     public Node cloneNode(boolean deep) {
-        return domNode.cloneNode(deep);
+        return doClone();
     }
 
     @Override
