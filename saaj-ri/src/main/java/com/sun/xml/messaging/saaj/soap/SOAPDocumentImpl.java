@@ -66,12 +66,16 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     private Document document;
 
     public SOAPDocumentImpl(SOAPPartImpl enclosingDocument) {
-        document = createDocument();
+        this(enclosingDocument, createDocument());
+    }
+
+    SOAPDocumentImpl(SOAPPartImpl enclosingDocument, Document document) {
+        this.document = document;
         this.enclosingSOAPPart = enclosingDocument;
         register(this);
     }
 
-    private Document createDocument() {
+    private static Document createDocument() {
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance("com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl", SAAJUtil.getSystemClassLoader());
         try {
             final DocumentBuilder documentBuilder = docFactory.newDocumentBuilder();
@@ -442,9 +446,9 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
     @Override
     public Node cloneNode(boolean deep) {
-        Node node = document.cloneNode(deep);
-        registerChildNodes(node, deep);
-        return findIfPresent(node);
+        SOAPPartImpl enclosingPartClone = (SOAPPartImpl) enclosingSOAPPart.cloneNode(deep);
+        registerChildNodes(enclosingPartClone.getDocument().getDomDocument(), deep);
+        return enclosingPartClone.getDocument();
     }
 
     @Override

@@ -58,7 +58,7 @@ public class NamedNodeMapImpl implements NamedNodeMap {
 
     @Override
     public Node item(int index) {
-        return namedNodeMap.item(index);
+        return soapDocument.findIfPresent(namedNodeMap.item(index));
     }
 
     @Override
@@ -68,7 +68,7 @@ public class NamedNodeMapImpl implements NamedNodeMap {
 
     @Override
     public Node getNamedItemNS(String namespaceURI, String localName) throws DOMException {
-        return namedNodeMap.getNamedItemNS(namespaceURI, localName);
+        return soapDocument.findIfPresent(namedNodeMap.getNamedItemNS(namespaceURI, localName));
     }
 
     @Override
