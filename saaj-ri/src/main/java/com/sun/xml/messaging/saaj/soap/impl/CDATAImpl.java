@@ -40,6 +40,11 @@ public class CDATAImpl extends TextImpl<CDATASection> implements CDATASection {
     }
 
     @Override
+    protected CDATAImpl doClone() {
+        return new CDATAImpl(getSoapDocument(), this.getTextContent());
+    }
+
+    @Override
     public Text splitText(int offset) throws DOMException {
         Text text = getDomElement().splitText(offset);
         getSoapDocument().registerChildNodes(text, true);
