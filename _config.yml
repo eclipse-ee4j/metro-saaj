@@ -4,7 +4,7 @@ remote_theme: eclipsefdn/jekyll-theme-eclipsefdn
 #theme: jekyll-theme-eclipsefdn # for local execution
 
 title: [Jakarta SOAP]
-description: [Jakarta SOAP with Attachments implementation]
+description: [Eclipse Implementation of Jakarta SOAP with Attachments]
 
 links:
   source: https://github.com/eclipse-ee4j/metro-saaj/

@@ -17,15 +17,15 @@ This project is part of [Eclipse Metro](https://projects.eclipse.org/projects/ee
 
 # <a name="Latest_News"></a>Latest News
 
-### June 2, 2020 - Jakarta SOAP with Attachments Implementation 2.0.0-M1 Milestone Release ###
+### June 2, 2020 - Eclipse Implementation of Jakarta SOAP with Attachments 2.0.0-M1 Milestone Release ###
 
-First milestone of Jakarta SOAP with Attachments Implementation to accommodate the move
+First milestone of Eclipse Implementation of Jakarta SOAP with Attachments to accommodate the move
 of the Jakarta SOAP with Attachments Specification to *jakarta* namespace.
 See [release notes](docs/relnotes-2.0.html).
 
-### April 30, 2020 - Jakarta SOAP with Attachments Implementation 1.5.2 Release ###
+### April 30, 2020 - Eclipse Implementation of Jakarta SOAP with Attachments 1.5.2 Release ###
 
-Updated Jakarta SOAP with Attachments Implementation to accommodate updated version
+Updated Eclipse Implementation of Jakarta SOAP with Attachments to accommodate updated version
 of the Jakarta SOAP with Attachments Specification. See [release notes](docs/relnotes-1.5.html).
 
 ### February 28, 2020 - Jakarta SOAP with Attachments Specification 1.4.2 Release ###
@@ -64,7 +64,7 @@ The latest release of Jakarta SOAP with Attachments Specification and API is 1.4
         </dependencies>
 ```
 
-The latest release of Jakarta SOAP with Attachments Implementation is 1.5.2.
+The latest release of Eclipse Implementation of Jakarta SOAP with Attachments is 1.5.2.
 ```
         <dependencies>
             <dependency>

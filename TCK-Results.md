@@ -10,7 +10,7 @@ following is a summary of the TCK results for releases of Eclipse Implementation
 - [x] Organization Name ("Organization") and, if applicable, URL:<br/>
   [Eclipse Foundation](https://www.eclipse.org/)
 - [x] Product Name, Version and download URL (if applicable):<br/>
-  [Jakarta SOAP with Attachments implementation 2.0.0](https://eclipse-ee4j.github.io/metro-saaj)
+  [Eclipse Implementation of Jakarta SOAP with Attachments 2.0.0](https://eclipse-ee4j.github.io/metro-saaj)
 - [x] Specification Name, Version and download URL:<br/>
    [Jakarta SOAP with Attachments 2.0](https://jakarta.ee/specifications/soap-attachments/2.0/)
 - [x] TCK Version, digital SHA-256 fingerprint and download URL:<br/>
@@ -40,7 +40,7 @@ Test results:
 - [x] Organization Name ("Organization") and, if applicable, URL:<br/>
   [Eclipse Foundation](https://www.eclipse.org/)
 - [x] Product Name, Version and download URL (if applicable):<br/>
-  [Jakarta SOAP with Attachments Implementation 1.5.2](index.html)
+  [Eclipse Implementation of Jakarta SOAP with Attachments 1.5.2](index.html)
 - [x] Specification Name, Version and download URL:<br/>
    [Jakarta SOAP with Attachments 1.4](https://jakarta.ee/specifications/soap-attachments/1.4/)
 - [x] TCK Version, digital SHA-256 fingerprint and download URL:<br/>
@@ -70,7 +70,7 @@ Test results:
 - [x] Organization Name ("Organization") and, if applicable, URL:<br/>
   [Eclipse Foundation](https://www.eclipse.org/)
 - [x] Product Name, Version and download URL (if applicable):<br/>
-  [Jakarta SOAP with Attachments Implementation 1.5.1](index.html)
+  [Eclipse Implementation of Jakarta SOAP with Attachments 1.5.1](index.html)
 - [x] Specification Name, Version and download URL:<br/>
    [Jakarta SOAP with Attachments 1.4](https://jakarta.ee/specifications/soap-attachments/1.4/)
 - [x] TCK Version, digital SHA-256 fingerprint and download URL:<br/>

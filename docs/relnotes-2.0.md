@@ -31,7 +31,7 @@ The Jakarta SOAP with Attachments Specification and API:
         </dependencies>
 ```
 
-The Jakarta SOAP with Attachments Implementation:
+The Eclipse Implementation of Jakarta SOAP with Attachments:
 ```
         <dependencies>
             <dependency>
