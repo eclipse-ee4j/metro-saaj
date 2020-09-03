@@ -14,7 +14,7 @@ following is a summary of the TCK results for releases of Eclipse Implementation
 - [x] Specification Name, Version and download URL:<br/>
    [Jakarta SOAP with Attachments 2.0](https://jakarta.ee/specifications/soap-attachments/2.0/)
 - [x] TCK Version, digital SHA-256 fingerprint and download URL:<br/>
-  [Jakarta SOAP with Attachments TCK 2.0.0](https://download.eclipse.org/jakartaee/soap-attachments/2.0/jakarta-soap-tck-2.0.0.zip), SHA-256: 51db6b7078ce9691b6cc5ddea0a7f84b2c3c061c16463ec45db28bb4d970efd4
+  [Jakarta SOAP with Attachments TCK 2.0.0](https://download.eclipse.org/jakartaee/soap-attachments/2.0/jakarta-soap-tck-2.0.0.zip), SHA-256: 7d4ae39640f24666cb2e0a58249ff356a903ced12735bb2aecb35f2bf136a744
 - [x] Public URL of TCK Results Summary:<br/>
   [TCK results summary](https://eclipse-ee4j.github.io/metro-saaj/TCK-Results)
 - [x] Any Additional Specification Certification Requirements:<br/>
