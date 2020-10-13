@@ -94,7 +94,7 @@
         <fastinfoset.version>2.0.0</fastinfoset.version>
         <mimepull.version>1.9.13</mimepull.version>
         <stax-ex.version>2.0.0</stax-ex.version>
-        <junit.version>4.13</junit.version>
+        <junit.version>4.13.1</junit.version>
     </properties>
 
     <build>
