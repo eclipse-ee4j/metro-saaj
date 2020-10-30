@@ -1,11 +1,11 @@
 <br>
 
-Revised: 02/Jun/2020
+Revised: 04/Nov/2020
 
 ## Table of Contents
 
 * [What This Release Includes](#what)
-* [Download Jakarta SOAP Milestone Release](#Download_Jakarta_SOAP_Milestone)
+* [Download Jakarta SOAP Milestone Release](#Download_Jakarta_SOAP_Release)
 
 ## <a name="what"></a>What This Release Includes
 
@@ -16,7 +16,7 @@ Notable changes:
 
 * Released by Eclipse Foundation
 * initial version based on *jakarta* APIs
-* uses Jakarta SOAP Attachments Specification 2.0.0-RC3
+* uses Jakarta SOAP Attachments Specification 2.0.0
 
 ## <a name="Download_Jakarta_SOAP_Release"></a>Download Jakarta SOAP Release
 
@@ -26,7 +26,7 @@ The Jakarta SOAP with Attachments Specification and API:
             <dependency>
                 <groupId>jakarta.xml.soap</groupId>
                 <artifactId>jakarta.xml.soap-api</artifactId>
-                <version>2.0.0-RC3</version>
+                <version>2.0.0</version>
             </dependency>
         </dependencies>
 ```
@@ -37,7 +37,7 @@ The Eclipse Implementation of Jakarta SOAP with Attachments:
             <dependency>
                 <groupId>com.sun.xml.messaging.saaj</groupId>
                 <artifactId>saaj-impl</artifactId>
-                <version>2.0.0-M1</version>
+                <version>2.0.0</version>
             </dependency>
         </dependencies>
 ```

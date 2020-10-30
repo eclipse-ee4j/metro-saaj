@@ -1,10 +1,11 @@
 <br>
 
-This document explains how to set up authentication in the SAAJ reference implementation, and how to set up HTTPS for secure message exchange.
+This document explains how to set up authentication in the Eclipse Implementation of Jakarta SOAP with Attachments,
+and how to set up HTTPS for secure message exchange.
 
 ### Authentication
 
-For basic authentication, the SAAJ reference implementation uses the `userInfo` part of the URL specification.
+For basic authentication, the Eclipse Implementation of Jakarta SOAP with Attachments uses the `userInfo` part of the URL specification.
 
 *   Set up a user for the underlying container. Tomcat users need to edit `<TOMCAT_HOME>/conf/tomcat-users.xml`.
 *   Add a security constraint in `web.xml`. For example:

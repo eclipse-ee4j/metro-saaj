@@ -17,6 +17,16 @@ This project is part of [Eclipse Metro](https://projects.eclipse.org/projects/ee
 
 # <a name="Latest_News"></a>Latest News
 
+### November 4, 2020 - Eclipse Implementation of Jakarta SOAP with Attachments 2.0.0 Final Release ###
+
+First release of Eclipse Implementation of Jakarta SOAP with Attachments fully moved
+to and supporting the Jakarta SOAP with Attachments Specification 2.0 with *jakarta.xml.soap* namespace.
+
+### October 26, 2020 - Jakarta SOAP with Attachments Specification 2.0 Final Release ###
+
+Jakarta SOAP with Attachments Specification 2.0 is an update using *jakarta.xml.soap* namespace.
+See [the specification](https://jakarta.ee/specifications/soap-attachment/2.0/).
+
 ### June 2, 2020 - Eclipse Implementation of Jakarta SOAP with Attachments 2.0.0-M1 Milestone Release ###
 
 First milestone of Eclipse Implementation of Jakarta SOAP with Attachments to accommodate the move
@@ -53,28 +63,28 @@ use, described in [CONTRIBUTING](CONTRIBUTING.md).
 
 # <a name="Download_Jakarta_SOAP_Release"></a>Download Jakarta SOAP Release
 
-The latest release of Jakarta SOAP with Attachments Specification and API is 1.4.
+The latest release of Jakarta SOAP with Attachments Specification and API is 2.0.
 ```
         <dependencies>
             <dependency>
                 <groupId>jakarta.xml.soap</groupId>
                 <artifactId>jakarta.xml.soap-api</artifactId>
-                <version>1.4.2</version>
+                <version>2.0.0</version>
             </dependency>
         </dependencies>
 ```
 
-The latest release of Eclipse Implementation of Jakarta SOAP with Attachments is 1.5.2.
+The latest release of Eclipse Implementation of Jakarta SOAP with Attachments is 2.0.0.
 ```
         <dependencies>
             <dependency>
                 <groupId>com.sun.xml.messaging.saaj</groupId>
                 <artifactId>saaj-impl</artifactId>
-                <version>1.5.2</version>
+                <version>2.0.0</version>
             </dependency>
         </dependencies>
 ```
-[Latest Release Notes](docs/relnotes-1.5.html)
+[Latest Release Notes](docs/relnotes-2.0.html)
 
 You can find all of the Jakarta SOAP with Attachments releases in
 [Maven Central](http://search.maven.org).
@@ -82,7 +92,7 @@ You can find all of the Jakarta SOAP with Attachments releases in
 
 # <a name="overview">SOAP API Overview</a>
 
-The Jakarta SOAP with Attachments provides the API for creating and sending SOAP messages by means of the `javax.xml.soap`
+The Jakarta SOAP with Attachments provides the API for creating and sending SOAP messages by means of the `jakarta.xml.soap`
 package. It is used for the SOAP messaging that goes on behind the scenes in Jakarta XML-based RPC and Jakarta XML Registries
 implementations. SOAP Handlers in Jakarta XML Web Services use Jakarta SOAP APIs to access the SOAP Message.
 Developers can also use it to write SOAP messaging applications directly instead of using Jakarta XML-based RPC/Jakarta XML Web Services.
@@ -99,14 +109,14 @@ Please send feedback on this Jakarta SOAP API implementation release to [metro-d
 
 # <a name="rlsdoc">Release Documentation</a>
 
-The Jakarta SOAP with Attachments 1.4 API is defined through the
+The Jakarta SOAP with Attachments 2.0 API is defined through the
 [Jakarta EE Specification Process](https://jakarta.ee/about/jesp/).
 
-The Jakarta SOAP with Attachments 1.4 specification and API documentation are available
-[here](https://jakarta.ee/specifications/soap-attachments/1.4/).
+The Jakarta SOAP with Attachments 2.0 specification and API documentation are available
+[here](https://jakarta.ee/specifications/soap-attachment/2.0/).
 
-The Jakarta SOAP with Attachments 1.5 Implementation API documentation is available
-[here](https://javadoc.io/doc/com.sun.xml.messaging.saaj/saaj-impl/1.5.2).
+The Jakarta SOAP with Attachments 2.0.0 Implementation API documentation is available
+[here](https://javadoc.io/doc/com.sun.xml.messaging.saaj/saaj-impl/2.0.0).
 
 # <a name="Samples">Samples</a>
 
@@ -139,6 +149,8 @@ Some sample programs showing how to use the Jakarta SOAP with Attachments APIs a
 * [Security](security.html)
 * [Proprietary features](https://javadoc.io/doc/com.sun.xml.messaging.saaj/saaj-impl/latest/com.sun.xml.messaging.saaj/module-summary.html) ([old blog](https://community.oracle.com/blogs/kumarjayanti/2009/12/09/summary-proprietary-features-saaj-ri-134))
 * [Maintenance Release 4 of JSR-000067](http://jcp.org/aboutJava/communityprocess/mrel/jsr067/index4.html)
+* [Jakarta EE Specification Process](https://jakarta.ee/about/jesp/)
+* [Jakarta SOAP with Attachments specification](https://jakarta.ee/specifications/soap-attachment/)
 
 * * *
 
