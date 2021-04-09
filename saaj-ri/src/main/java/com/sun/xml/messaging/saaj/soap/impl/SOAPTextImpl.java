@@ -26,6 +26,11 @@ public class SOAPTextImpl extends TextImpl<Text> implements Text {
     }
 
     @Override
+    protected SOAPTextImpl doClone() {
+        return new SOAPTextImpl(getSoapDocument(), this.getTextContent());
+    }
+
+    @Override
     protected Text createN(SOAPDocumentImpl ownerDoc, String text) {
         return ownerDoc.getDomDocument().createTextNode(text);
     }

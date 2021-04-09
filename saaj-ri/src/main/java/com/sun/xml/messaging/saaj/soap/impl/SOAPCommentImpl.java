@@ -39,6 +39,11 @@ public class SOAPCommentImpl extends TextImpl<Comment> implements Comment {
     }
 
     @Override
+    protected SOAPCommentImpl doClone() {
+        return new SOAPCommentImpl(getSoapDocument(), this.getTextContent());
+    }
+
+    @Override
     public boolean isComment() {
         return true;
     }

@@ -535,7 +535,7 @@ public abstract class SOAPPartImpl extends SOAPPart implements SOAPDocument {
     @Override
     public org.w3c.dom.Node cloneNode(boolean deep) {
         handleNewSource();
-        return document.cloneNode(deep);
+        return doCloneNode();
     }
     
     protected SOAPPartImpl doCloneNode() {
@@ -544,6 +544,7 @@ public abstract class SOAPPartImpl extends SOAPPart implements SOAPDocument {
         
         newSoapPart.headers = MimeHeadersUtil.copy(this.headers);
         newSoapPart.source = this.source;
+        newSoapPart.document = new SOAPDocumentImpl(newSoapPart, (Document) this.document.getDomDocument().cloneNode(true));
         return newSoapPart;
     }
     

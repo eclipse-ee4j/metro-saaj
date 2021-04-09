@@ -16,6 +16,8 @@ import org.w3c.dom.NodeList;
 
 import java.util.Objects;
 
+import static java.util.Objects.requireNonNull;
+
 /**
  * Node list wrapper, finding SOAP elements automatically when possible.
  *
@@ -28,10 +30,8 @@ public class NodeListImpl implements NodeList {
     private final NodeList nodeList;
 
     public NodeListImpl(SOAPDocumentImpl soapDocument, NodeList nodeList) {
-        Objects.requireNonNull(soapDocument);
-        Objects.requireNonNull(soapDocument);
-        this.soapDocument = soapDocument;
-        this.nodeList = nodeList;
+        this.soapDocument = requireNonNull(soapDocument);
+        this.nodeList = requireNonNull(nodeList);
     }
 
     @Override
