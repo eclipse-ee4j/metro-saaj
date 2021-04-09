@@ -140,6 +140,7 @@
                     <artifactId>maven-bundle-plugin</artifactId>
                     <version>5.1.2</version>
                     <configuration>
+                        <niceManifest>true</niceManifest>
                         <instructions>
                             <_noextraheaders>true</_noextraheaders>
                         </instructions>
