@@ -16,12 +16,12 @@
     <parent>
         <groupId>com.sun.xml.messaging.saaj</groupId>
         <artifactId>metro-saaj</artifactId>
-        <version>1.5.3-SNAPSHOT</version>
+        <version>1.5.3</version>
     </parent>
 
     <groupId>com.sun.xml.messaging.saaj</groupId>
     <artifactId>saaj-impl</artifactId>
-    <version>1.5.3-SNAPSHOT</version>
+    <version>1.5.3</version>
 
     <name>Jakarta SOAP Implementation</name>
     <description>
