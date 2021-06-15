@@ -497,9 +497,11 @@ public class SaajStaxWriter implements XMLStreamWriter {
                     // add attribute declarations
                     for (AttributeDeclaration attribute : this.attributeDeclarations) {
                         String pfx = attribute.prefix;
-                        String p = this.namespaceDeclarations.get(attribute.namespaceUri);
-                        if (p != null) {
-                            pfx = p;
+                        if ("".equals(pfx)) {
+                            String p = this.namespaceDeclarations.get(attribute.namespaceUri);
+                            if (p != null) {
+                                pfx = p;
+                            }
                         }
                         addAttibuteToElement(newElement,
                                     pfx, attribute.namespaceUri, attribute.localName, attribute.value);
