@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,6 +13,7 @@ package com.sun.xml.messaging.saaj.soap.impl;
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Node;
 import org.w3c.dom.Text;
 
 public class SOAPTextImpl extends TextImpl<Text> implements Text {
@@ -23,6 +24,11 @@ public class SOAPTextImpl extends TextImpl<Text> implements Text {
 
     public SOAPTextImpl(SOAPDocumentImpl ownerDoc, CharacterData data) {
         super(ownerDoc, data);
+    }
+
+    @Override
+    public short getNodeType() {
+        return Node.TEXT_NODE;
     }
 
     @Override

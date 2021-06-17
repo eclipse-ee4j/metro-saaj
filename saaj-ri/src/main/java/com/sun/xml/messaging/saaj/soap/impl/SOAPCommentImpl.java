@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import static com.sun.xml.messaging.saaj.soap.impl.TextImpl.log;
+import org.w3c.dom.Node;
 
 public class SOAPCommentImpl extends TextImpl<Comment> implements Comment {
 
@@ -46,6 +47,11 @@ public class SOAPCommentImpl extends TextImpl<Comment> implements Comment {
     @Override
     public boolean isComment() {
         return true;
+    }
+
+    @Override
+    public short getNodeType() {
+        return Node.COMMENT_NODE;
     }
 
     @Override
