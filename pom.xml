@@ -87,13 +87,13 @@
         <config.dir>etc/config</config.dir>
         <legal.doc.source>../</legal.doc.source>
 
-        <activation.version>2.0.1</activation.version>
-        <xml.bind-api.version>3.0.1</xml.bind-api.version>
-        <xml.soap-api.version>2.0.1</xml.soap-api.version>
+        <activation.version>2.0.2-SNAPSHOT</activation.version>
+        <xml.bind-api.version>4.0.0-SNAPSHOT</xml.bind-api.version>
+        <xml.soap-api.version>3.0.0-SNAPSHOT</xml.soap-api.version>
 
         <fastinfoset.version>2.0.0</fastinfoset.version>
         <mimepull.version>1.9.14</mimepull.version>
-        <stax-ex.version>2.0.1</stax-ex.version>
+        <stax-ex.version>2.0.2-SNAPSHOT</stax-ex.version>
         <junit.version>4.13.2</junit.version>
     </properties>
 
@@ -297,7 +297,7 @@
             </dependency>
             <dependency>
                 <groupId>com.sun.activation</groupId>
-                <artifactId>jakarta.activation</artifactId>
+                <artifactId>sun-activation-registry</artifactId>
                 <version>${activation.version}</version>
             </dependency>
             <dependency>
