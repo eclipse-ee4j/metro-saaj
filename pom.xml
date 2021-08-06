@@ -87,13 +87,14 @@
         <config.dir>etc/config</config.dir>
         <legal.doc.source>../</legal.doc.source>
 
-        <activation.version>2.0.1</activation.version>
-        <xml.bind-api.version>3.0.1</xml.bind-api.version>
-        <xml.soap-api.version>2.0.1</xml.soap-api.version>
+        <activation.version>2.1.0-RC1</activation.version>
+        <xml.bind-api.version>4.0.0-RC1</xml.bind-api.version>
+        <xml.soap-api.version>3.0.0-RC1</xml.soap-api.version>
 
+        <angus-activation.version>1.0.0-M1</angus-activation.version>
         <fastinfoset.version>2.0.0</fastinfoset.version>
-        <mimepull.version>1.9.14</mimepull.version>
-        <stax-ex.version>2.0.1</stax-ex.version>
+        <mimepull.version>1.9.15</mimepull.version>
+        <stax-ex.version>2.1.0-M1</stax-ex.version>
         <junit.version>4.13.2</junit.version>
     </properties>
 
@@ -271,6 +272,11 @@
                 <version>${activation.version}</version>
             </dependency>
             <dependency>
+                <groupId>org.eclipse.angus</groupId>
+                <artifactId>angus-activation</artifactId>
+                <version>${angus-activation.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>jakarta.xml.bind</groupId>
                 <artifactId>jakarta.xml.bind-api</artifactId>
                 <version>${xml.bind-api.version}</version>
@@ -296,8 +302,8 @@
                 <version>${junit.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.activation</groupId>
-                <artifactId>jakarta.activation</artifactId>
+                <groupId>jakarta.activation</groupId>
+                <artifactId>jakarta.activation-api</artifactId>
                 <version>${activation.version}</version>
             </dependency>
             <dependency>
