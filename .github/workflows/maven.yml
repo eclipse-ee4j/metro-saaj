@@ -32,4 +32,4 @@ jobs:
         distribution: 'zulu'
         java-version: ${{ matrix.java_version }}
     - name: Verify
-      run: mvn -B -V -U -C -Pstaging,oss-release clean verify org.glassfish.copyright:glassfish-copyright-maven-plugin:check -Dgpg.skip=true -Doss.disallow.snapshots=false
+      run: mvn -B -V -U -C -Pstaging,oss-release clean verify -Dgpg.skip=true -Doss.disallow.snapshots=false
