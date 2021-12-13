@@ -87,11 +87,11 @@
         <config.dir>etc/config</config.dir>
         <legal.doc.source>../</legal.doc.source>
 
-        <activation-api.version>2.1.0-RC1</activation-api.version>
-        <angus-activation.version>1.0.0-M1</angus-activation.version>
+        <activation-api.version>2.1.0</activation-api.version>
+        <angus-activation.version>1.0.0</angus-activation.version>
 
-        <xml.bind-api.version>4.0.0-RC1</xml.bind-api.version>
-        <xml.soap-api.version>3.0.0-RC1</xml.soap-api.version>
+        <xml.bind-api.version>4.0.0-RC3</xml.bind-api.version>
+        <xml.soap-api.version>3.0.0-RC2</xml.soap-api.version>
 
         <fastinfoset.version>2.0.0</fastinfoset.version>
         <mimepull.version>1.9.15</mimepull.version>
