@@ -55,12 +55,12 @@ class HttpSOAPConnection extends SOAPConnection {
     /**
      * URLConnection connect timeout
      */
-    private static int CONNECT_TIMEOUT;
+    private static int CONNECT_TIMEOUT = Integer.MIN_VALUE;
 
     /**
      * URLConnection read timeout
      */
-    private static int READ_TIMEOUT;
+    private static int READ_TIMEOUT = Integer.MIN_VALUE;
 
     static {
         Integer i = SAAJUtil.getSystemInteger("saaj.connect.timeout");
@@ -102,7 +102,23 @@ class HttpSOAPConnection extends SOAPConnection {
     }
 
     @Override
-   public SOAPMessage call(SOAPMessage message, Object endPoint)
+    public int getConnectTimeout() {
+        if (Integer.MIN_VALUE != CONNECT_TIMEOUT) {
+            return CONNECT_TIMEOUT;
+        }
+        return super.getConnectTimeout();
+    }
+
+    @Override
+    public int getReadTimeout() {
+        if (Integer.MIN_VALUE != READ_TIMEOUT) {
+            return READ_TIMEOUT;
+        }
+        return super.getReadTimeout();
+    }
+
+    @Override
+    public SOAPMessage call(SOAPMessage message, Object endPoint)
         throws SOAPException {
         if (closed) {
             log.severe("SAAJ0003.p2p.call.already.closed.conn");
@@ -167,8 +183,8 @@ class HttpSOAPConnection extends SOAPConnection {
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setInstanceFollowRedirects(true);
-            httpConnection.setConnectTimeout(CONNECT_TIMEOUT);
-            httpConnection.setReadTimeout(READ_TIMEOUT);
+            httpConnection.setConnectTimeout(getConnectTimeout());
+            httpConnection.setReadTimeout(getReadTimeout());
 
             if (message.saveRequired())
                 message.saveChanges();
@@ -389,8 +405,8 @@ class HttpSOAPConnection extends SOAPConnection {
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setInstanceFollowRedirects(true);
-            httpConnection.setConnectTimeout(CONNECT_TIMEOUT);
-            httpConnection.setReadTimeout(READ_TIMEOUT);
+            httpConnection.setConnectTimeout(getConnectTimeout());
+            httpConnection.setReadTimeout(getReadTimeout());
 
             httpConnection.connect();
 
