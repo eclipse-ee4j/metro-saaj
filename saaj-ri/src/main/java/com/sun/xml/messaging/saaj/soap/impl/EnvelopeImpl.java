@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -220,18 +220,10 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
         return NameImpl.create(localName, prefix, uri);
     }
 
-    public Name createName(String localName, String prefix)
+    public Name createName(String localName, String uri)
         throws SOAPException {
-        String namespace = getNamespaceURI(prefix);
-        if (namespace == null) {
-            log.log(
-                Level.SEVERE,
-                "SAAJ0126.impl.cannot.locate.ns", 
-                new String[] { prefix });
-            throw new SOAPExceptionImpl(
-                "Unable to locate namespace for prefix " + prefix);
-        }
-        return NameImpl.create(localName, prefix, namespace);
+
+        return NameImpl.createFromQualifiedName(localName, uri);
     }
 
     @Override
