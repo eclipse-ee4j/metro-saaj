@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -147,7 +147,7 @@ public abstract class FaultImpl extends ElementImpl implements SOAPFault {
         }
 
         String prefix = code.substring(0, prefixIndex);
-        String nsName =((ElementImpl) codeContainingElement).lookupNamespaceURI(prefix);
+        String nsName = codeContainingElement.lookupNamespaceURI(prefix);
             //((ElementImpl) codeContainingElement).getNamespaceURI(prefix);
         return new QName(nsName, getLocalPart(code), prefix);
     }

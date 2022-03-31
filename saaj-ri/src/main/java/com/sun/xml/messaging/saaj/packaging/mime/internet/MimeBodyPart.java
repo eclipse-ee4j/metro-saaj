@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -17,6 +17,7 @@
 package com.sun.xml.messaging.saaj.packaging.mime.internet;
 
 
+import com.sun.xml.messaging.saaj.packaging.mime.Header;
 import com.sun.xml.messaging.saaj.packaging.mime.MessagingException;
 import com.sun.xml.messaging.saaj.packaging.mime.util.OutputUtil;
 import com.sun.xml.messaging.saaj.util.ByteOutputStream;
@@ -757,7 +758,7 @@ public final class MimeBodyPart {
      * Produce the raw bytes of the content. This method is used
      * when creating a DataHandler object for the content. Subclasses
      * that can provide a separate input stream for just the MimeBodyPart
-     * content might want to override this method. <p>
+     * content might want to override this method.
      * 
      * @see #content
      */
@@ -1079,7 +1080,7 @@ public final class MimeBodyPart {
      *
      * @return all headers
      */
-    public FinalArrayList<hdr> getAllHeaders() {
+    public FinalArrayList<Header> getAllHeaders() {
         return headers.getAllHeaders();
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -221,7 +221,7 @@ public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
     }
 
     @Override
-    public SOAPHeaderElement addUpgradeHeaderElement(Iterator supportedSoapUris)
+    public SOAPHeaderElement addUpgradeHeaderElement(Iterator<String> supportedSoapUris)
         throws SOAPException {
         if (supportedSoapUris == null) {
             log.severe("SAAJ0411.ver1_2.no.null.supportedURIs");
@@ -244,7 +244,7 @@ public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
                 NameImpl.createFromUnqualifiedName("qname"),
                 ns + ":Envelope");
             subElement.addNamespaceDeclaration(
-                ns, (String) supportedSoapUris.next());
+                ns, supportedSoapUris.next());
             i ++;
         }
         return upgradeHeaderElement;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
 package com.sun.xml.messaging.saaj.soap.ver1_2;
 
 import java.util.logging.Logger;
@@ -268,7 +264,7 @@ public class Fault1_2Impl extends FaultImpl {
     public Locale getFaultStringLocale() {
         Locale locale = null;
         try {
-            locale = (Locale) getFaultReasonLocales().next();
+            locale = getFaultReasonLocales().next();
         } catch (SOAPException e) {}
         return locale;
     }
@@ -391,7 +387,7 @@ public class Fault1_2Impl extends FaultImpl {
         try {
             //reason = getFaultReasonText(Locale.getDefault());
             //if (reason == null)
-            reason = (String) getFaultReasonTexts().next();
+            reason = getFaultReasonTexts().next();
         } catch (SOAPException e) {}
         return reason;
     }

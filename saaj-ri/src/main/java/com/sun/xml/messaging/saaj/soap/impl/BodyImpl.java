@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -305,7 +305,7 @@ public abstract class BodyImpl extends ElementImpl implements SOAPBody {
 
         while (eachChild.hasNext() &&
                !(firstBodyElement instanceof SOAPElement))
-            firstBodyElement = (jakarta.xml.soap.Node) eachChild.next();
+            firstBodyElement = eachChild.next();
 
         boolean exactlyOneChildElement = true;
         if (firstBodyElement == null)

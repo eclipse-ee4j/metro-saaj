@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -120,7 +120,7 @@ public class UUEncoderStream extends FilterOutputStream {
     }
 
     /**
-     * Write out the prefix: "begin <mode> <name>"
+     * Write out the prefix: "{@code begin <mode> <name>}"
      */
     private void writePrefix() throws IOException {
 	if (!wrotePrefix) {
@@ -185,7 +185,7 @@ public class UUEncoderStream extends FilterOutputStream {
 	out.write('\n');
     }
 
-    /**** begin TEST program *****
+    /* *** begin TEST program *****
     public static void main(String argv[]) throws Exception {
 	FileInputStream infile = new FileInputStream(argv[0]);
 	UUEncoderStream encoder = new UUEncoderStream(System.out);

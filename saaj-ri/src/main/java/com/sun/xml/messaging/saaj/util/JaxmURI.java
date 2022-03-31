@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -49,6 +49,8 @@ import java.io.Serializable;
 **********************************************************************/
  public class JaxmURI implements Serializable {
 
+    private static final long serialVersionUID = -4759316425394589529L;
+
   /*******************************************************************
   * MalformedURIExceptions are thrown in the process of building a URI
   * or setting fields on a URI when an operation would result in an
@@ -56,6 +58,8 @@ import java.io.Serializable;
   *
   ********************************************************************/
   public static class MalformedURIException extends IOException {
+
+      private static final long serialVersionUID = -4328958620562292564L;
 
    /******************************************************************
     * Constructs a <code>MalformedURIException</code> with no specified
@@ -1311,7 +1315,7 @@ import java.io.Serializable;
 
  /**
   * Determine whether a character is a reserved character:
-  * ';', '/', '?', ':', '@', '&', '=', '+', '$' or ','
+  * ';', '/', '?', ':', '@', '&amp;', '=', '+', '$' or ','
   *
   * @return true if the string contains any reserved characters
   */

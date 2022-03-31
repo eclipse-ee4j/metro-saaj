@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -562,9 +562,9 @@ public abstract class MessageImpl
                 SOAPPart soapPart = getSOAPPart();
                 setMimeHeaders(soapPart, soapMessagePart);
                 soapPart.setContent(isFastInfoset ?
-                     (Source) FastInfosetReflection.FastInfosetSource_new(
-                         soapPartInputStream) :
-                     (Source) new StreamSource(soapPartInputStream));
+                        FastInfosetReflection.FastInfosetSource_new(
+                            soapPartInputStream) :
+                        new StreamSource(soapPartInputStream));
             } else {
                 log.severe("SAAJ0534.soap.unknown.Content-Type");
                 throw new SOAPExceptionImpl("Unrecognized Content-Type");
@@ -884,7 +884,7 @@ public abstract class MessageImpl
         needsSave();
     }
 
-    static private final Iterator<AttachmentPart> nullIter = Collections.EMPTY_LIST.<AttachmentPart>iterator();
+    static private final Iterator<AttachmentPart> nullIter = Collections.emptyIterator();
 
     @Override
     public Iterator<AttachmentPart> getAttachments() {
@@ -1050,23 +1050,23 @@ public abstract class MessageImpl
                 MimeHeaders headersToMatch = new MimeHeaders();
                 headersToMatch.addHeader(CONTENT_ID, uri);
                 
-                Iterator i = this.getAttachments(headersToMatch);
-                _part = (i == null) ? null : (AttachmentPart)i.next();
+                Iterator<AttachmentPart> i = this.getAttachments(headersToMatch);
+                _part = (i == null) ? null : i.next();
             } else {
                 // try content-location
                 MimeHeaders headersToMatch = new MimeHeaders();
                 headersToMatch.addHeader(CONTENT_LOCATION, uri);
                    
-                Iterator i = this.getAttachments(headersToMatch);
-                _part = (i == null) ? null : (AttachmentPart)i.next();
+                Iterator<AttachmentPart> i = this.getAttachments(headersToMatch);
+                _part = (i == null) ? null : i.next();
             }
 
             // try  auto-generated JAXRPC CID
             if (_part == null) {
-                Iterator j = this.getAttachments();
+                Iterator<AttachmentPart> j = this.getAttachments();
                     
                 while (j.hasNext()) {
-                    AttachmentPart p = (AttachmentPart)j.next();
+                    AttachmentPart p = j.next();
                     String cl = p.getContentId();
                     if (cl != null) {    
                         // obtain the partname
@@ -1149,7 +1149,7 @@ public abstract class MessageImpl
                 headerAndBody = new MimeMultipart();
                 headerAndBody.addBodyPart(mimeSoapPart);
 
-                for (Iterator eachAttachement = getAttachments();
+                for (Iterator<AttachmentPart> eachAttachement = getAttachments();
                     eachAttachement.hasNext();
                     ) {
                     headerAndBody.addBodyPart(
@@ -1315,7 +1315,7 @@ public abstract class MessageImpl
             mimeSoapPart.setHeader("Content-Type", soapPartCtype.toString());
             headerAndBody.addBodyPart(mimeSoapPart);
                                                                                                                                 
-            for (Iterator eachAttachement = getAttachments();
+            for (Iterator<AttachmentPart> eachAttachement = getAttachments();
                 eachAttachement.hasNext();
                 ) {
                 headerAndBody.addBodyPart(
@@ -1496,10 +1496,10 @@ public abstract class MessageImpl
         // first remove the existing content-type
         soapPart.removeAllMimeHeaders();
         // add everything present in soapMessagePart
-        List headers = soapMessagePart.getAllHeaders();
+        List<Header> headers = soapMessagePart.getAllHeaders();
         int sz = headers.size();
         for( int i=0; i<sz; i++ ) {
-            Header h = (Header) headers.get(i);
+            Header h = headers.get(i);
             soapPart.addMimeHeader(h.getName(), h.getValue());
         }
     }

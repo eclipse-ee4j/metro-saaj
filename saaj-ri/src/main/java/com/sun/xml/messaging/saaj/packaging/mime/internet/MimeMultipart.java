@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -172,7 +172,7 @@ public  class MimeMultipart {
     /**
      * Set the subtype. This method should be invoked only on a new
      * MimeMultipart object created by the client. The default subtype
-     * of such a multipart object is "mixed". <p>
+     * of such a multipart object is "mixed".
      *
      * @param	subtype		Subtype
      */

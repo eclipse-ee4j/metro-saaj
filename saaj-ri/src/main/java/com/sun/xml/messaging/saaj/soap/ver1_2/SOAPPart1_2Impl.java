@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
 package com.sun.xml.messaging.saaj.soap.ver1_2;
 
 import java.util.logging.Logger;
@@ -24,6 +20,10 @@ import com.sun.xml.messaging.saaj.soap.*;
 import com.sun.xml.messaging.saaj.soap.impl.EnvelopeImpl;
 import com.sun.xml.messaging.saaj.util.XMLDeclarationParser;
 
+/**
+ *
+ * @author SAAJ RI Development Team
+ */
 public class SOAPPart1_2Impl extends SOAPPartImpl implements SOAPConstants{
 
     protected static final Logger log =

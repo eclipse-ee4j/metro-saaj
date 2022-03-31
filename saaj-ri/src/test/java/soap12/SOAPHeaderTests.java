@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -32,10 +32,10 @@ public class SOAPHeaderTests extends TestCase {
         SOAPHeader header = msg.getSOAPHeader();
         QName nameOfHeaderNotUnderstood = new QName("some-uri", "name");
         header.addNotUnderstoodHeaderElement(nameOfHeaderNotUnderstood);
-        Iterator eachHeaderElement = header.examineAllHeaderElements();
+        Iterator<SOAPHeaderElement> eachHeaderElement = header.examineAllHeaderElements();
         assertTrue("There's a header element", eachHeaderElement.hasNext());
         SOAPHeaderElement notUnderstoodElement =
-            (SOAPHeaderElement) eachHeaderElement.next();
+                eachHeaderElement.next();
         assertEquals(
             notUnderstoodElement.getElementQName(),
             new QName(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE, "NotUnderstood"));
@@ -53,10 +53,10 @@ public class SOAPHeaderTests extends TestCase {
         SOAPMessage msg = msgFactory.createMessage();
         SOAPHeader header = msg.getSOAPHeader();
         header.addUpgradeHeaderElement(SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE);
-        Iterator eachHeaderElement = header.examineAllHeaderElements();
+        Iterator<SOAPHeaderElement> eachHeaderElement = header.examineAllHeaderElements();
         assertTrue("There's a header element", eachHeaderElement.hasNext());
         SOAPHeaderElement upgradeElement =
-            (SOAPHeaderElement) eachHeaderElement.next();
+                eachHeaderElement.next();
         assertEquals(
             upgradeElement.getElementQName(),
             new QName(SOAPConstants.URI_NS_SOAP_1_1_ENVELOPE, "Upgrade"));

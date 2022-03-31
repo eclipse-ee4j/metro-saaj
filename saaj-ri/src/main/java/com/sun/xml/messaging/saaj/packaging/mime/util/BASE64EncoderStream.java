@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -224,7 +224,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
 	return outbuf;
     }
 
-    /*** begin TEST program
+    /* ** begin TEST program
     public static void main(String argv[]) throws Exception {
 	FileInputStream infile = new FileInputStream(argv[0]);
 	BASE64EncoderStream encoder = new BASE64EncoderStream(System.out);

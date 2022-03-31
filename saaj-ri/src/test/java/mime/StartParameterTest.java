@@ -50,12 +50,12 @@ public class StartParameterTest extends TestCase {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-        Hashtable hashTable = new Hashtable();
+        Hashtable<String, String> hashTable = new Hashtable<>();
         MimeHeaders mimeHeaders = msg.getMimeHeaders();
-        Iterator iterator = mimeHeaders.getAllHeaders();
+        Iterator<MimeHeader> iterator = mimeHeaders.getAllHeaders();
 
         while(iterator.hasNext()) {
-            MimeHeader mimeHeader = (MimeHeader) iterator.next();
+            MimeHeader mimeHeader = iterator.next();
             if(mimeHeader.getName().equals("Content-Type"))
                 hashTable.put(mimeHeader.getName(),
                               mimeHeader.getValue()
@@ -81,18 +81,19 @@ public class StartParameterTest extends TestCase {
 
         ObjectInputStream ois = new ObjectInputStream(
         new FileInputStream(mimeHdrsFile));
-        Hashtable hashTable = (Hashtable) ois.readObject();
+        @SuppressWarnings({"unchecked"})
+        Hashtable<String, String> hashTable = (Hashtable<String, String>) ois.readObject();
         ois.close();
 
         if(hashTable.isEmpty())
             fail("MimeHeaders Hashtable is empty");
         else {
             for(int i=0; i < hashTable.size(); i++) {
-                Enumeration keys = hashTable.keys();
-                Enumeration values = hashTable.elements();
+                Enumeration<String> keys = hashTable.keys();
+                Enumeration<String> values = hashTable.elements();
                 while (keys.hasMoreElements() && values.hasMoreElements()) {
-                    String name = (String) keys.nextElement();
-                    String value = (String) values.nextElement();
+                    String name = keys.nextElement();
+                    String value = values.nextElement();
                     mimeHeaders.addHeader(name, value);
                 }
             }
@@ -156,7 +157,7 @@ public class StartParameterTest extends TestCase {
                    newMsg.getSOAPPart()
                    .getContentId().equals("attachmentPart"));
         assertTrue("Attachment part has the Content-Id: soapPart",
-                   ((AttachmentPart) newMsg.getAttachments().next())
+                   newMsg.getAttachments().next()
                    .getContentId().equals("soapPart"));
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -46,10 +46,10 @@ public class SOAPFaultTests extends TestCase {
         assertEquals(faultcode, SOAPConstants.SOAP_SENDER_FAULT);
 
         // Check sub-code
-        Iterator subcodes = fault.getFaultSubcodes();
+        Iterator<QName> subcodes = fault.getFaultSubcodes();
         assertTrue("There's a subcode", subcodes.hasNext());
         assertEquals(
-            (QName) subcodes.next(),
+                subcodes.next(),
             new QName("http://www.w3.org/2003/05/soap-rpc", "BadArguments"));
         assertFalse("There's exactly one subcode", subcodes.hasNext());
 
@@ -66,25 +66,25 @@ public class SOAPFaultTests extends TestCase {
         String czechText = fault.getFaultReasonText(Locale.forLanguageTag("cs"));
         assertNotNull(czechText);
         assertEquals("The reason text is as expected", czechText, "Chyba zpracování");
-        Iterator locales = fault.getFaultReasonLocales();
-        Iterator texts = fault.getFaultReasonTexts();
+        Iterator<Locale> locales = fault.getFaultReasonLocales();
+        Iterator<String> texts = fault.getFaultReasonTexts();
         assertTrue(locales.hasNext() && texts.hasNext());
         assertEquals(
-            fault.getFaultReasonText((Locale) locales.next()),
+            fault.getFaultReasonText(locales.next()),
             texts.next());
         assertTrue(locales.hasNext() && texts.hasNext());
         assertEquals(
-            fault.getFaultReasonText((Locale) locales.next()),
+            fault.getFaultReasonText(locales.next()),
             texts.next());
         assertFalse(locales.hasNext() || texts.hasNext());
 
         // Check for Detail
         assertTrue("Detail is present", fault.hasDetail());
         Detail detail = fault.getDetail();
-        Iterator detailEntries = detail.getDetailEntries();
+        Iterator<DetailEntry> detailEntries = detail.getDetailEntries();
         assertTrue("There's a detail entry", detailEntries.hasNext());
         assertEquals(
-            ((DetailEntry) detailEntries.next()).getElementQName(),
+            (detailEntries.next()).getElementQName(),
             new QName("http://travelcompany.example.org/faults", "myFaultDetails"));
 
         assertNull(fault.getFaultRole());

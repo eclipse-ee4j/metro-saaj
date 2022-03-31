@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -77,9 +77,9 @@ public class AttachPngImageTest extends TestCase {
         try ( // See if we get the image object back
                 FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
-            Iterator i = newMsg.getAttachments();
+            Iterator<AttachmentPart> i = newMsg.getAttachments();
             while(i.hasNext()) {
-                AttachmentPart att = (AttachmentPart)i.next();
+                AttachmentPart att = i.next();
                 Object obj = att.getContent();
                 if (!(obj instanceof Image)) {
                     fail("Didn't get the image type, instead got:"+obj.getClass());

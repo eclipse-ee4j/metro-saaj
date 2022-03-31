@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,6 +13,9 @@ package com.sun.xml.messaging.saaj.soap;
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
 
 public class SOAPVersionMismatchException extends SOAPExceptionImpl {
+
+    private static final long serialVersionUID = -3681495393703865847L;
+
     /**
      * Constructs a <code>SOAPExceptionImpl</code> object with no
      * reason or embedded <code>Throwable</code> object.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -7,11 +7,6 @@
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
-
-/**
-*
-* @author SAAJ RI Development Team 
-*/
 
 package bugfixes;
 
@@ -132,7 +127,7 @@ public class QuoteTest extends TestCase {
         }
         Iterator iterator = soapElement.getChildElements();
         while (iterator.hasNext()) {
-            Object o = (Object)iterator.next();
+            Object o = iterator.next();
             if (o instanceof SOAPElement) {
                 SOAPElement result = findElement((SOAPElement)o, name);
                 if (result != null)

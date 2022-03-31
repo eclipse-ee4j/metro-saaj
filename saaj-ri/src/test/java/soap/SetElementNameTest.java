@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -186,8 +186,8 @@ public class SetElementNameTest extends TestCase {
 			exception = e.getMessage();
 		}
 		assertNotNull("Cannot set a new name for detail", exception);
-		Iterator detailEntries = detail.getDetailEntries();
-		DetailEntry firstEntry = (DetailEntry) detailEntries.next();
+		Iterator<DetailEntry> detailEntries = detail.getDetailEntries();
+		DetailEntry firstEntry = detailEntries.next();
 		assertFalse("firstEntry is the lastEntry",
 			    detailEntries.hasNext()); 
 		QName entryNewName = new QName("some-other-uri",
@@ -199,8 +199,8 @@ public class SetElementNameTest extends TestCase {
 		} catch(SOAPException e) {
 			fail("Changing name of DetailEntry is allowed.");
 		}
-		Iterator newDetailEntries = detail.getDetailEntries();
-		DetailEntry newFirstEntry = (DetailEntry) newDetailEntries.next();
+		Iterator<DetailEntry> newDetailEntries = detail.getDetailEntries();
+		DetailEntry newFirstEntry = newDetailEntries.next();
 		assertFalse("newFirstEntry is the newLastEntry",
 			    newDetailEntries.hasNext());
 		Iterator children = newFirstEntry.getChildElements();

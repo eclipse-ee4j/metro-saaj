@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2020, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -71,7 +71,7 @@ public class DocumentOwnerTest extends TestCase {
         Node clonedEnvelope = clonedDocument.getElementsByTagName("SOAP-ENV:Envelope").item(0);
         assertTrue(SOAPEnvelope.class.isAssignableFrom(clonedEnvelope.getClass()));
 
-        Element clonedSignature = (Element) ((SOAPEnvelope)clonedEnvelope).getChildNodes().item(1);
+        Element clonedSignature = (Element) clonedEnvelope.getChildNodes().item(1);
         Element clonedSignedInfo = getElement(clonedSignature, "ds:SignedInfo");
         Element clonedCanonicalizationMethod = getElement(clonedSignedInfo, "ds:CanonicalizationMethod");
         Node clonedCanonicalizationAttr = clonedCanonicalizationMethod.getAttributes().item(0);

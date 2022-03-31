@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
- *
- * @author Edwin Goei
- */
 package util;
 
 import com.sun.xml.messaging.saaj.util.SAAJUtil;
@@ -65,7 +61,7 @@ public class TestHelper {
     }
 
     /**
-     * @return true if debug level is > 0
+     * @return true if debug level is {@literal >} 0
      */
     public boolean isDebug() {
         return debug > 0;
@@ -94,7 +90,6 @@ public class TestHelper {
 
     /**
      * @param msg the SOAPMessage whose envelope to dump out
-     * @throws Exception
      */
     public void dumpEnvelope(SOAPMessage msg) throws Exception {
         if (debug == 0) {
@@ -114,7 +109,6 @@ public class TestHelper {
      * Output similar to SOAPMessage.writeTo().
      *
      * @param msg the SOAPMessage to dump out
-     * @throws Exception
      */
     public void writeTo(SOAPMessage msg) throws Exception {
         if (debug == 0) {

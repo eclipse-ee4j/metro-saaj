@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -253,9 +253,9 @@ public class AttachmentPartImpl extends AttachmentPart {
 
     boolean hasAllHeaders(MimeHeaders hdrs) {
         if (hdrs != null) {
-            Iterator i = hdrs.getAllHeaders();
+            Iterator<MimeHeader> i = hdrs.getAllHeaders();
             while (i.hasNext()) {
-                MimeHeader hdr = (MimeHeader) i.next();
+                MimeHeader hdr = i.next();
                 String[] values = headers.getHeader(hdr.getName());
                 boolean found = false;
 
@@ -300,11 +300,11 @@ public class AttachmentPartImpl extends AttachmentPart {
     public static void copyMimeHeaders(MimeHeaders headers, MimeBodyPart mbp)
         throws SOAPException {
 
-        Iterator i = headers.getAllHeaders();
+        Iterator<MimeHeader> i = headers.getAllHeaders();
 
         while (i.hasNext())
             try {
-                MimeHeader mh = (MimeHeader) i.next();
+                MimeHeader mh = i.next();
 
                 mbp.setHeader(mh.getName(), mh.getValue());
             } catch (Exception ex) {
@@ -316,10 +316,10 @@ public class AttachmentPartImpl extends AttachmentPart {
     public static void copyMimeHeaders(MimeBodyPart mbp, AttachmentPartImpl ap)
         throws SOAPException {
         try {
-            List hdr = mbp.getAllHeaders();
+            List<Header> hdr = mbp.getAllHeaders();
             int sz = hdr.size();
             for( int i=0; i<sz; i++ ) {
-                Header h = (Header)hdr.get(i);
+                Header h = hdr.get(i);
                 if(h.getName().equalsIgnoreCase("Content-Type"))
                     continue;   // skip
                 ap.addMimeHeader(h.getName(), h.getValue());
