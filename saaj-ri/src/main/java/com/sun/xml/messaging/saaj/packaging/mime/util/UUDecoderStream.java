@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -126,7 +126,7 @@ public class UUDecoderStream extends FilterInputStream {
 
     /**
      * UUencoded streams start off with the line:
-     *  "begin <mode> <filename>"
+     *  "{@code begin <mode> <filename>}"
      * Search for this prefix and gobble it up.
      */
     private void readPrefix() throws IOException {
@@ -228,7 +228,7 @@ public class UUDecoderStream extends FilterInputStream {
 	return true;
     }
 
-    /*** begin TEST program *****
+    /* ** begin TEST program *****
     public static void main(String argv[]) throws Exception {
     	FileInputStream infile = new FileInputStream(argv[0]);
 	UUDecoderStream decoder = new UUDecoderStream(infile);

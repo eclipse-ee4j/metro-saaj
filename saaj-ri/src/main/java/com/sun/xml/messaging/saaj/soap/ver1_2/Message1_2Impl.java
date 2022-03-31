@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
 package com.sun.xml.messaging.saaj.soap.ver1_2;
 
 import java.io.IOException;
@@ -24,6 +20,10 @@ import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.ContentType;
 import com.sun.xml.messaging.saaj.soap.MessageImpl;
 
+/**
+ *
+ * @author SAAJ RI Development Team
+ */
 public class Message1_2Impl extends MessageImpl implements SOAPConstants{
 
     public Message1_2Impl() {

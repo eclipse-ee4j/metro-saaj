@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -57,7 +57,7 @@ import java.util.NoSuchElementException;
  */
 public final class InternetHeaders {
 
-    private final FinalArrayList<hdr> headers = new FinalArrayList<hdr>();
+    private final FinalArrayList<Header> headers = new FinalArrayList<>();
 
     /**
      * Lazily cerated view of header lines (Strings).
@@ -151,7 +151,7 @@ public final class InternetHeaders {
 
         int len = headers.size();
         for( int i=0; i<len; i++ ) {
-            hdr h = headers.get(i);
+            hdr h = (hdr) headers.get(i);
             if (name.equalsIgnoreCase(h.name)) {
                 v.add(h.getValue());
             }
@@ -205,7 +205,7 @@ public final class InternetHeaders {
         boolean found = false;
 
         for (int i = 0; i < headers.size(); i++) {
-            hdr h = headers.get(i);
+            hdr h = (hdr) headers.get(i);
             if (name.equalsIgnoreCase(h.name)) {
                 if (!found) {
                     int j;
@@ -237,7 +237,7 @@ public final class InternetHeaders {
     public void addHeader(String name, String value) {
         int pos = headers.size();
         for (int i = headers.size() - 1; i >= 0; i--) {
-            hdr h = headers.get(i);
+            hdr h = (hdr) headers.get(i);
             if (name.equalsIgnoreCase(h.name)) {
                 headers.add(i + 1, new hdr(name, value));
                 return;
@@ -256,7 +256,7 @@ public final class InternetHeaders {
      */
     public void removeHeader(String name) {
         for (int i = 0; i < headers.size(); i++) {
-            hdr h = headers.get(i);
+            hdr h = (hdr) headers.get(i);
             if (name.equalsIgnoreCase(h.name)) {
                 headers.remove(i);
                 i--;    // have to look at i again
@@ -270,7 +270,7 @@ public final class InternetHeaders {
      *
      * @return	Header objects
      */
-    public FinalArrayList<hdr> getAllHeaders() {
+    public FinalArrayList<Header> getAllHeaders() {
         return headers; // conceptually it should be read-only, but for performance reason I'm not wrapping it here
     }
 
@@ -287,7 +287,7 @@ public final class InternetHeaders {
         try {
             char c = line.charAt(0);
             if (c == ' ' || c == '\t') {
-                hdr h = headers.get(headers.size() - 1);
+                hdr h = (hdr) headers.get(headers.size() - 1);
                 h.line += "\r\n" + line;
             } else
                 headers.add(new hdr(line));
@@ -309,7 +309,7 @@ public final class InternetHeaders {
             headerValueView = new AbstractList<String>() {
                 @Override
                 public String get(int index) {
-                    return headers.get(index).line;
+                    return ((hdr) headers.get(index)).line;
                 }
 
                 @Override

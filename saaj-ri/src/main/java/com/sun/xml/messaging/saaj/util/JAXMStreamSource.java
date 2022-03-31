@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -37,7 +37,7 @@ public class JAXMStreamSource extends StreamSource {
         if (lazyContentLength) {
             in = is;
         } else if (is instanceof ByteInputStream) {
-            this.in = (ByteInputStream) is;
+            this.in = is;
         } else {
             ByteOutputStream bout = null;
             try {

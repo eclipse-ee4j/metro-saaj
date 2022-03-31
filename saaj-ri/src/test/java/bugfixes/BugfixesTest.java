@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -185,9 +185,9 @@ public class BugfixesTest extends TestCase {
         SOAPFault fault = bdy.getFault();
         Detail detail = fault.getDetail();
 
-        Iterator iter = detail.getDetailEntries();
+        Iterator<DetailEntry> iter = detail.getDetailEntries();
         while (iter.hasNext()) {
-            Object object = iter.next();
+            DetailEntry object = iter.next();
             assertTrue(
                 "WRONG TYPE:" + object.getClass().toString(),
                 object instanceof DetailEntry);
@@ -211,13 +211,13 @@ public class BugfixesTest extends TestCase {
         part.setContent(streamSource);
         SOAPEnvelope envelope = part.getEnvelope();
         SOAPHeader header = envelope.getHeader();
-        Iterator headerChildren = header.getChildElements();
+        Iterator<Node> headerChildren = header.getChildElements();
         assertTrue("Header has first child", headerChildren.hasNext());
-        Node firstChild = (Node) headerChildren.next();
+        Node firstChild = headerChildren.next();
         assertTrue("First text node contains newLine char",
                    firstChild.getNodeValue().equals("\n"));
         assertTrue("Header has second child", headerChildren.hasNext());
-        Node secondChild = (Node) headerChildren.next();
+        Node secondChild = headerChildren.next();
         assertEquals("Second child has only one child",
                      secondChild.getFirstChild(), secondChild.getLastChild());
         assertTrue("Second child has a text node as a child "
@@ -247,7 +247,7 @@ public class BugfixesTest extends TestCase {
         int count = 0;
         
         SOAPEnvelope envelope = part.getEnvelope();
-        Iterator i = envelope.getChildElements();
+        Iterator<Node> i = envelope.getChildElements();
         while(i.hasNext()) {
             // System.out.println("######Iterator i="+i.next());
             count ++;
@@ -342,13 +342,13 @@ public class BugfixesTest extends TestCase {
         // white spaces should be retained
         SOAPEnvelope envelope = part.getEnvelope();
         SOAPHeader header = envelope.getHeader();
-        Iterator headerChildren = header.getChildElements();
+        Iterator<Node> headerChildren = header.getChildElements();
         assertTrue("Header has first child", headerChildren.hasNext());
-        Node firstChild = (Node) headerChildren.next();
+        Node firstChild = headerChildren.next();
         assertTrue("First text node contains newLine char",
                    firstChild.getNodeValue().equals("\n"));
         assertTrue("Header has second child", headerChildren.hasNext());
-        Node secondChild = (Node) headerChildren.next();
+        Node secondChild = headerChildren.next();
         assertEquals("Second child has only one child",
                      secondChild.getFirstChild(), secondChild.getLastChild());
         assertTrue("Second child has a text node as a child "
@@ -479,6 +479,7 @@ public class BugfixesTest extends TestCase {
                     "/services/uddi/testregistry/inquiryapi",
                     (URLStreamHandler) Class
                         .forName("sun.net.www.protocol.http.Handler")
+                        .getConstructor()
                         .newInstance());
 
             SOAPMessage reply = con.call(msg, to_url);
@@ -767,7 +768,7 @@ public class BugfixesTest extends TestCase {
         body.addAttribute(name2, value2);
         body.addAttribute(name3, value3);
 
-        Iterator i = body.getAllAttributes();
+        Iterator<Name> i = body.getAllAttributes();
         int count = 0;
         while (i.hasNext()) {
             count++;
@@ -779,7 +780,7 @@ public class BugfixesTest extends TestCase {
 
         i = body.getAllAttributes();
         while (i.hasNext()) {
-            Name name = (Name) i.next();
+            Name name = i.next();
             assertEquals(
                 "Wrong Name returned",
                 name.getPrefix(),
@@ -814,7 +815,7 @@ public class BugfixesTest extends TestCase {
         body.addAttribute(name2, value2);
         body.addAttribute(name3, value3);
 
-        Iterator i = body.getAllAttributes();
+        Iterator<Name> i = body.getAllAttributes();
         int count = 0;
         while (i.hasNext()) {
             count++;
@@ -913,7 +914,7 @@ public class BugfixesTest extends TestCase {
         SOAPEnvelope envelope = part.getEnvelope();
         SOAPBody body = envelope.getBody();
 
-        Iterator iStart = envelope.getChildElements();
+        Iterator<Node> iStart = envelope.getChildElements();
         SOAPElement se = envelope.addTextNode("<txt>This is text</txt>");
 
         if (se == null) {
@@ -1041,9 +1042,9 @@ public class BugfixesTest extends TestCase {
                 if (display) {
                     System.out.println(displayStr);
                 }
-                Iterator attrs = element.getAllAttributes();
+                Iterator<Name> attrs = element.getAllAttributes();
                 while (attrs.hasNext()) {
-                    Name attrName = (Name) attrs.next();
+                    Name attrName = attrs.next();
                     displayStr =
                         indent
                             + " Attribute name is "
@@ -1121,7 +1122,7 @@ public class BugfixesTest extends TestCase {
         ByteArrayOutputStream incorrect = new ByteArrayOutputStream();
         recvMsg.writeTo(incorrect);
         fin.close();
-        Iterator it = ((jakarta.xml.soap.SOAPHeader)recvHdr).getChildElements();
+        Iterator it = recvHdr.getChildElements();
         SOAPHeaderElement n = (SOAPHeaderElement)it.next();
         //making sure there was a Actor.
         assertTrue(n.getActor() != null);
@@ -1527,9 +1528,9 @@ FileInputStream(new File("bigmessage.xml")));
         mh.addHeader("Content-Type", "multipart/related; boundary=MIME_boundary; type=\"text/xml\"; start=\"<http://claiming-it.com/claim061400a.xml>\"");
         SOAPMessage msg = fact.createMessage(mh, new FileInputStream(new File("src/test/resources/bugfixes/data/extra-boundary-white-space.txt")));
         SOAPBody body = msg.getSOAPBody();
-         Iterator it = msg.getAttachments();
+         Iterator<AttachmentPart> it = msg.getAttachments();
         while(it.hasNext()) {
-            AttachmentPart at = (AttachmentPart)it.next();
+            AttachmentPart at = it.next();
         }
     }
 

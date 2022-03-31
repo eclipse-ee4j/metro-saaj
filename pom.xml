@@ -74,18 +74,26 @@
     </mailingLists>
 
     <properties>
-        <copyright.exclude>${config.dir}/copyright-exclude</copyright.exclude>
+        <project.build.commonResourcesDirectory>${project.build.directory}/common-resources</project.build.commonResourcesDirectory>
+        <legal.doc.source>${project.build.commonResourcesDirectory}/legal</legal.doc.source>
+        <copyright.exclude>${project.build.commonResourcesDirectory}/config/copyright-exclude</copyright.exclude>
         <copyright.ignoreyear>false</copyright.ignoreyear>
         <copyright.scmonly>true</copyright.scmonly>
-        <copyright.template>${config.dir}/edl-copyright.txt</copyright.template>
+        <copyright.template>${project.build.commonResourcesDirectory}/config/edl-copyright.txt</copyright.template>
         <copyright.update>false</copyright.update>
-        <spotbugs.exclude>${config.dir}/exclude.xml</spotbugs.exclude>
+        <spotbugs.exclude>${project.build.commonResourcesDirectory}/config/exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.5.3.0</spotbugs.version>
+        <spotbugs.version>4.6.0.0</spotbugs.version>
 
-        <config.dir>etc/config</config.dir>
-        <legal.doc.source>../</legal.doc.source>
+        <maven.compiler.release>11</maven.compiler.release>
+        <maven.compiler.testRelease>${maven.compiler.release}</maven.compiler.testRelease>
+        <!-- exclude big groups from the Xlint -->
+        <comp.xlint>-Xlint:all,-rawtypes</comp.xlint>
+        <!-- -Xdoclint:-missing does not seem to work properly on the infra -->
+        <comp.xdoclint>-Xdoclint:all,-missing</comp.xdoclint>
+        <warn.limit>150</warn.limit>
+        <jdoc.doclint>-missing</jdoc.doclint>
 
         <activation-api.version>2.1.0</activation-api.version>
         <angus-activation.version>1.0.0</angus-activation.version>
@@ -115,7 +123,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.9.0</version>
+                    <version>3.10.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.glassfish.copyright</groupId>
@@ -181,6 +189,16 @@
                     <artifactId>maven-failsafe-plugin</artifactId>
                     <version>3.0.0-M5</version>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-dependency-plugin</artifactId>
+                    <version>3.3.0</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -221,10 +239,6 @@
                             <resources>
                                 <resource>
                                     <directory>${legal.doc.source}</directory>
-                                    <includes>
-                                        <include>NOTICE.md</include>
-                                        <include>LICENSE.md</include>
-                                    </includes>
                                     <targetPath>META-INF</targetPath>
                                 </resource>
                             </resources>
@@ -246,6 +260,50 @@
                         <goals>
                             <goal>create</goal>
                         </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>common-resources</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/resources.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>unpack-resource</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.messaging.saaj</groupId>
+                                    <artifactId>metro-saaj</artifactId>
+                                    <version>${project.version}</version>
+                                    <classifier>resources</classifier>
+                                    <type>zip</type>
+                                    <outputDirectory>${project.build.commonResourcesDirectory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>

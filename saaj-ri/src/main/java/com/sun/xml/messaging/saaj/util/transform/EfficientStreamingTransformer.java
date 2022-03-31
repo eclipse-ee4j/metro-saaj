@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -52,7 +52,7 @@ public class EfficientStreamingTransformer
   // removing static : security issue : CR 6813167Z
   private final TransformerFactory transformerFactory = TransformerFactory.newInstance();
 
-  /** 
+  /*
   removing support for Java 1.4 and 1.3 : CR6658158
   static {
         version = System.getProperty("java.vm.version");
@@ -63,11 +63,7 @@ public class EfficientStreamingTransformer
                 new com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl();
         }
   }*/
-                                                                                                                                                  
-    /**
-     * TransformerFactory instance.
-     */
-    
+
     /**
      * Underlying XSLT transformer.
      */
@@ -396,7 +392,7 @@ public class EfficientStreamingTransformer
         m_realTransformer.transform(source, result);
     }
 
-    /**
+    /*
      * Threadlocal to hold a Transformer instance for this thread.
      * CR : 6813167
      */

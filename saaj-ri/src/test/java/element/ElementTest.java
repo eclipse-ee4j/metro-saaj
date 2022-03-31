@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,39 +8,38 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
-
 package element;
-
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Iterator;
-
-import javax.xml.namespace.QName;
-import jakarta.xml.soap.*;
-import javax.xml.parsers.*;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.impl.ElementImpl;
-import com.sun.xml.messaging.saaj.util.SAAJUtil;
-import junit.framework.Assert;
+import jakarta.xml.soap.Detail;
+import jakarta.xml.soap.DetailEntry;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.Name;
+import jakarta.xml.soap.SAAJResult;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPBodyElement;
+import jakarta.xml.soap.SOAPConstants;
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPException;
+import jakarta.xml.soap.SOAPFactory;
+import jakarta.xml.soap.SOAPFault;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPHeaderElement;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
 import junit.framework.TestCase;
-
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
+import org.junit.Assert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.lang.reflect.Method;
+import java.util.Iterator;
 
 
 public class ElementTest extends TestCase {
@@ -89,10 +88,10 @@ public class ElementTest extends TestCase {
         Name theAttributeName = null;
         String theAttributeValue = null;
         int count = 0;
-        for (Iterator eachAttribute = element.getAllAttributes();
-            eachAttribute.hasNext();
+        for (Iterator<Name> eachAttribute = element.getAllAttributes();
+             eachAttribute.hasNext();
             ) {
-            theAttributeName = (Name) eachAttribute.next();
+            theAttributeName = eachAttribute.next();
             theAttributeValue = element.getAttributeValue(theAttributeName);
 
             ++count;
@@ -130,10 +129,10 @@ public class ElementTest extends TestCase {
         String theAttributeValue = null;
         String unexpectedAttributelist = "";
         int count = 0;
-        for (Iterator eachAttribute = element.getAllAttributes();
-            eachAttribute.hasNext();
+        for (Iterator<Name> eachAttribute = element.getAllAttributes();
+             eachAttribute.hasNext();
             ) {
-            theAttributeName = (Name) eachAttribute.next();
+            theAttributeName = eachAttribute.next();
             theAttributeValue = element.getAttributeValue(theAttributeName);
 
             ++count;
@@ -220,10 +219,10 @@ public class ElementTest extends TestCase {
         assertTrue(entry instanceof DetailEntry);
 
         Detail detail = fault.getDetail();
-        Iterator detailEntries = detail.getDetailEntries();
+        Iterator<DetailEntry> detailEntries = detail.getDetailEntries();
 
         while (detailEntries.hasNext()) {
-            Object obj = detailEntries.next();
+            DetailEntry obj = detailEntries.next();
             assertTrue(obj instanceof DetailEntry);
         }
 
@@ -511,7 +510,7 @@ public class ElementTest extends TestCase {
         assertTrue(hdrElement.getRelay() == true);
    }
    private static Name createFromTagName(String tagName) {
-        Class cls = null;
+        Class<?> cls = null;
         try {
             cls = Thread.currentThread().getContextClassLoader().
                     loadClass("com.sun.xml.messaging.saaj.soap.name.NameImpl");
@@ -550,7 +549,7 @@ public class ElementTest extends TestCase {
         return null;
     }
     private static Name createName(String tagName, String uri) {
-        Class cls = null;
+        Class<?> cls = null;
         try {
             cls = Thread.currentThread().getContextClassLoader().
                     loadClass("com.sun.xml.messaging.saaj.soap.name.NameImpl");

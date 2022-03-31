@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -180,12 +180,12 @@ public class NamespaceTest extends TestCase {
         SOAPBody body = envelope.getBody();
         body.addNamespaceDeclaration("prefix", "http://aUri");
 
-        Iterator eachPrefix = body.getNamespacePrefixes();
+        Iterator<String> eachPrefix = body.getNamespacePrefixes();
 
         String prefix;
 
         assertTrue(eachPrefix.hasNext());
-        prefix = (String) eachPrefix.next();
+        prefix = eachPrefix.next();
         assertTrue(
             "wrong first prefix: \"" + prefix + "\"",
             "prefix".equalsIgnoreCase(prefix));
@@ -197,7 +197,7 @@ public class NamespaceTest extends TestCase {
             String errorString = "";
             int count = 0;
             while (eachPrefix.hasNext() && count < 10) {
-                prefix = (String) eachPrefix.next();
+                prefix = eachPrefix.next();
                 errorString =
                     errorString + "Unexpected prefix: " + prefix + "\n";
             }
@@ -300,11 +300,11 @@ public class NamespaceTest extends TestCase {
                 "http://schemas.xmlsoap.org/soap/envelope/");
         element.addAttribute(SOAPFactory.newInstance().createName("fooName", "xmlns", ""), "http://foo");
         
-        Iterator eachDeclaration = element.getNamespacePrefixes();
+        Iterator<String> eachDeclaration = element.getNamespacePrefixes();
         assertTrue(eachDeclaration.hasNext());
-        assertEquals("fooName", (String) eachDeclaration.next());
+        assertEquals("fooName", eachDeclaration.next());
         if (eachDeclaration.hasNext()) {
-            String extraPrefix = (String) eachDeclaration.next();
+            String extraPrefix = eachDeclaration.next();
             fail("An extra namespace declaration was added for: " + extraPrefix);
         }
     }
@@ -321,7 +321,7 @@ public class NamespaceTest extends TestCase {
         soapMsg.writeTo(System.out);
         SOAPBody body = soapMsg.getSOAPPart().getEnvelope().getBody();
         
-        SOAPFault fault = (SOAPFault)body.getFault();
+        SOAPFault fault = body.getFault();
         String uri = fault.lookupNamespaceURI("ns3");
         assertTrue(uri.equals("http://www.w3.org/2003/05/soap-envelope"));
          
@@ -462,7 +462,7 @@ public class NamespaceTest extends TestCase {
     }
 
     private static Name createFromTagName(String tagName) {
-        Class cls = null;
+        Class<?> cls = null;
         try {
             cls = Thread.currentThread().getContextClassLoader().
                     loadClass("com.sun.xml.messaging.saaj.soap.name.NameImpl");

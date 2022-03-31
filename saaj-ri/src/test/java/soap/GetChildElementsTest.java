@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -39,7 +39,7 @@ public class GetChildElementsTest extends TestCase {
         soapPart.setContent(strSource);
         message.saveChanges();
 
-        Iterator headerElements =
+        Iterator<Node> headerElements =
             message.getSOAPHeader().getChildElements(
                 SOAPFactory.newInstance().createName(
                     "Security",

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -69,8 +69,8 @@ public class LazySOAPTest extends TestCase {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         XMLStreamWriter w = XMLOutputFactory.newInstance().createXMLStreamWriter(bos);
 //        ((LazyEnvelope) env).writeTo(w);
-        Method method = env.getClass().getMethod("writeTo", new Class[]{XMLStreamWriter.class});
-        method.invoke(env, new Object[]{w});
+        Method method = env.getClass().getMethod("writeTo", XMLStreamWriter.class);
+        method.invoke(env, w);
         w.flush();
         //TODO desagar Body is EMPTY!! Why? Fix it
         String writtenSoap = bos.toString();
@@ -95,7 +95,6 @@ public class LazySOAPTest extends TestCase {
     }
     /**
      * Use DOM APIs to traverse to make sure message is materialized correctly
-     * @param elem
      */
     private void traverseStaxSoapMessageForCorrectness(SOAPElement elem) {
         assertEquals("Envelope", elem.getLocalName());

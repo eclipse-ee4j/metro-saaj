@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,10 +22,10 @@ import java.io.IOException;
 /**
  * This class is to support writing out Strings as a sequence of bytes
  * terminated by a CRLF sequence. The String must contain only US-ASCII
- * characters.<p>
- *
+ * characters.
+ * <p>
  * The expected use is to write out RFC822 style headers to an output
- * stream. <p>
+ * stream.
  *
  * @author Kohsuke Kawaguchi
  */

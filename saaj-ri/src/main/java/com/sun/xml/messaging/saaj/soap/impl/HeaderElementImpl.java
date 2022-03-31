@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -62,7 +62,7 @@ public abstract class HeaderElementImpl
     public void setActor(String actorUri) {
         try {
             removeAttribute(getActorAttributeName());
-            addAttribute((Name) getActorAttributeName(), actorUri);
+            addAttribute(getActorAttributeName(), actorUri);
         } catch (SOAPException ex) {
         }
     }
@@ -72,7 +72,7 @@ public abstract class HeaderElementImpl
     public void setRole(String roleUri) throws SOAPException {
         // runtime exception thrown if called for SOAP 1.1
         removeAttribute(getRoleAttributeName());
-        addAttribute((Name) getRoleAttributeName(), roleUri);
+        addAttribute(getRoleAttributeName(), roleUri);
     }
 
 
@@ -98,7 +98,7 @@ public abstract class HeaderElementImpl
         try {
             removeAttribute(getMustunderstandAttributeName());
             addAttribute(
-                (Name) getMustunderstandAttributeName(),
+                    getMustunderstandAttributeName(),
                 getMustunderstandLiteralValue(mustUnderstand));
         } catch (SOAPException ex) {
         }
@@ -119,7 +119,7 @@ public abstract class HeaderElementImpl
         // runtime exception thrown for 1.1
         removeAttribute(getRelayAttributeName());
         addAttribute(
-            (Name) getRelayAttributeName(),
+                getRelayAttributeName(),
             getRelayLiteralValue(relay));
     }
 

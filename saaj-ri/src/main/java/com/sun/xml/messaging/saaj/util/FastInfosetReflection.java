@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -84,27 +84,27 @@ public class FastInfosetReflection {
     static {
         try {
             Class<?> clazz = Class.forName("com.sun.xml.fastinfoset.dom.DOMDocumentParser");
-            fiDOMDocumentParser_new = clazz.getConstructor((Class[]) null);
+            fiDOMDocumentParser_new = clazz.getConstructor((Class<?>[]) null);
             fiDOMDocumentParser_parse = clazz.getMethod("parse",
-                new Class[] { org.w3c.dom.Document.class, java.io.InputStream.class });
+                    Document.class, InputStream.class);
 
             clazz = Class.forName("com.sun.xml.fastinfoset.dom.DOMDocumentSerializer");
             fiDOMDocumentSerializer_new = clazz.getConstructor((Class[])null);
             fiDOMDocumentSerializer_serialize = clazz.getMethod("serialize",
-                new Class[] { org.w3c.dom.Node.class });
+                    Node.class);
             fiDOMDocumentSerializer_setOutputStream = clazz.getMethod("setOutputStream",
-                new Class[] { java.io.OutputStream.class });
+                    OutputStream.class);
 
             fiFastInfosetSource_class = clazz = Class.forName("org.jvnet.fastinfoset.FastInfosetSource");
             fiFastInfosetSource_new = clazz.getConstructor(
-                new Class[] { java.io.InputStream.class });
+                    InputStream.class);
             fiFastInfosetSource_getInputStream = clazz.getMethod("getInputStream", (Class[]) null);
             fiFastInfosetSource_setInputStream = clazz.getMethod("setInputStream",
-                new Class[] { java.io.InputStream.class });
+                    InputStream.class);
 
             clazz = Class.forName("org.jvnet.fastinfoset.FastInfosetResult");
             fiFastInfosetResult_new = clazz.getConstructor(
-                new Class[] { java.io.OutputStream.class });
+                    OutputStream.class);
             fiFastInfosetResult_getOutputStream = clazz.getMethod("getOutputStream", (Class[]) null);
         }
         catch (Exception e) {
@@ -127,7 +127,7 @@ public class FastInfosetReflection {
         if (fiDOMDocumentParser_parse == null) {
             throw new RuntimeException("Unable to locate Fast Infoset implementation");
         }
-        fiDOMDocumentParser_parse.invoke(parser, new Object[] { d, s });
+        fiDOMDocumentParser_parse.invoke(parser, d, s);
     }
     
     // -- DOMDocumentSerializer-------------------------------------------
@@ -145,7 +145,7 @@ public class FastInfosetReflection {
         if (fiDOMDocumentSerializer_serialize == null) {
             throw new RuntimeException("Unable to locate Fast Infoset implementation");
         }
-        fiDOMDocumentSerializer_serialize.invoke(serializer, new Object[] { node });
+        fiDOMDocumentSerializer_serialize.invoke(serializer, node);
     }
     
     public static void DOMDocumentSerializer_setOutputStream(Object serializer,
@@ -154,7 +154,7 @@ public class FastInfosetReflection {
         if (fiDOMDocumentSerializer_setOutputStream == null) {
             throw new RuntimeException("Unable to locate Fast Infoset implementation");
         }
-        fiDOMDocumentSerializer_setOutputStream.invoke(serializer, new Object[] { os });
+        fiDOMDocumentSerializer_setOutputStream.invoke(serializer, os);
     }
     
     // -- FastInfosetSource ----------------------------------------------
@@ -195,7 +195,7 @@ public class FastInfosetReflection {
         if (fiFastInfosetSource_setInputStream == null) {
             throw new RuntimeException("Unable to locate Fast Infoset implementation");
         }
-        fiFastInfosetSource_setInputStream.invoke(source, new Object[] { is });
+        fiFastInfosetSource_setInputStream.invoke(source, is);
     }
     
     // -- FastInfosetResult ----------------------------------------------
