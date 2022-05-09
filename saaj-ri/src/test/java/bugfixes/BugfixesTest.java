@@ -1588,11 +1588,11 @@ private static final class ByteInputStream extends ByteArrayInputStream {
         this(EMPTY_ARRAY, 0);
     }
 
-    public ByteInputStream(byte buf[], int length) {
+    public ByteInputStream(byte[] buf, int length) {
         super(buf, 0, length);
     }
 
-    public ByteInputStream(byte buf[], int offset, int length) {
+    public ByteInputStream(byte[] buf, int offset, int length) {
         super(buf, offset, length);
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -138,7 +138,7 @@ public final class ByteOutputStream extends OutputStream {
      *      because this is evil!
      */
     @Deprecated
-    public byte toByteArray()[] {
+    public byte[] toByteArray() {
         byte[] newbuf = new byte[count];
         System.arraycopy(buf, 0, newbuf, 0, count);
         return newbuf;

@@ -447,7 +447,7 @@ public class NamespaceTest extends TestCase {
         assertEquals(namespace, childInDefaultNamespace.getNamespaceURI());
     }
 
-    public static void main(String argv[]) {
+    public static void main(String[] argv) {
 
         junit.textui.TestRunner.run(NamespaceTest.class);
 

@@ -16,6 +16,9 @@ import jakarta.xml.soap.*;
 import com.sun.xml.messaging.saaj.soap.MessageFactoryImpl;
 
 public class SOAPMessageFactoryDynamicImpl extends MessageFactoryImpl {
+
+    public SOAPMessageFactoryDynamicImpl() {}
+
     @Override
     public SOAPMessage createMessage() throws SOAPException {
         throw new UnsupportedOperationException(

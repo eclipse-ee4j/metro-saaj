@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -41,7 +41,7 @@ import java.util.logging.Logger;
  * EnvelopeFactory creates SOAP Envelope objects using different
  * underlying implementations.
  */
-public class EnvelopeFactory {
+public final class EnvelopeFactory {
     private static final String SAX_PARSER_POOL_SIZE_PROP_NAME = "com.sun.xml.messaging.saaj.soap.saxParserPoolSize";
     private static final int DEFAULT_SAX_PARSER_POOL_SIZE = 5;
     
@@ -69,6 +69,8 @@ public class EnvelopeFactory {
                     return new ParserPool(poolSize);
                 }
     };
+
+    private EnvelopeFactory() {}
 
     public static Envelope createEnvelope(Source src, SOAPPartImpl soapPart)
         throws SOAPException 

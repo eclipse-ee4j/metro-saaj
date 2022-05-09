@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,7 +13,10 @@ package com.sun.xml.messaging.saaj.util;
 
 // Cut&paste from sun.net.www.ParseUtil: decode, unescape
 
-public class ParseUtil {
+public final class ParseUtil {
+
+    private ParseUtil() {}
+
     /**
      * Un-escape and return the character at position i in string s.
      */

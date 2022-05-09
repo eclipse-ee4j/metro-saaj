@@ -15,7 +15,10 @@ import java.util.Iterator;
 import jakarta.xml.soap.MimeHeader;
 import jakarta.xml.soap.MimeHeaders;
 
-public class MimeHeadersUtil {
+public final class MimeHeadersUtil {
+
+    private MimeHeadersUtil() {}
+
     public static MimeHeaders copy(MimeHeaders headers) {
         MimeHeaders newHeaders = new MimeHeaders();
         Iterator<MimeHeader> eachHeader = headers.getAllHeaders();

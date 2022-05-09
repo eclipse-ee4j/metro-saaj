@@ -302,7 +302,7 @@ public class HeaderTokenizer {
 	// Check for SPECIAL or CTL
 	if (c < 040 || c >= 0177 || delimiters.indexOf(c) >= 0) {
 	    currentPos++; // re-position currentPos
-	    char ch[] = new char[1];
+	    char[] ch = new char[1];
 	    ch[0] = c;
 	    return new Token(c, new String(ch));
 	}

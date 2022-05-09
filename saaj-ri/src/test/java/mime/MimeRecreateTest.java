@@ -123,7 +123,7 @@ public class MimeRecreateTest extends TestCase {
 
     }
 
-    public static void main(String argv[]) {
+    public static void main(String[] argv) {
 
         junit.textui.TestRunner.run(MimeRecreateTest.class);
 

@@ -31,6 +31,8 @@ public class GifDataContentHandler extends Component implements DataContentHandl
             "image/gif",
             "GIF Image");
 
+	public GifDataContentHandler() {}
+
     protected ActivationDataFlavor getDF() {
         return myDF;
     }
@@ -69,7 +71,7 @@ public class GifDataContentHandler extends Component implements DataContentHandl
 	InputStream is = ds.getInputStream();
 	int pos = 0;
 	int count;
-	byte buf[] = new byte[1024];
+	byte[] buf = new byte[1024];
 
 	while ((count = is.read(buf, pos, buf.length - pos)) != -1) {
 	    pos += count;
@@ -79,7 +81,7 @@ public class GifDataContentHandler extends Component implements DataContentHandl
 		    size += size;
 		else
 		    size += 256*1024;
-		byte tbuf[] = new byte[size];
+		byte[] tbuf = new byte[size];
 		System.arraycopy(buf, 0, tbuf, 0, pos);
 		buf = tbuf;
 	    }
