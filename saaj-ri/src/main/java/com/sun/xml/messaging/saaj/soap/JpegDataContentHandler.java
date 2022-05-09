@@ -33,13 +33,15 @@ public class JpegDataContentHandler
 
     public static final String STR_SRC = "java.awt.Image";
 
+    public JpegDataContentHandler() {}
+
     /**
      * Return the DataFlavors for this <code>DataContentHandler</code>
      * @return The DataFlavors.
      */
     @Override
     public ActivationDataFlavor[] getTransferDataFlavors() { // throws Exception;
-        ActivationDataFlavor flavors[] = new ActivationDataFlavor[1];
+        ActivationDataFlavor[] flavors = new ActivationDataFlavor[1];
 
         try {
             flavors[0] =

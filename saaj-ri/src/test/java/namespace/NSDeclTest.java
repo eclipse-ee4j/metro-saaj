@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -164,7 +164,7 @@ public class NSDeclTest extends TestCase {
             fail("The following value should not be null: " + docElement);
     }
  
-    public static void main(String argv[]) {
+    public static void main(String[] argv) {
 
         junit.textui.TestRunner.run(NSDeclTest.class);
 

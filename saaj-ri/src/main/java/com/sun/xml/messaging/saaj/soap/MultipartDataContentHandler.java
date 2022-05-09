@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -21,6 +21,8 @@ public class MultipartDataContentHandler implements DataContentHandler {
 	    com.sun.xml.messaging.saaj.packaging.mime.internet.MimeMultipart.class,
 	    "multipart/mixed", 
 	    "Multipart");
+
+    public MultipartDataContentHandler() {}
 
     /**
      * Return the DataFlavors for this <code>DataContentHandler</code>.

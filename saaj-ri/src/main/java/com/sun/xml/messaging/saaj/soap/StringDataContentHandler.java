@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,16 +19,17 @@ import com.sun.xml.messaging.saaj.packaging.mime.internet.ContentType;
 
 /**
  * JAF data content handler for text/plain --&gt; String
- *
  */
 public class StringDataContentHandler implements DataContentHandler {
     private static ActivationDataFlavor myDF = new ActivationDataFlavor(
-	java.lang.String.class,
-	"text/plain",
-	"Text String");
+            java.lang.String.class,
+            "text/plain",
+            "Text String");
+
+    public StringDataContentHandler() {}
 
     protected ActivationDataFlavor getDF() {
-	return myDF;
+        return myDF;
     }
 
     /**
@@ -38,7 +39,7 @@ public class StringDataContentHandler implements DataContentHandler {
      */
     @Override
     public ActivationDataFlavor[] getTransferDataFlavors() {
-	return new ActivationDataFlavor[] { getDF() };
+        return new ActivationDataFlavor[]{getDF()};
     }
 
     /**
@@ -50,106 +51,108 @@ public class StringDataContentHandler implements DataContentHandler {
      */
     @Override
     public Object getTransferData(ActivationDataFlavor df, DataSource ds)
-			throws IOException {
-	// use myDF.equals to be sure to get ActivationDataFlavor.equals,
-	// which properly ignores Content-Type parameters in comparison
-	if (getDF().equals(df))
-	    return getContent(ds);
-	else
-	    return null;
+            throws IOException {
+        // use myDF.equals to be sure to get ActivationDataFlavor.equals,
+        // which properly ignores Content-Type parameters in comparison
+        if (getDF().equals(df))
+            return getContent(ds);
+        else
+            return null;
     }
 
     @Override
     public Object getContent(DataSource ds) throws IOException {
-	String enc = null;
-	InputStreamReader is = null;
-	
-	try {
-	    enc = getCharset(ds.getContentType());
-	    is = new InputStreamReader(ds.getInputStream(), enc);
-	} catch (IllegalArgumentException iex) {
-	    /*
-	     * An unknown charset of the form ISO-XXX-XXX will cause
-	     * the JDK to throw an IllegalArgumentException.  The
-	     * JDK will attempt to create a classname using this string,
-	     * but valid classnames must not contain the character '-',
-	     * and this results in an IllegalArgumentException, rather than
-	     * the expected UnsupportedEncodingException.  Yikes.
-	     */
-	    throw new UnsupportedEncodingException(enc);
-	}
+        String enc = null;
+        InputStreamReader is = null;
 
-	try {
-	    int pos = 0;
-	    int count;
-	    char buf[] = new char[1024];
+        try {
+            enc = getCharset(ds.getContentType());
+            is = new InputStreamReader(ds.getInputStream(), enc);
+        } catch (IllegalArgumentException iex) {
+            /*
+             * An unknown charset of the form ISO-XXX-XXX will cause
+             * the JDK to throw an IllegalArgumentException.  The
+             * JDK will attempt to create a classname using this string,
+             * but valid classnames must not contain the character '-',
+             * and this results in an IllegalArgumentException, rather than
+             * the expected UnsupportedEncodingException.  Yikes.
+             */
+            throw new UnsupportedEncodingException(enc);
+        }
 
-	    while ((count = is.read(buf, pos, buf.length - pos)) != -1) {
-		pos += count;
-		if (pos >= buf.length) {
-		    int size = buf.length;
-		    if (size < 256*1024)
-			size += size;
-		    else
-			size += 256*1024;
-		    char tbuf[] = new char[size];
-		    System.arraycopy(buf, 0, tbuf, 0, pos);
-		    buf = tbuf;
-		}
-	    }
-	    return new String(buf, 0, pos);
-	} finally {
-	    try {
-		is.close();
-	    } catch (IOException ex) { }
-	}
+        try {
+            int pos = 0;
+            int count;
+            char[] buf = new char[1024];
+
+            while ((count = is.read(buf, pos, buf.length - pos)) != -1) {
+                pos += count;
+                if (pos >= buf.length) {
+                    int size = buf.length;
+                    if (size < 256 * 1024) {
+                        size += size;
+                    } else {
+                        size += 256 * 1024;
+                    }
+                    char[] tbuf = new char[size];
+                    System.arraycopy(buf, 0, tbuf, 0, pos);
+                    buf = tbuf;
+                }
+            }
+            return new String(buf, 0, pos);
+        } finally {
+            try {
+                is.close();
+            } catch (IOException ex) {
+            }
+        }
     }
-    
+
     /**
      * Write the object to the output stream, using the specified MIME type.
      */
     @Override
     public void writeTo(Object obj, String type, OutputStream os)
-			throws IOException {
-	if (!(obj instanceof String))
-	    throw new IOException("\"" + getDF().getMimeType() +
-		"\" DataContentHandler requires String object, " +
-		"was given object of type " + obj.getClass().toString());
+            throws IOException {
+        if (!(obj instanceof String))
+            throw new IOException("\"" + getDF().getMimeType() +
+                    "\" DataContentHandler requires String object, " +
+                    "was given object of type " + obj.getClass().toString());
 
-	String enc = null;
-	OutputStreamWriter osw = null;
+        String enc = null;
+        OutputStreamWriter osw = null;
 
-	try {
-	    enc = getCharset(type);
-	    osw = new OutputStreamWriter(os, enc);
-	} catch (IllegalArgumentException iex) {
-	    /*
-	     * An unknown charset of the form ISO-XXX-XXX will cause
-	     * the JDK to throw an IllegalArgumentException.  The
-	     * JDK will attempt to create a classname using this string,
-	     * but valid classnames must not contain the character '-',
-	     * and this results in an IllegalArgumentException, rather than
-	     * the expected UnsupportedEncodingException.  Yikes.
-	     */
-	    throw new UnsupportedEncodingException(enc);
-	}
+        try {
+            enc = getCharset(type);
+            osw = new OutputStreamWriter(os, enc);
+        } catch (IllegalArgumentException iex) {
+            /*
+             * An unknown charset of the form ISO-XXX-XXX will cause
+             * the JDK to throw an IllegalArgumentException.  The
+             * JDK will attempt to create a classname using this string,
+             * but valid classnames must not contain the character '-',
+             * and this results in an IllegalArgumentException, rather than
+             * the expected UnsupportedEncodingException.  Yikes.
+             */
+            throw new UnsupportedEncodingException(enc);
+        }
 
-	String s = (String)obj;
-	osw.write(s, 0, s.length());
-	osw.flush();
+        String s = (String) obj;
+        osw.write(s, 0, s.length());
+        osw.flush();
     }
 
     private String getCharset(String type) {
-	try {
-	    ContentType ct = new ContentType(type);
-	    String charset = ct.getParameter("charset");
-	    if (charset == null)
-		// If the charset parameter is absent, use US-ASCII.
-		charset = "us-ascii";
-	    return MimeUtility.javaCharset(charset);
-	} catch (Exception ex) {
-	    return null;
-	}
+        try {
+            ContentType ct = new ContentType(type);
+            String charset = ct.getParameter("charset");
+            if (charset == null)
+                // If the charset parameter is absent, use US-ASCII.
+                charset = "us-ascii";
+            return MimeUtility.javaCharset(charset);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
 }

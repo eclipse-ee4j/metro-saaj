@@ -29,8 +29,10 @@ import java.io.IOException;
  *
  * @author Kohsuke Kawaguchi
  */
-public abstract class OutputUtil {
+public final class OutputUtil {
     private static byte[] newline = {'\r','\n'};
+
+    private OutputUtil() {}
 
     public static void writeln(String s,OutputStream out) throws IOException {
         writeAsAscii(s,out);

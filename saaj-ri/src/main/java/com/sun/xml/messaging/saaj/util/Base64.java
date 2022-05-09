@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,6 +68,7 @@ public final class Base64 {
 
     }
 
+    private Base64() {}
 
     static boolean isBase64( byte octect ) {
         //shall we ignore white space? JEFF??
@@ -96,7 +97,7 @@ public final class Base64 {
         int      lengthDataBits    = binaryData.length*EIGHTBIT;
         int      fewerThan24bits   = lengthDataBits%TWENTYFOURBITGROUP;
         int      numberTriplets    = lengthDataBits/TWENTYFOURBITGROUP;
-        byte     encodedData[]     = null;
+        byte[] encodedData = null;
 
 
         if ( fewerThan24bits != 0 ) //data not divisible by 24 bit
@@ -162,7 +163,7 @@ public final class Base64 {
      */
     public byte[] decode( byte[] base64Data ) {
         int      numberQuadruple    = base64Data.length/FOURBYTE;
-        byte     decodedData[]      = null;
+        byte[] decodedData = null;
         byte     b1=0,b2=0,b3=0, b4=0, marker0=0, marker1=0;
 
         // Throw away anything not in base64Data
@@ -206,7 +207,7 @@ public final class Base64 {
 
     }
 
-    static final int base64[]= {
+    static final int[] base64 = {
 	64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
 	    64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64,
 	    64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 64, 62, 64, 64, 64, 63,
@@ -226,7 +227,7 @@ public final class Base64 {
     };
 
     public static String base64Decode( String orig ) {
-	char chars[]=orig.toCharArray();
+	char[] chars =orig.toCharArray();
 	StringBuilder sb=new StringBuilder();
 	int i=0;
 

@@ -353,10 +353,10 @@ public class AttachImageTest extends TestCase {
 
     public void testSetContentGetRawContent() throws Exception {
 
-        byte buf1[] = new byte[30000];
-        byte buf2[] = new byte[30000];
-        byte buf3[] = new byte[30000];
-        byte buf4[] = new byte[30000];
+        byte[] buf1 = new byte[30000];
+        byte[] buf2 = new byte[30000];
+        byte[] buf3 = new byte[30000];
+        byte[] buf4 = new byte[30000];
 
         MessageFactory mf = MessageFactory.newInstance();
         SOAPMessage msg = mf.createMessage();
@@ -401,10 +401,10 @@ public class AttachImageTest extends TestCase {
 
     public void testSetContentGetRawContent2() throws Exception {
 
-        byte buf1[] = new byte[30000];
-        byte buf2[] = new byte[30000];
-        byte buf3[] = new byte[30000];
-        byte buf4[] = new byte[30000];
+        byte[] buf1 = new byte[30000];
+        byte[] buf2 = new byte[30000];
+        byte[] buf3 = new byte[30000];
+        byte[] buf4 = new byte[30000];
 
         MessageFactory mf = MessageFactory.newInstance();
         SOAPMessage msg = mf.createMessage();
@@ -444,10 +444,10 @@ public class AttachImageTest extends TestCase {
 
     public void testSetRawContentBytes() throws Exception {
 
-        byte buf1[] = new byte[30000];
-        byte buf2[] = new byte[30000];
-        byte buf3[] = new byte[30000];
-        byte buf4[] = new byte[30000];
+        byte[] buf1 = new byte[30000];
+        byte[] buf2 = new byte[30000];
+        byte[] buf3 = new byte[30000];
+        byte[] buf4 = new byte[30000];
 
         MessageFactory mf = MessageFactory.newInstance();
         SOAPMessage msg = mf.createMessage();

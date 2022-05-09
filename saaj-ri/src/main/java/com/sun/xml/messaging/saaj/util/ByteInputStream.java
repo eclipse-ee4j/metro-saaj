@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,11 +22,11 @@ public class ByteInputStream extends ByteArrayInputStream {
         this(EMPTY_ARRAY, 0);
     }
     
-    public ByteInputStream(byte buf[], int length) {
+    public ByteInputStream(byte[] buf, int length) {
         super(buf, 0, length);
     }
 
-    public ByteInputStream(byte buf[], int offset, int length) {
+    public ByteInputStream(byte[] buf, int offset, int length) {
         super(buf, offset, length);
     }
 

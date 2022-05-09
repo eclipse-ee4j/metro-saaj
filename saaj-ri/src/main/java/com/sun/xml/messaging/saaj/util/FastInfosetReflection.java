@@ -24,7 +24,7 @@ import org.w3c.dom.Node;
  * @author Santiago.PericasGeertsen@sun.com
  * @author Paul.Sandoz@sun.com
  */
-public class FastInfosetReflection {
+public final class FastInfosetReflection {
 
     /**
      * FI DOMDocumentParser constructor using reflection.
@@ -111,6 +111,8 @@ public class FastInfosetReflection {
             // falls through
         }
     }
+
+    private FastInfosetReflection() {}
 
     // -- DOMDocumentParser ----------------------------------------------
 

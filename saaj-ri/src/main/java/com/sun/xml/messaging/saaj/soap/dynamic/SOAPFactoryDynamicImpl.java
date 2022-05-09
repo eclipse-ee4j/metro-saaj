@@ -21,6 +21,9 @@ import com.sun.xml.messaging.saaj.soap.SOAPFactoryImpl;
  * @author SAAJ RI Development Team
  */
 public class SOAPFactoryDynamicImpl extends SOAPFactoryImpl {
+
+    public SOAPFactoryDynamicImpl() {}
+
     @Override
     protected SOAPDocumentImpl createDocument() {
         return null;
