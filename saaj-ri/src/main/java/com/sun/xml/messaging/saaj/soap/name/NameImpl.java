@@ -13,6 +13,7 @@ package com.sun.xml.messaging.saaj.soap.name;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.Name;
 import jakarta.xml.soap.SOAPConstants;
@@ -22,18 +23,10 @@ import org.w3c.dom.Element;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 
 public class NameImpl implements Name {
-    public static final String XML_NAMESPACE_PREFIX = "xml";
-    public static final String XML_SCHEMA_NAMESPACE_PREFIX = "xs";
-    public static final String SOAP_ENVELOPE_PREFIX = "SOAP-ENV";
 
-    public static final String XML_NAMESPACE =
-        "http://www.w3.org/XML/1998/namespace";
-    public static final String SOAP11_NAMESPACE =
-        SOAPConstants.URI_NS_SOAP_ENVELOPE;
-    public static final String SOAP12_NAMESPACE =
-        SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE;
-    public static final String XML_SCHEMA_NAMESPACE =
-        "http://www.w3.org/2001/XMLSchema";
+    public static final String SOAP_ENVELOPE_PREFIX = "SOAP-ENV";
+    public static final String SOAP11_NAMESPACE = SOAPConstants.URI_NS_SOAP_ENVELOPE;
+    public static final String SOAP12_NAMESPACE = SOAPConstants.URI_NS_SOAP_1_2_ENVELOPE;
 
     protected String uri = "";
     protected String localName = "";
@@ -44,13 +37,6 @@ public class NameImpl implements Name {
         Logger.getLogger(LogDomainConstants.NAMING_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.name.LocalStrings");
     
-    /**
-     * XML Information Set REC
-     * all namespace attributes (including those named xmlns, 
-     * whose [prefix] property has no value) have a namespace URI of http://www.w3.org/2000/xmlns/
-     */
-    public final static String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
-    
     protected NameImpl(String name) {
         this.localName = name == null ? "" : name;
     }
@@ -60,11 +46,11 @@ public class NameImpl implements Name {
         this.localName = name == null ? "" : name;
         this.prefix = prefix == null ? "" : prefix;
 
-        if (this.prefix.equals("xmlns") && this.uri.equals("")) {
-            this.uri = XMLNS_URI;
+        if (XMLConstants.XMLNS_ATTRIBUTE.equals(this.prefix) && this.uri.equals("")) {
+            this.uri = XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
         }
-        if (this.uri.equals(XMLNS_URI) && this.prefix.equals("")) {
-            this.prefix = "xmlns";
+        if (XMLConstants.XMLNS_ATTRIBUTE_NS_URI.equals(this.uri) && this.prefix.equals("")) {
+            this.prefix = XMLConstants.XMLNS_ATTRIBUTE;
         }
     }
 
@@ -435,7 +421,7 @@ public class NameImpl implements Name {
     }
 
     public static NameImpl createXmlName(String localName) {
-        return new NameImpl(localName, XML_NAMESPACE_PREFIX, XML_NAMESPACE);
+        return new NameImpl(localName, XMLConstants.XML_NS_PREFIX, XMLConstants.XML_NS_URI);
     }
 
     public static Name copyElementName(Element element) {

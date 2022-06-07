@@ -39,6 +39,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -56,7 +57,6 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
     public static final String SAAJ_NODE = "jakarta.xml.soap.Node";
 
-    private static final String XMLNS = "xmlns";
     private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
@@ -179,8 +179,8 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
             String prefix = name.substring(0, name.indexOf(':'));
             //cannot do anything to resolve the URI if prefix is not
             //XMLNS.
-            if (XMLNS.equals(prefix)) {
-                nsUri = ElementImpl.XMLNS_URI;
+            if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
+                nsUri = XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
                 return createAttributeNS(nsUri, name);
             }
         }

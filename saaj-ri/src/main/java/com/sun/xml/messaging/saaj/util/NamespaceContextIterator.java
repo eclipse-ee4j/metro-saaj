@@ -10,10 +10,14 @@
 
 package com.sun.xml.messaging.saaj.util;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-
-import org.w3c.dom.*;
+import javax.xml.XMLConstants;
 
 /**
  *
@@ -57,7 +61,7 @@ public class NamespaceContextIterator implements Iterator {
             for (; attributeIndex < attributesLength; ++attributeIndex) {
                 Node currentAttribute = attributes.item(attributeIndex);
                 String attributeName = currentAttribute.getNodeName();
-                if (attributeName.startsWith("xmlns")
+                if (attributeName.startsWith(XMLConstants.XMLNS_ATTRIBUTE)
                     && (attributeName.length() == 5
                         || attributeName.charAt(5) == ':')) {
                     next = (Attr) currentAttribute;

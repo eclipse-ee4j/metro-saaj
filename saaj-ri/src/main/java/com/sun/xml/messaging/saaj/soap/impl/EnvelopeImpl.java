@@ -17,6 +17,7 @@ import java.io.OutputStreamWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
@@ -213,12 +214,12 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
         // to make sure that the namespace specification rules are followed
 
         // reserved xmlns prefix cannot be used.
-        if ("xmlns".equals(prefix)) {
+        if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
             log.severe("SAAJ0123.impl.no.reserved.xmlns");
             throw new SOAPExceptionImpl("Cannot declare reserved xmlns prefix");
         }
         // Qualified name cannot be xmlns.
-        if ((prefix == null) && ("xmlns".equals(localName))) {
+        if ((prefix == null) && (XMLConstants.XMLNS_ATTRIBUTE.equals(localName))) {
             log.severe("SAAJ0124.impl.qualified.name.cannot.be.xmlns");
             throw new SOAPExceptionImpl("Qualified name cannot be xmlns");
         }
