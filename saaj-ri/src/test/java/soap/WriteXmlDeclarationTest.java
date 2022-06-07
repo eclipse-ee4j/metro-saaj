@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
 import junit.framework.TestCase;
 
@@ -33,7 +34,7 @@ public class WriteXmlDeclarationTest extends TestCase {
 
     public void testXmlDeclWithInputStream1() throws Exception {
         String testString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body/></soap:Envelope>";
-        byte[] utf8bytes = testString.getBytes("utf-8");
+        byte[] utf8bytes = testString.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais = new ByteArrayInputStream(utf8bytes);
         SOAPMessage msg = MessageFactory.newInstance().createMessage();
         SOAPPart soapPart = msg.getSOAPPart();
@@ -41,20 +42,20 @@ public class WriteXmlDeclarationTest extends TestCase {
         soapPart.getEnvelope();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         msg.writeTo(baos);
-        String msgString = baos.toString("utf-8");
+        String msgString = baos.toString(StandardCharsets.UTF_8);
         assertTrue(msgString.startsWith(xmlDecl));
     }
 
     public void testXmlDeclWithInputStream2() throws Exception {
         String testString = "<?xml version=\"1.0\" encoding=\"utf-8\"?><soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body/></soap:Envelope>";
-        byte[] utf8bytes = testString.getBytes("utf-8");
+        byte[] utf8bytes = testString.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais = new ByteArrayInputStream(utf8bytes);
         SOAPMessage msg = MessageFactory.newInstance().createMessage();
         SOAPPart soapPart = msg.getSOAPPart();
         soapPart.setContent(new StreamSource(bais));
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         msg.writeTo(baos);
-        String msgString = baos.toString("utf-8");
+        String msgString = baos.toString(StandardCharsets.UTF_8);
         assertTrue(msgString.startsWith(xmlDecl));
     }
 
@@ -68,7 +69,7 @@ public class WriteXmlDeclarationTest extends TestCase {
         soapPart.getEnvelope();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         msg.writeTo(baos);
-        String msgString = baos.toString("utf-8");
+        String msgString = baos.toString(StandardCharsets.UTF_8);
         assertTrue(msgString.startsWith(xmlDecl));
     }
 
@@ -81,7 +82,7 @@ public class WriteXmlDeclarationTest extends TestCase {
         soapPart.setContent(content);
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         msg.writeTo(baos);
-        String msgString = baos.toString("utf-8");
+        String msgString = baos.toString(StandardCharsets.UTF_8);
         assertTrue(msgString.startsWith(xmlDecl));
     }
 }

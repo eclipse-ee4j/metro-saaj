@@ -10,7 +10,6 @@
 
 package com.sun.xml.messaging.saaj.soap;
 
-import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;

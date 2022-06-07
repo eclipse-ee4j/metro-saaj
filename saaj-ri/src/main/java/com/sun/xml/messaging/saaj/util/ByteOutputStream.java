@@ -33,12 +33,12 @@ public final class ByteOutputStream extends OutputStream {
     /**
      * The buffer where data is stored.
      */
-    protected byte[] buf;
+    private byte[] buf;
 
     /**
      * The number of valid bytes in the buffer.
      */
-    protected int count = 0;
+    private int count = 0;
 
     public ByteOutputStream() {
         this(1024);

@@ -11,6 +11,7 @@
 package soap;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import jakarta.xml.soap.*;
@@ -73,7 +74,7 @@ public class FaultTest extends TestCase {
         +     "</soap:Body>"
         + "</soap:Envelope>";
 
-        byte[] testDocBytes = testDoc.getBytes("UTF-8");
+        byte[] testDocBytes = testDoc.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
         StreamSource strSource = new StreamSource(bais);
 

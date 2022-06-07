@@ -15,8 +15,11 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
+
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import jakarta.xml.soap.*;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -45,6 +48,9 @@ import org.w3c.dom.Element;
  * @author Anil Vijendran (anil@sun.com)
  */
 public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
+
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
+
     protected HeaderImpl header;
     protected BodyImpl body;
     String omitXmlDecl = "yes";
@@ -78,7 +84,7 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
             addBody();
     }
 
-    public EnvelopeImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected EnvelopeImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 
@@ -273,9 +279,9 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
            
             if (log.isLoggable(Level.FINE)) {
                 log.log(Level.FINE, "SAAJ0190.impl.set.xml.declaration",
-                        new String[] { omitXmlDecl });
+                        new String[] { omitXmlDecl.replaceAll("[\r\n]","") });
                 log.log(Level.FINE, "SAAJ0191.impl.set.encoding",
-                        new String[] { charset });
+                        new String[] { charset.replaceAll("[\r\n]","") });
             }
                 
             //StreamResult result = new StreamResult(out);
@@ -345,8 +351,8 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
      public SOAPElement setElementQName(QName newName) throws SOAPException {
         log.log(Level.SEVERE,
                 "SAAJ0146.impl.invalid.name.change.requested",
-                new Object[] {elementQName.getLocalPart(),
-                              newName.getLocalPart()});
+                new Object[] {elementQName.getLocalPart().replaceAll("[\r\n]",""),
+                              newName.getLocalPart().replaceAll("[\r\n]","")});
         throw new SOAPException("Cannot change name for "
                                 + elementQName.getLocalPart() + " to "
                                 + newName.getLocalPart());
@@ -371,7 +377,7 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
     @Override
     public void writeTo(final XMLStreamWriter writer) throws XMLStreamException, SOAPException {
     	StaxBridge readBridge = this.getStaxBridge();
-    	if (readBridge != null && readBridge instanceof StaxLazySourceBridge) {
+    	if (readBridge instanceof StaxLazySourceBridge) {
 //        	StaxSoapWriteBridge writingBridge =  new StaxSoapWriteBridge(this);
 //        	writingBridge.write(writer);     
         	final String soapEnvNS = this.getNamespaceURI();

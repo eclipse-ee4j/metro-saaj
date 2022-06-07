@@ -25,7 +25,7 @@ import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 
 public class Message1_1Impl extends MessageImpl implements SOAPConstants {
     
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_VER1_1_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.ver1_1.LocalStrings");
    

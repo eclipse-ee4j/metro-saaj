@@ -19,7 +19,6 @@ import jakarta.activation.DataHandler;
 import jakarta.activation.DataSource;
 import jakarta.xml.soap.*;
 import javax.xml.stream.XMLStreamReader;
-import javax.xml.transform.Source;
 import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamSource;
 
@@ -51,7 +50,7 @@ public abstract class MessageImpl
     public static final String CONTENT_ID             = "Content-ID";
     public static final String CONTENT_LOCATION       = "Content-Location";
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
 
@@ -350,8 +349,8 @@ public abstract class MessageImpl
 
     }
 
-    public MessageImpl(MimeHeaders headers, ContentType ct, int stat,
-            XMLStreamReader reader) throws SOAPExceptionImpl {
+    protected MessageImpl(MimeHeaders headers, ContentType ct, int stat,
+                          XMLStreamReader reader) throws SOAPExceptionImpl {
         init(headers, stat, ct, reader);
     }
 
@@ -388,8 +387,8 @@ public abstract class MessageImpl
                     Level.SEVERE,
                     "SAAJ0533.soap.incorrect.Content-Type",
                     new String[] {
-                        contentType.toString(),
-                        getExpectedContentType()});
+                        contentType.toString().replaceAll("[\r\n]",""),
+                        getExpectedContentType().replaceAll("[\r\n]","")});
                 throw new SOAPVersionMismatchException(
                     "Cannot create message: incorrect content-type for SOAP version. Got: "
                         + contentType
@@ -553,7 +552,7 @@ public abstract class MessageImpl
                   || isSOAPBodyXOPPackage(soapPartCType))) {
                     log.log(Level.SEVERE,
                             "SAAJ0549.soap.part.invalid.Content-Type",
-                            new Object[] {baseType});
+                            new Object[] {baseType.replaceAll("[\r\n]","")});
                     throw new SOAPExceptionImpl(
                             "Bad Content-Type for SOAP Part : " +
                             baseType);
@@ -598,9 +597,9 @@ public abstract class MessageImpl
         Object lazyParsingProp = getProperty(LAZY_SOAP_BODY_PARSING);
         if (lazyParsingProp == null) return false;
         if (lazyParsingProp instanceof Boolean) {
-            return ((Boolean) lazyParsingProp).booleanValue();
+            return (Boolean) lazyParsingProp;
         } else {
-            return Boolean.valueOf(lazyParsingProp.toString());
+            return Boolean.parseBoolean(lazyParsingProp.toString());
         }
     }
     @Override
@@ -629,7 +628,7 @@ public abstract class MessageImpl
                 }
             } catch (Exception e) {
                 log.log(Level.SEVERE, "SAAJ0591.soap.exception.in.set.property", 
-                    new Object[] {e.getMessage(), "jakarta.xml.soap.write-xml-declaration"});
+                    new Object[] {e.getMessage().replaceAll("[\r\n]",""), "jakarta.xml.soap.write-xml-declaration"});
                 throw new RuntimeException(e);
             }
             return;
@@ -640,7 +639,7 @@ public abstract class MessageImpl
                 ((EnvelopeImpl) getSOAPPart().getEnvelope()).setCharsetEncoding((String)value);
             } catch (Exception e) {
                 log.log(Level.SEVERE, "SAAJ0591.soap.exception.in.set.property", 
-                    new Object[] {e.getMessage(), "jakarta.xml.soap.character-set-encoding"});
+                    new Object[] {e.getMessage().replaceAll("[\r\n]",""), "jakarta.xml.soap.character-set-encoding"});
                 throw new RuntimeException(e);
             }
         }
@@ -984,7 +983,7 @@ public abstract class MessageImpl
             int index = attachments.indexOf(it.next());
             attachments.set(index, null);
         }
-        FinalArrayList<AttachmentPart> f = new FinalArrayList<AttachmentPart>();
+        FinalArrayList<AttachmentPart> f = new FinalArrayList<>();
         for (int i = 0; i < attachments.size(); i++) {
             if (attachments.get(i) != null) {
                 f.add(attachments.get(i));
@@ -1070,7 +1069,7 @@ public abstract class MessageImpl
                     String cl = p.getContentId();
                     if (cl != null) {    
                         // obtain the partname
-                        int eqIndex = cl.indexOf("=");
+                        int eqIndex = cl.indexOf('=');
                         if (eqIndex > -1) {
                             cl = cl.substring(1, eqIndex);
                             if (cl.equalsIgnoreCase(uri)) {
@@ -1083,7 +1082,7 @@ public abstract class MessageImpl
             }
             
         } catch (Exception se) {
-            log.log(Level.SEVERE, "SAAJ0590.soap.unable.to.locate.attachment", new Object[] {uri});
+            log.log(Level.SEVERE, "SAAJ0590.soap.unable.to.locate.attachment", new Object[] {uri.replaceAll("[\r\n]","")});
             throw new SOAPExceptionImpl(se);
         }
         return _part;
@@ -1207,7 +1206,7 @@ public abstract class MessageImpl
 
     private String getCharsetString(String s) {
         try {
-            int index = s.indexOf(";");
+            int index = s.indexOf(';');
             if(index < 0)
                 return null;
             ParameterList pl = new ParameterList(s.substring(index));
@@ -1458,7 +1457,7 @@ public abstract class MessageImpl
         }
                                                                                 
         if (attachments == null)
-            attachments = new FinalArrayList<AttachmentPart>();
+            attachments = new FinalArrayList<>();
                                                                                 
         int count = multiPart.getCount();
         for (int i=0; i < count; i++ ) {

@@ -14,6 +14,7 @@ import java.util.logging.Level;
 
 import javax.xml.namespace.QName;
 
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import org.w3c.dom.Element;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
@@ -23,6 +24,8 @@ import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
+
 import jakarta.xml.soap.Name;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPEnvelope;
@@ -31,13 +34,16 @@ import jakarta.xml.soap.SOAPHeader;
 import jakarta.xml.soap.SOAPHeaderElement;
 
 public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
+
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
+
     protected static final boolean MUST_UNDERSTAND_ONLY = false;
 
     protected HeaderImpl(SOAPDocumentImpl ownerDoc, NameImpl name) {
         super(ownerDoc, name);
     }
 
-    public HeaderImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected HeaderImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 
@@ -57,8 +63,7 @@ public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
                 name.getLocalName(),
                 name.getPrefix(),
                 name.getURI());
-        if (newHeaderElement == null
-            || !(newHeaderElement instanceof SOAPHeaderElement)) {
+        if (!(newHeaderElement instanceof SOAPHeaderElement)) {
             newHeaderElement = createHeaderElement(name);
         }
 
@@ -81,8 +86,7 @@ public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
                 name.getLocalPart(),
                 name.getPrefix(),
                 name.getNamespaceURI());
-        if (newHeaderElement == null
-            || !(newHeaderElement instanceof SOAPHeaderElement)) {
+        if (!(newHeaderElement instanceof SOAPHeaderElement)) {
             newHeaderElement = createHeaderElement(name);
         }
 
@@ -307,8 +311,8 @@ public abstract class HeaderImpl extends ElementImpl implements SOAPHeader {
     public SOAPElement setElementQName(QName newName) throws SOAPException {
        log.log(Level.SEVERE,
                 "SAAJ0146.impl.invalid.name.change.requested",
-                new Object[] {elementQName.getLocalPart(),
-                              newName.getLocalPart()});
+                new Object[] {elementQName.getLocalPart().replaceAll("[\r\n]",""),
+                              newName.getLocalPart().replaceAll("[\r\n]","")});
         throw new SOAPException("Cannot change name for "
                                 + elementQName.getLocalPart() + " to "
                                 + newName.getLocalPart());

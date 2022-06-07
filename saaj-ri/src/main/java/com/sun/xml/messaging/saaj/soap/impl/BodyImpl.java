@@ -13,6 +13,7 @@ package com.sun.xml.messaging.saaj.soap.impl;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
 import javax.xml.stream.XMLStreamException;
@@ -20,6 +21,7 @@ import javax.xml.stream.XMLStreamReader;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.SAAJUtil;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
@@ -46,6 +48,9 @@ import org.w3c.dom.NodeList;
  * @author Anil Vijendran (anil@sun.com)
  */
 public abstract class BodyImpl extends ElementImpl implements SOAPBody {
+
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
+
     private SOAPFault fault;
 //  private XMLStreamReaderToXMLStreamWriter staxBridge;
     private StaxBridge staxBridge;
@@ -55,7 +60,7 @@ public abstract class BodyImpl extends ElementImpl implements SOAPBody {
         super(ownerDoc, bodyName);
     }
 
-    public BodyImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected BodyImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 
@@ -290,8 +295,8 @@ public abstract class BodyImpl extends ElementImpl implements SOAPBody {
     public SOAPElement setElementQName(QName newName) throws SOAPException {
         log.log(Level.SEVERE,
                 "SAAJ0146.impl.invalid.name.change.requested",
-                new Object[] {elementQName.getLocalPart(),
-                              newName.getLocalPart()});
+                new Object[] {elementQName.getLocalPart().replaceAll("[\r\n]",""),
+                              newName.getLocalPart().replaceAll("[\r\n]","")});
         throw new SOAPException("Cannot change name for "
                                 + elementQName.getLocalPart() + " to "
                                 + newName.getLocalPart());

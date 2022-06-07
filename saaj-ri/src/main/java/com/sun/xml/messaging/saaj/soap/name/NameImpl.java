@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -40,7 +40,7 @@ public class NameImpl implements Name {
     protected String prefix = "";
     private String qualifiedName = null;
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.NAMING_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.name.LocalStrings");
     
@@ -49,7 +49,7 @@ public class NameImpl implements Name {
      * all namespace attributes (including those named xmlns, 
      * whose [prefix] property has no value) have a namespace URI of http://www.w3.org/2000/xmlns/
      */
-    public final static String XMLNS_URI = "http://www.w3.org/2000/xmlns/".intern();
+    public final static String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
     
     protected NameImpl(String name) {
         this.localName = name == null ? "" : name;
@@ -116,7 +116,7 @@ public class NameImpl implements Name {
             log.log( 
                 Level.SEVERE,
                 "SAAJ0202.name.invalid.arg.format",
-                new String[] { qualifiedName });
+                new String[] { qualifiedName.replaceAll("[\r\n]","") });
             throw new IllegalArgumentException(
                 "Argument \""
                     + qualifiedName

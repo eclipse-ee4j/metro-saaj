@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,6 +13,7 @@ package soap;
 import jakarta.xml.soap.*;
 import java.io.ByteArrayInputStream;
 import java.io.StringWriter;
+import java.nio.charset.StandardCharsets;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -41,7 +42,7 @@ public class DetailTest extends TestCase {
 
     public void doit1() throws Exception {
 		String testDoc = 		  "<?xml version='1.0' encoding='UTF-8'?>\n" 		+ "<D:Envelope xmlns:D='http://schemas.xmlsoap.org/soap/envelope/'>\n"     		+ "	<D:Body>\n" 	        + "		<D:Fault>\n"             	+ "			<D:faultcode>Client.invalidSignature</D:faultcode>\n"             	+ "			<D:faultstring>invalid signature</D:faultstring>\n"             	+ "			<D:detail>\n"                 + "				27: Invalid Signature\n"             	+ "			</D:detail>\n"         	+ "		</D:Fault>\n"     		+ "	</D:Body>\n" 		+ "</D:Envelope>\n"; 
-		byte[] testDocBytes = testDoc.getBytes("UTF-8");
+		byte[] testDocBytes = testDoc.getBytes(StandardCharsets.UTF_8);
                 ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
 		StreamSource strSource = new StreamSource(bais);
 		

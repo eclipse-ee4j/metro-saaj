@@ -11,29 +11,35 @@
 package com.sun.xml.messaging.saaj.soap.impl;
 
 import javax.xml.namespace.QName;
+
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import jakarta.xml.soap.*;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import org.w3c.dom.Element;
 
+import java.util.logging.Logger;
+
 public abstract class HeaderElementImpl
     extends ElementImpl
     implements SOAPHeaderElement {
 
-    protected static Name RELAY_ATTRIBUTE_LOCAL_NAME =
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
+
+    protected static final Name RELAY_ATTRIBUTE_LOCAL_NAME =
         NameImpl.createFromTagName("relay");
-    protected static Name MUST_UNDERSTAND_ATTRIBUTE_LOCAL_NAME =
+    protected static final Name MUST_UNDERSTAND_ATTRIBUTE_LOCAL_NAME =
         NameImpl.createFromTagName("mustUnderstand");
 
-    public HeaderElementImpl(SOAPDocumentImpl ownerDoc, Name qname) {
+    protected HeaderElementImpl(SOAPDocumentImpl ownerDoc, Name qname) {
         super(ownerDoc, qname);
     }
-    public HeaderElementImpl(SOAPDocumentImpl ownerDoc, QName qname) {
+    protected HeaderElementImpl(SOAPDocumentImpl ownerDoc, QName qname) {
         super(ownerDoc, qname);
     }
 
-    public HeaderElementImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected HeaderElementImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 

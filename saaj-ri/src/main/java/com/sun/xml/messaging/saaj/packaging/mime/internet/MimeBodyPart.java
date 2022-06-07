@@ -537,7 +537,7 @@ public final class MimeBodyPart {
 
         // Tokenize the header to obtain the Language-tags (skip comments)
         HeaderTokenizer h = new HeaderTokenizer(s, HeaderTokenizer.MIME);
-        FinalArrayList<String> v = new FinalArrayList<String>();
+        FinalArrayList<String> v = new FinalArrayList<>();
 
         HeaderTokenizer.Token tk;
         int tkType;
@@ -555,7 +555,7 @@ public final class MimeBodyPart {
         if (v.size() == 0)
             return null;
 
-        return v.toArray(new String[v.size()]);
+        return v.toArray(new String[0]);
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,6 +13,7 @@ package mime;
 import jakarta.xml.soap.*;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import javax.xml.transform.stream.StreamSource;
 
 import junit.framework.TestCase;
@@ -25,7 +26,7 @@ public class CharacterSetEncodingTest extends TestCase {
 
     public void testCharacterSetEncoding() throws Exception {
         String testString = "<soap:Envelope xmlns:soap=\"http://schemas.xmlsoap.org/soap/envelope/\"><soap:Body/></soap:Envelope>";
-        byte[] utf16bytes = testString.getBytes("utf-16");
+        byte[] utf16bytes = testString.getBytes(StandardCharsets.UTF_16);
         ByteArrayInputStream bais = new ByteArrayInputStream(utf16bytes);
         MimeHeaders headers = new MimeHeaders();
         headers.setHeader("Content-Type", "text/xml; charset=utf-16");
@@ -44,7 +45,7 @@ public class CharacterSetEncodingTest extends TestCase {
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-16\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Header/><SOAP-ENV:Body><p:content SOAP-ENV:encodingStyle=\"http://example.com/encoding\" xmlns:p=\"some-uri\">Jeu universel de caract�res cod�s � plusieurs octets</p:content></SOAP-ENV:Body></SOAP-ENV:Envelope>";
         SOAPMessage msg = factory.createMessage();
         msg.getMimeHeaders().setHeader("Content-Type","text/xml; charset=utf-16");
-        msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-16"))));   
+        msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_16))));
         msg.saveChanges(); 
 
         MimeHeaders headers = msg.getMimeHeaders();
@@ -60,7 +61,7 @@ public class CharacterSetEncodingTest extends TestCase {
     
        public void testCharacterSetSOAP12() throws Exception {
         String testString = "<soap:Envelope xmlns:soap=\"http://www.w3.org/2003/05/soap-envelope\"><soap:Body/></soap:Envelope>";
-        byte[] utf16bytes = testString.getBytes("utf-16");
+        byte[] utf16bytes = testString.getBytes(StandardCharsets.UTF_16);
         ByteArrayInputStream bais = new ByteArrayInputStream(utf16bytes);
         MimeHeaders headers = new MimeHeaders();
         //headers.setHeader("Content-Type", "");

@@ -10,7 +10,6 @@
 
 package com.sun.xml.messaging.saaj.soap;
 
-import java.awt.datatransfer.DataFlavor;
 import java.io.*;
 
 import jakarta.activation.*;
@@ -89,11 +88,7 @@ public class StringDataContentHandler implements DataContentHandler {
                 pos += count;
                 if (pos >= buf.length) {
                     int size = buf.length;
-                    if (size < 256 * 1024) {
-                        size += size;
-                    } else {
-                        size += 256 * 1024;
-                    }
+                    size += Math.min(size, 256 * 1024);
                     char[] tbuf = new char[size];
                     System.arraycopy(buf, 0, tbuf, 0, pos);
                     buf = tbuf;

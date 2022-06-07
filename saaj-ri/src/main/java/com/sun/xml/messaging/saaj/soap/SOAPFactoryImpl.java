@@ -28,7 +28,7 @@ import org.w3c.dom.Attr;
 
 public abstract class SOAPFactoryImpl extends SOAPFactory {
 
-    protected static final Logger
+    private static final Logger
         log = Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                                "com.sun.xml.messaging.saaj.soap.LocalStrings");
 

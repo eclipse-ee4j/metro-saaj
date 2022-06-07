@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -48,7 +48,7 @@ import com.sun.xml.messaging.saaj.util.SAAJUtil;
  */
 class HttpSOAPConnection extends SOAPConnection {
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.HTTP_CONN_DOMAIN,
                          "com.sun.xml.messaging.saaj.client.p2p.LocalStrings");
 
@@ -250,7 +250,7 @@ class HttpSOAPConnection extends SOAPConnection {
                 else if ((responseCode / 100) != 2) {
                     log.log(Level.SEVERE,
                             "SAAJ0008.p2p.bad.response",
-                            new String[] {httpConnection.getResponseMessage()});
+                            new String[] {httpConnection.getResponseMessage().replaceAll("[\r\n]","")});
                     throw new SOAPExceptionImpl(
                         "Bad response: ("
                             + responseCode
@@ -379,12 +379,13 @@ class HttpSOAPConnection extends SOAPConnection {
         try {
             // Process the URL
             URI uri = new URI(endPoint.toString());
-            String userInfo = uri.getRawUserInfo();
 
             url = endPoint;
 
-            if (dL > 0)
+            if (dL > 0) {
+                String userInfo = uri.getRawUserInfo();
                 d("uri: " + userInfo + " " + url + " " + uri);
+            }
 
             // TBD
             //    Will deal with https later.
@@ -420,7 +421,7 @@ class HttpSOAPConnection extends SOAPConnection {
                 } else if ((responseCode / 100) != 2) {
                     log.log(Level.SEVERE,
                             "SAAJ0008.p2p.bad.response",
-                            new String[] { httpConnection.getResponseMessage()});
+                            new String[] { httpConnection.getResponseMessage().replaceAll("[\r\n]","")});
                     throw new SOAPExceptionImpl(
                         "Bad response: ("
                             + responseCode
@@ -563,7 +564,7 @@ class HttpSOAPConnection extends SOAPConnection {
     private void d(String s) {
         log.log(Level.SEVERE,
                 "SAAJ0013.p2p.HttpSOAPConnection",
-                new String[] { s });
+                new String[] { s.replaceAll("[\r\n]","") });
         System.err.println("HttpSOAPConnection: " + s);
     }
 

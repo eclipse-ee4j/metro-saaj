@@ -17,22 +17,23 @@ import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.ParserPool;
 import com.sun.xml.messaging.saaj.util.RejectDoctypeSaxFilter;
 import com.sun.xml.messaging.saaj.util.transform.EfficientStreamingTransformer;
-
+import jakarta.xml.soap.SOAPException;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-import jakarta.xml.soap.SOAPException;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stax.StAXSource;
 import javax.xml.transform.stream.StreamSource;
-
 import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.logging.Logger;
@@ -45,7 +46,7 @@ public final class EnvelopeFactory {
     private static final String SAX_PARSER_POOL_SIZE_PROP_NAME = "com.sun.xml.messaging.saaj.soap.saxParserPoolSize";
     private static final int DEFAULT_SAX_PARSER_POOL_SIZE = 5;
     
-    protected static final Logger
+    private static final Logger
         log = Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
         "com.sun.xml.messaging.saaj.soap.LocalStrings");
 
@@ -107,7 +108,7 @@ public final class EnvelopeFactory {
         }
     }
     
-    static private XMLInputFactory xmlInputFactory = null;
+    private static volatile XMLInputFactory xmlInputFactory = null;
     
     private static Envelope parseEnvelopeStax(Source src, SOAPPartImpl soapPart)
             throws SOAPException {
@@ -117,7 +118,12 @@ public final class EnvelopeFactory {
         }
         try {
             if (streamReader == null) {
-                if (xmlInputFactory == null) xmlInputFactory = XMLInputFactory.newInstance();
+                if (xmlInputFactory == null) {
+                    XMLInputFactory xif = XMLInputFactory.newInstance();
+                    xif.setProperty(XMLInputFactory.SUPPORT_DTD, false);
+                    xif.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, false);
+                    xmlInputFactory = xif;
+                }
                 streamReader = xmlInputFactory.createXMLStreamReader(src);
             }
 //            SaajStaxWriter saajWriter = new SaajStaxWriter(soapPart.message, soapPart.document);
@@ -147,7 +153,7 @@ public final class EnvelopeFactory {
     		if (src instanceof StreamSource) {
     			try {
     				saxParser = underlyingParserPool.get();
-    			} catch (Exception e) {
+    			} catch (ParserConfigurationException | SAXException e) {
     				log.severe("SAAJ0601.util.newSAXParser.exception");
     				throw new SOAPExceptionImpl(
     						"Couldn't get a SAX parser while constructing a envelope",
@@ -160,7 +166,7 @@ public final class EnvelopeFactory {
     			XMLReader rejectFilter;
     			try {
     				rejectFilter = new RejectDoctypeSaxFilter(saxParser);
-    			} catch (Exception ex) {
+    			} catch (SOAPException ex) {
     				log.severe("SAAJ0510.soap.cannot.create.envelope");
     				throw new SOAPExceptionImpl(
     						"Unable to create envelope from given source: ",
@@ -177,7 +183,7 @@ public final class EnvelopeFactory {
 
     			Envelope env = (Envelope) soapPart.getEnvelope();
     			return env;
-    		} catch (Exception ex) {
+    		} catch (TransformerException | SOAPException ex) {
     			if (ex instanceof SOAPVersionMismatchException) {
     				throw (SOAPVersionMismatchException) ex;
     			}

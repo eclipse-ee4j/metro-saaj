@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,6 +16,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 
 import junit.framework.TestCase;
 
@@ -45,7 +46,7 @@ public class XmlDeclarationUtf16Test extends TestCase {
         message.setProperty(SOAPMessage.CHARACTER_SET_ENCODING, "utf-16");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         message.writeTo(baos);
-        String decoded = baos.toString("utf-16");
+        String decoded = baos.toString(StandardCharsets.UTF_16);
         //String decoded = baos.toString();
         assertTrue(
             decoded.indexOf("<?xml") != -1 && decoded.indexOf("utf-16") != -1);
@@ -64,7 +65,7 @@ public class XmlDeclarationUtf16Test extends TestCase {
         message.setProperty(SOAPMessage.CHARACTER_SET_ENCODING, "utf-16");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         message.writeTo(baos);
-        String decoded = baos.toString("utf-16");
+        String decoded = baos.toString(StandardCharsets.UTF_16);
         //String decoded = baos.toString();
         assertTrue(
             decoded.indexOf("<?xml") != -1 && decoded.indexOf("utf-16") != -1);
@@ -83,7 +84,7 @@ public class XmlDeclarationUtf16Test extends TestCase {
         message.setProperty(SOAPMessage.WRITE_XML_DECLARATION, "false");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         message.writeTo(baos);
-        String soapmessage = new String(baos.toByteArray());
+        String soapmessage = baos.toString();
         assertFalse(soapmessage.indexOf("<?xml") != -1);
     }
 
@@ -93,7 +94,7 @@ public class XmlDeclarationUtf16Test extends TestCase {
          String xml = "<?xml version=\"1.0\" encoding=\"UTF-16\"?><SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Header/><SOAP-ENV:Body><p:content SOAP-ENV:encodingStyle=\"http://example.com/encoding\" xmlns:p=\"some-uri\">Jeu universel de caract�res cod�s � plusieurs octets</p:content></SOAP-ENV:Body></SOAP-ENV:Envelope>";
            SOAPMessage msg = factory.createMessage();
            msg.getMimeHeaders().setHeader("Content-Type","text/xml; charset=utf-16");
-           msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-16"))));
+           msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_16))));
            msg.saveChanges();
            String[] contentType = msg.getMimeHeaders().getHeader("Content-Type");
            if((contentType != null)&&(contentType.length > 0) && 

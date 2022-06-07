@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,14 +20,14 @@ import org.w3c.dom.Element;
 public abstract class DetailEntryImpl
     extends ElementImpl
     implements DetailEntry {
-    public DetailEntryImpl(SOAPDocumentImpl ownerDoc, Name qname) {
+    protected DetailEntryImpl(SOAPDocumentImpl ownerDoc, Name qname) {
         super(ownerDoc, qname);
     }
-    public DetailEntryImpl(SOAPDocumentImpl ownerDoc, QName qname) {
+    protected DetailEntryImpl(SOAPDocumentImpl ownerDoc, QName qname) {
         super(ownerDoc, qname);
     }
 
-    public DetailEntryImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected DetailEntryImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 }

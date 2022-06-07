@@ -19,16 +19,21 @@ package com.sun.xml.messaging.saaj.util.transform;
 import java.io.*;
 
 import java.net.URISyntaxException;
+import javax.xml.XMLConstants;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import org.w3c.dom.Document;
 
 import com.sun.xml.messaging.saaj.util.XMLDeclarationParser;
 import com.sun.xml.messaging.saaj.util.FastInfosetReflection;
 import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -47,22 +52,12 @@ import javax.xml.transform.TransformerFactory;
 public class EfficientStreamingTransformer
     extends javax.xml.transform.Transformer {
 
+     private static final Logger LOGGER = Logger.getLogger(LogDomainConstants.SOAP_DOMAIN, "com.sun.xml.messaging.saaj.soap.LocalStrings");
+
   //static final String version;
   //static final String vendor;
   // removing static : security issue : CR 6813167Z
-  private final TransformerFactory transformerFactory = TransformerFactory.newInstance();
-
-  /*
-  removing support for Java 1.4 and 1.3 : CR6658158
-  static {
-        version = System.getProperty("java.vm.version");
-        vendor = System.getProperty("java.vm.vendor");
-        if (vendor.startsWith("Sun") && 
-            (version.startsWith("1.4") || version.startsWith("1.3"))) {
-            transformerFactory = 
-                new com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl();
-        }
-  }*/
+  private final TransformerFactory transformerFactory;
 
     /**
      * Underlying XSLT transformer.
@@ -80,6 +75,15 @@ public class EfficientStreamingTransformer
     private Object m_fiDOMDocumentSerializer = null;
     
     private EfficientStreamingTransformer() {
+        TransformerFactory tf = TransformerFactory.newInstance();
+        try {
+            tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        } catch (TransformerConfigurationException e) {
+            LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support secure xml processing!", new Object[] { tf.getClass().getName() } );
+        }
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        transformerFactory = tf;
     }
 
     private void materialize() throws TransformerException {
@@ -235,7 +239,7 @@ public class EfficientStreamingTransformer
                      /some/path/file.xml
                     */
 
-                    boolean hasDriveDesignator = absolutePath.indexOf(":") > 0;
+                    boolean hasDriveDesignator = absolutePath.indexOf(':') > 0;
                     if (hasDriveDesignator) {
                       String driveDesignatedPath = absolutePath.substring(1);
                       /*

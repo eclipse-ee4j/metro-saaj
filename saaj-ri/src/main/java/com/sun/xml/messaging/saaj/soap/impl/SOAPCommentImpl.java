@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,15 +10,19 @@
 
 package com.sun.xml.messaging.saaj.soap.impl;
 
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import org.w3c.dom.CharacterData;
 import org.w3c.dom.Comment;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Text;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
-import static com.sun.xml.messaging.saaj.soap.impl.TextImpl.log;
+
+import java.util.logging.Logger;
 
 public class SOAPCommentImpl extends TextImpl<Comment> implements Comment {
+
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
 
     public SOAPCommentImpl(SOAPDocumentImpl ownerDoc, String text) {
         super(ownerDoc, text);

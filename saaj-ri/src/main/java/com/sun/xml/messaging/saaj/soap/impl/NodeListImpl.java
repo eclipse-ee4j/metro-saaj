@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -16,8 +16,6 @@ import org.w3c.dom.NodeList;
 
 import java.util.Objects;
 
-import static java.util.Objects.requireNonNull;
-
 /**
  * Node list wrapper, finding SOAP elements automatically when possible.
  *
@@ -30,8 +28,8 @@ public class NodeListImpl implements NodeList {
     private final NodeList nodeList;
 
     public NodeListImpl(SOAPDocumentImpl soapDocument, NodeList nodeList) {
-        this.soapDocument = requireNonNull(soapDocument);
-        this.nodeList = requireNonNull(nodeList);
+        this.soapDocument = Objects.requireNonNull(soapDocument);
+        this.nodeList = Objects.requireNonNull(nodeList);
     }
 
     @Override

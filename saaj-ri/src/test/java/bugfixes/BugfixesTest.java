@@ -13,6 +13,7 @@ package bugfixes;
 import java.io.*;
 import java.net.URL;
 import java.net.URLStreamHandler;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Locale;
@@ -709,7 +710,7 @@ public class BugfixesTest extends TestCase {
         headers.addHeader("Content-Type", "text/xml");
 
         MessageFactory factory = MessageFactory.newInstance();
-        InputStream istream = new ByteArrayInputStream(RPC.getBytes("utf-8"));
+        InputStream istream = new ByteArrayInputStream(RPC.getBytes(StandardCharsets.UTF_8));
         BufferedInputStream bistream = new BufferedInputStream(istream);
         try {
             SOAPMessage m = factory.createMessage(headers, bistream);
@@ -735,7 +736,7 @@ public class BugfixesTest extends TestCase {
         headers.addHeader("Content-Type", "text/xml");
 
         MessageFactory factory = MessageFactory.newInstance();
-        InputStream istream = new ByteArrayInputStream(RPC.getBytes("utf-8"));
+        InputStream istream = new ByteArrayInputStream(RPC.getBytes(StandardCharsets.UTF_8));
         BufferedInputStream bistream = new BufferedInputStream(istream);
         SOAPMessage m = factory.createMessage(headers, bistream);
 
@@ -836,7 +837,7 @@ public class BugfixesTest extends TestCase {
         DocumentBuilder builder = factory.newDocumentBuilder();
 
         InputStream istream = new ByteArrayInputStream(
-                "<foo> bar <w> we </w> </foo>".getBytes("utf-8"));
+                "<foo> bar <w> we </w> </foo>".getBytes(StandardCharsets.UTF_8));
         Document doc = builder.parse(istream);
 
         MessageFactory mfactory = MessageFactory.newInstance();

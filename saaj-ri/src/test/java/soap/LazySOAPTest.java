@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 
 import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.MimeHeaders;
@@ -37,7 +38,7 @@ public class LazySOAPTest extends TestCase {
         String soapMsg = makeSoapMessageString(3);
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader("Content-Type", "text/xml");
-        InputStream in = new ByteArrayInputStream(soapMsg.getBytes("UTF-8")); 
+        InputStream in = new ByteArrayInputStream(soapMsg.getBytes(StandardCharsets.UTF_8));
 //      System.out.println("soap msg: " + soapMsg);
         SOAPMessage msg = MessageFactory.newInstance().createMessage(headers, in);
         msg.setProperty(MessageImpl.LAZY_SOAP_BODY_PARSING, "true");
@@ -58,7 +59,7 @@ public class LazySOAPTest extends TestCase {
         String soapMsg = makeSoapMessageString(3);
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader("Content-Type", "text/xml");
-        InputStream in = new ByteArrayInputStream(soapMsg.getBytes("UTF-8")); 
+        InputStream in = new ByteArrayInputStream(soapMsg.getBytes(StandardCharsets.UTF_8));
 //      System.out.println("soap msg: " + soapMsg);
         SOAPMessage msg = MessageFactory.newInstance().createMessage(headers, in);
         msg.setProperty(MessageImpl.LAZY_SOAP_BODY_PARSING, "true");
@@ -84,7 +85,7 @@ public class LazySOAPTest extends TestCase {
         String soapMsg = makeSoapFaultMessageString();
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader("Content-Type", "text/xml");
-        InputStream in = new ByteArrayInputStream(soapMsg.getBytes("UTF-8")); 
+        InputStream in = new ByteArrayInputStream(soapMsg.getBytes(StandardCharsets.UTF_8));
 //      System.out.println("soap msg: " + soapMsg);
         SOAPMessage msg = MessageFactory.newInstance().createMessage(headers, in);
         msg.setProperty(MessageImpl.LAZY_SOAP_BODY_PARSING, "true");

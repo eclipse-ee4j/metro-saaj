@@ -56,8 +56,8 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
     public static final String SAAJ_NODE = "jakarta.xml.soap.Node";
 
-    private static final String XMLNS = "xmlns".intern();
-    protected static final Logger log =
+    private static final String XMLNS = "xmlns";
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
     
@@ -173,10 +173,10 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
     @Override
     public Attr createAttribute(String name) throws DOMException {
-        boolean isQualifiedName = (name.indexOf(":") > 0);
+        boolean isQualifiedName = (name.indexOf(':') > 0);
         if (isQualifiedName) {
             String nsUri = null;
-            String prefix = name.substring(0, name.indexOf(":"));
+            String prefix = name.substring(0, name.indexOf(':'));
             //cannot do anything to resolve the URI if prefix is not
             //XMLNS.
             if (XMLNS.equals(prefix)) {

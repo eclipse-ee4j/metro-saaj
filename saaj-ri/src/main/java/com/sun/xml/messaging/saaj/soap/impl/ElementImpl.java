@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -42,13 +42,11 @@ import java.util.NoSuchElementException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl.SAAJ_NODE;
-
 public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
-    public static final String DSIG_NS = "http://www.w3.org/2000/09/xmldsig#".intern();
-    public static final String XENC_NS = "http://www.w3.org/2001/04/xmlenc#".intern();
-    public static final String WSU_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd".intern();
+    public static final String DSIG_NS = "http://www.w3.org/2000/09/xmldsig#";
+    public static final String XENC_NS = "http://www.w3.org/2001/04/xmlenc#";
+    public static final String WSU_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
 
     private transient AttributeManager encodingStyleAttribute = new AttributeManager();
 
@@ -70,12 +68,12 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public void setAttribute(String name, String value) throws DOMException {
-        boolean isQualifiedName = (name.indexOf(":") > 0);
+        boolean isQualifiedName = (name.indexOf(':') > 0);
         //this is because of BugfixTest#testCR7020991, after removal internal dependencies
         //SOAPDocumentImpl#createAttribute is not called anymore from xerces parent
         if (isQualifiedName) {
             String nsUri = null;
-            String prefix = name.substring(0, name.indexOf(":"));
+            String prefix = name.substring(0, name.indexOf(':'));
             //cannot do anything to resolve the URI if prefix is not
             //XMLNS.
             if (XMLNS.equals(prefix)) {
@@ -124,24 +122,22 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         return element.getAttributeNS(namespaceURI, localName);
     }
 
-    protected static final Logger log =
-        Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN,
-                         "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
 
     /**
      * XML Information Set REC
      * all namespace attributes (including those named xmlns, 
      * whose [prefix] property has no value) have a namespace URI of http://www.w3.org/2000/xmlns/
      */
-    public final static String XMLNS_URI = "http://www.w3.org/2000/xmlns/".intern();
+    public final static String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
     
     /**
      * The XML Namespace ("http://www.w3.org/XML/1998/namespace"). This is
      * the Namespace URI that is automatically mapped to the "xml" prefix.
      */
-    public final static String XML_URI = "http://www.w3.org/XML/1998/namespace".intern();
+    public final static String XML_URI = "http://www.w3.org/XML/1998/namespace";
 
-    private final static String XMLNS = "xmlns".intern();
+    private final static String XMLNS = "xmlns";
     
     public ElementImpl(SOAPDocumentImpl ownerDoc, Name name) {
         this.soapDocument = ownerDoc;
@@ -360,7 +356,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
             log.log( 
                 Level.SEVERE,
                 "SAAJ0101.impl.parent.of.body.elem.mustbe.body",
-                new String[] { prefix });
+                new String[] { prefix.replaceAll("[\r\n]","") });
             throw new SOAPExceptionImpl(
                 "Unable to locate namespace for prefix " + prefix);
         }
@@ -459,7 +455,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         String uri = getNamespaceURI(prefix);
         if (uri == null) {
             log.log(Level.SEVERE, "SAAJ0102.impl.cannot.locate.ns",
-                    new Object[] {prefix});
+                    new Object[] {prefix.replaceAll("[\r\n]","")});
             throw new SOAPException("Unable to locate namespace for prefix " 
                                     + prefix);
         }
@@ -1173,7 +1169,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                 log.log(
                     Level.SEVERE,
                     "SAAJ0105.impl.encoding.style.mustbe.valid.URI",
-                    new String[] { encodingStyle });
+                    new String[] { encodingStyle.replaceAll("[\r\n]","") });
                 throw new IllegalArgumentException(
                     "Encoding style (" + encodingStyle + ") should be a valid URI");
             }
@@ -1646,13 +1642,13 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     
     private void register(Attr newAttr) {
         if (newAttr != null) {
-            newAttr.setUserData(SAAJ_NODE, new AttrImpl(this, newAttr), null);
+            newAttr.setUserData(SOAPDocumentImpl.SAAJ_NODE, new AttrImpl(this, newAttr), null);
         }
     }
     
     private Attr find(Attr attr) {
         if (attr != null) {
-            Object soapAttr = attr.getUserData(SAAJ_NODE);
+            Object soapAttr = attr.getUserData(SOAPDocumentImpl.SAAJ_NODE);
             if (soapAttr instanceof Attr) {
                 return (Attr) soapAttr;
             }

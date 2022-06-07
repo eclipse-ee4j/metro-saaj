@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,6 +14,7 @@ import jakarta.xml.soap.*;
 import javax.xml.transform.stream.StreamSource;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import junit.framework.TestCase;
 
@@ -70,7 +71,7 @@ public class DefaultNamespaceTest extends TestCase {
             "<SOAP-ENV:Envelope xmlns=\"abc\" xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body/></SOAP-ENV:Envelope>";
         MessageFactory mFactory = MessageFactory.newInstance();
         SOAPMessage msg = mFactory.createMessage();
-        msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-8"))));
+        msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))));
         SOAPBody sb = msg.getSOAPPart().getEnvelope().getBody();
         SOAPElement ele =
             sb.addChildElement("lname1","","uri").addChildElement("lname3");

@@ -498,7 +498,7 @@ public class MimeUtility {
 	 * This handles the most common case of unencoded headers 
 	 * efficiently.
 	 */
-	if (etext.indexOf("=?") == -1)
+	if (!etext.contains("=?"))
 	    return etext;
 
 	// Encoded words found. Start decoding ...
@@ -1140,8 +1140,8 @@ public class MimeUtility {
     private static Hashtable<String, String> java2mime;
 
     static {
-	java2mime = new Hashtable<String, String>(40);
-	mime2java = new Hashtable<String, String>(10);
+	java2mime = new Hashtable<>(40);
+	mime2java = new Hashtable<>(10);
 
 	try {
 	    // Use this class's classloader to load the mapping file

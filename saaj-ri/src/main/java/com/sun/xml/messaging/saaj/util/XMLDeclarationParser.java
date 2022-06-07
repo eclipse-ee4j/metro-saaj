@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,6 +11,7 @@
 package com.sun.xml.messaging.saaj.util;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import javax.xml.transform.TransformerException;
 
@@ -31,8 +32,8 @@ public class XMLDeclarationParser {
     static String utf16Decl = null;
     static {
          try {
-             gt16 = new String(">".getBytes("utf-16"));
-             utf16Decl = new String("<?xml".getBytes("utf-16"));
+             gt16 = new String(">".getBytes(StandardCharsets.UTF_16));
+             utf16Decl = new String("<?xml".getBytes(StandardCharsets.UTF_16));
          } catch (Exception e) {}
     }
 
@@ -93,8 +94,8 @@ public class XMLDeclarationParser {
         m_hasHeader = true;
         
         if (utf16) {
-            xmlDecl = new String(decl.getBytes(), "utf-16");
-            xmlDecl = xmlDecl.substring(xmlDecl.indexOf("<"));
+            xmlDecl = new String(decl.getBytes(), StandardCharsets.UTF_16);
+            xmlDecl = xmlDecl.substring(xmlDecl.indexOf('<'));
         } else {
             xmlDecl = decl;
         }
@@ -123,16 +124,16 @@ public class XMLDeclarationParser {
             throw new IOException("The 'standalone' attribute should be the last attribute in an XML Declaration");
         }
 
-        int eqIndex = xmlDecl.indexOf("=", encodingIndex);
+        int eqIndex = xmlDecl.indexOf('=', encodingIndex);
         if (eqIndex == -1) {
             throw new IOException("Missing '=' character after 'encoding' in XML declaration");
         }
 
         m_encoding = parseEncoding(xmlDecl, eqIndex);
         if(m_encoding.startsWith("\"")){
-            m_encoding = m_encoding.substring(m_encoding.indexOf("\"")+1, m_encoding.lastIndexOf("\""));
-        } else if(m_encoding.startsWith("\'")){
-            m_encoding = m_encoding.substring(m_encoding.indexOf("\'")+1, m_encoding.lastIndexOf("\'"));
+            m_encoding = m_encoding.substring(m_encoding.indexOf('"')+1, m_encoding.lastIndexOf('"'));
+        } else if(m_encoding.startsWith("'")){
+            m_encoding = m_encoding.substring(m_encoding.indexOf('\'')+1, m_encoding.lastIndexOf('\''));
         }
      }
 
@@ -140,7 +141,7 @@ public class XMLDeclarationParser {
 
     public void writeTo(Writer wr) throws IOException {
         if (!m_hasHeader) return;
-        wr.write(xmlDecl.toString());
+        wr.write(xmlDecl);
     }
 
     private String parseEncoding(String xmlDeclFinal, int eqIndex) throws IOException {
@@ -148,7 +149,7 @@ public class XMLDeclarationParser {
             xmlDeclFinal.substring(eqIndex + 1));
         if (strTok.hasMoreTokens()) {
             String encodingTok = strTok.nextToken();
-            int indexofQ = encodingTok.indexOf("?");
+            int indexofQ = encodingTok.indexOf('?');
             if (indexofQ > -1) {
                 return encodingTok.substring(0,indexofQ);
             } else {
