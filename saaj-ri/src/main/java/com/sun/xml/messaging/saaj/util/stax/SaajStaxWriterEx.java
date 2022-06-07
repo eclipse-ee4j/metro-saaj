@@ -56,7 +56,6 @@ public class SaajStaxWriterEx extends SaajStaxWriter implements XMLStreamWriterE
     public void writeStartElement(String prefix, String ln, String ns) throws XMLStreamException {
         if (xopNS.equals(ns) && Include.equals(ln)) {
             state = State.xopInclude;
-            return;
         } else {
             super.writeStartElement(prefix, ln, ns);
         }

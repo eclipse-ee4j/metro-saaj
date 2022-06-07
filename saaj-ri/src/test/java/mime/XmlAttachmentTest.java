@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,6 +18,7 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.StringReader;
 import java.io.ByteArrayOutputStream;
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import junit.framework.TestCase;
 
@@ -41,7 +42,7 @@ public class XmlAttachmentTest extends TestCase {
         DataHandler handler = attachment.getDataHandler();
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         handler.writeTo(baos);
-        String reconstructedXml = baos.toString("utf-8");
+        String reconstructedXml = baos.toString(StandardCharsets.UTF_8);
         assertEquals(
             "Attachment content is preserved", xml, reconstructedXml);
     }
@@ -75,8 +76,8 @@ public class XmlAttachmentTest extends TestCase {
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         handler.writeTo(baos1);
         handler.writeTo(baos2);
-        String reconstructedXml1 = baos1.toString("utf-8");
-        String reconstructedXml2 = baos2.toString("utf-8");
+        String reconstructedXml1 = baos1.toString(StandardCharsets.UTF_8);
+        String reconstructedXml2 = baos2.toString(StandardCharsets.UTF_8);
         assertEquals(
             "writeTo for the attachment should succeed the second time too!",
             reconstructedXml1,
@@ -87,7 +88,7 @@ public class XmlAttachmentTest extends TestCase {
         SOAPMessage msg = MessageFactory.newInstance().createMessage();
         String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>    <START><A>Hello</A><B>World</B></START>";
         ByteArrayInputStream bais =
-            new ByteArrayInputStream(xml.getBytes("utf-8"));
+            new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8));
         StreamSource content = new StreamSource(bais);
         AttachmentPart attachment =
             msg.createAttachmentPart(content, "text/xml");
@@ -97,8 +98,8 @@ public class XmlAttachmentTest extends TestCase {
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         handler.writeTo(baos1);
         handler.writeTo(baos2);
-        String reconstructedXml1 = baos1.toString("utf-8");
-        String reconstructedXml2 = baos2.toString("utf-8");
+        String reconstructedXml1 = baos1.toString(StandardCharsets.UTF_8);
+        String reconstructedXml2 = baos2.toString(StandardCharsets.UTF_8);
         assertEquals(
             "writeTo for the attachment should succeed the second time too!",
             reconstructedXml1,

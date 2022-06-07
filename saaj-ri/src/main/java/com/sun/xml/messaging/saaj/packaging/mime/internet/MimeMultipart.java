@@ -84,7 +84,7 @@ public  class MimeMultipart {
     /**
      * Vector of MimeBodyPart objects.
      */
-    protected FinalArrayList<MimeBodyPart> parts = new FinalArrayList<MimeBodyPart>(); // Holds BodyParts
+    protected FinalArrayList<MimeBodyPart> parts = new FinalArrayList<>(); // Holds BodyParts
 
     /**
      * This field specifies the content-type of this multipart
@@ -313,7 +313,7 @@ public  class MimeMultipart {
                     !(in instanceof BufferedInputStream) &&
                     !(in instanceof SharedInputStream))
                 in = new BufferedInputStream(in);
-        } catch (Exception ex) {
+        } catch (IOException ex) {
             throw new MessagingException("No inputstream from datasource");
         }
         if (in instanceof SharedInputStream)
@@ -618,7 +618,7 @@ public  class MimeMultipart {
      */
     public synchronized void addBodyPart(MimeBodyPart part) {
         if (parts == null)
-            parts = new FinalArrayList<MimeBodyPart>();
+            parts = new FinalArrayList<>();
 
         parts.add(part);
         part.setParent(this);
@@ -636,7 +636,7 @@ public  class MimeMultipart {
      */
     public synchronized void addBodyPart(MimeBodyPart part, int index) {
         if (parts == null)
-            parts = new FinalArrayList<MimeBodyPart>();
+            parts = new FinalArrayList<>();
 
         parts.add(index,part);
         part.setParent(this);

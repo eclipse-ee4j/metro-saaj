@@ -147,7 +147,7 @@ public final class InternetHeaders {
      */
     public String[] getHeader(String name) {
         // XXX - should we just step through in index order?
-        FinalArrayList<String> v = new FinalArrayList<String>(); // accumulate return values
+        FinalArrayList<String> v = new FinalArrayList<>(); // accumulate return values
 
         int len = headers.size();
         for( int i=0; i<len; i++ ) {
@@ -159,7 +159,7 @@ public final class InternetHeaders {
         if (v.size() == 0)
             return (null);
         // convert Vector to an array for return
-        return v.toArray(new String[v.size()]);
+        return v.toArray(new String[0]);
     }
 
     /**
@@ -293,7 +293,6 @@ public final class InternetHeaders {
                 headers.add(new hdr(line));
         } catch (StringIndexOutOfBoundsException e) {
             // line is empty, ignore it
-            return;
         } catch (NoSuchElementException e) {
             // XXX - vector is empty?
         }
@@ -306,7 +305,7 @@ public final class InternetHeaders {
      */
     public List<String> getAllHeaderLines() {
         if (headerValueView == null)
-            headerValueView = new AbstractList<String>() {
+            headerValueView = new AbstractList<>() {
                 @Override
                 public String get(int index) {
                     return ((hdr) headers.get(index)).line;

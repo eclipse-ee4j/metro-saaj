@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2017, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -31,7 +31,7 @@ import org.w3c.dom.UserDataHandler;
  */
 public abstract class TextImpl<T extends CharacterData> implements Text, CharacterData {
 
-    protected static final Logger log
+    private static final Logger log
             = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN,
                     "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
     private final T domNode;

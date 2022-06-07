@@ -10,6 +10,7 @@
 
 package namespace;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import jakarta.xml.soap.*;
@@ -457,7 +458,7 @@ public class NamespaceTest extends TestCase {
         String xml = "<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\"><SOAP-ENV:Body/></SOAP-ENV:Envelope>";
         MessageFactory mFactory = MessageFactory.newInstance();
         SOAPMessage msg = mFactory.createMessage();
-        msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-8"))));
+        msg.getSOAPPart().setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))));
         return msg;
     }
 

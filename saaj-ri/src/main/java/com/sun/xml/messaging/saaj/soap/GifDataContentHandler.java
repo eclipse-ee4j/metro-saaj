@@ -10,7 +10,6 @@
 
 package com.sun.xml.messaging.saaj.soap;
 
-import java.awt.datatransfer.DataFlavor;
 import java.io.*;
 import java.awt.*;
 
@@ -77,10 +76,7 @@ public class GifDataContentHandler extends Component implements DataContentHandl
 	    pos += count;
 	    if (pos >= buf.length) {
 		int size = buf.length;
-		if (size < 256*1024)
-		    size += size;
-		else
-		    size += 256*1024;
+			size += Math.min(size, 256 * 1024);
 		byte[] tbuf = new byte[size];
 		System.arraycopy(buf, 0, tbuf, 0, pos);
 		buf = tbuf;

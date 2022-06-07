@@ -24,7 +24,7 @@ import org.w3c.dom.Element;
 
 public class Detail1_2Impl extends DetailImpl {
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(Detail1_2Impl.class.getName(),
                          "com.sun.xml.messaging.saaj.soap.ver1_2.LocalStrings");
 

@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 
 import java.io.*;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import jakarta.xml.soap.*;
@@ -30,7 +31,7 @@ public class GetChildElementsTest extends TestCase {
         String xml =
             "<SOAP-ENV:Envelope xmlns:SOAP-ENV='http://schemas.xmlsoap.org/soap/envelope/'><SOAP-ENV:Header><wsse:Security xmlns='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd' xmlns:wsse='http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd'/></SOAP-ENV:Header><SOAP-ENV:Body/></SOAP-ENV:Envelope>";
 
-        byte[] testDocBytes = xml.getBytes("UTF-8");
+        byte[] testDocBytes = xml.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
         StreamSource strSource = new StreamSource(bais);
         MessageFactory msgFactory = MessageFactory.newInstance();

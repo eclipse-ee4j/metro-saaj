@@ -17,8 +17,6 @@ import java.util.concurrent.BlockingQueue;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-import org.xml.sax.SAXNotRecognizedException;
-import org.xml.sax.SAXNotSupportedException;
 
 
 /**
@@ -29,7 +27,7 @@ public class ParserPool {
     private SAXParserFactory factory;
 
     public ParserPool(int capacity) {
-        queue = new ArrayBlockingQueue<SAXParser>(capacity);
+        queue = new ArrayBlockingQueue<>(capacity);
         factory = SAXParserFactory.newInstance("com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl", SAAJUtil.getSystemClassLoader());
         try {
             factory.setFeature("jdk.xml.resetSymbolTable", true);
@@ -42,9 +40,7 @@ public class ParserPool {
             } catch (InterruptedException ex) {
                 Thread.currentThread().interrupt();
                 throw new RuntimeException(ex);
-            } catch (ParserConfigurationException ex) {
-                throw new RuntimeException(ex);
-            } catch (SAXException ex) {
+            } catch (ParserConfigurationException | SAXException ex) {
                 throw new RuntimeException(ex);
             }
         }

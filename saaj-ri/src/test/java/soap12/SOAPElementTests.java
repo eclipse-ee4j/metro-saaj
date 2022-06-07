@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,6 +15,7 @@ import javax.xml.namespace.QName;
 import javax.xml.transform.stream.*;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 import junit.framework.TestCase;
 
@@ -68,7 +69,7 @@ public class SOAPElementTests extends TestCase {
         MessageFactory mFactory = MessageFactory.newInstance(SOAPConstants.SOAP_1_2_PROTOCOL);
         SOAPMessage msg = mFactory.createMessage();
         SOAPPart soapPart = msg.getSOAPPart();
-        soapPart.setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes("utf-8"))));
+        soapPart.setContent(new StreamSource(new ByteArrayInputStream(xml.getBytes(StandardCharsets.UTF_8))));
         SOAPBodyElement element =
             (SOAPBodyElement) msg.getSOAPBody().getChildElements().next();
         assertNotNull(element.getEncodingStyle());

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -23,9 +23,12 @@ import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 
 public class SAAJMetaFactoryImpl extends SAAJMetaFactory {
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
+
+    public SAAJMetaFactoryImpl() {
+    }
 
     @Override
     protected  MessageFactory newMessageFactory(String protocol)
@@ -40,7 +43,7 @@ public class SAAJMetaFactoryImpl extends SAAJMetaFactory {
             log.log(
                 Level.SEVERE,
                 "SAAJ0569.soap.unknown.protocol",
-                new Object[] {protocol, "MessageFactory"});
+                new Object[] {protocol.replaceAll("[\r\n]",""), "MessageFactory"});
             throw new SOAPException("Unknown Protocol: " + protocol + 
                                         "  specified for creating MessageFactory");
         }
@@ -59,7 +62,7 @@ public class SAAJMetaFactoryImpl extends SAAJMetaFactory {
             log.log(
                 Level.SEVERE,
                 "SAAJ0569.soap.unknown.protocol",
-                new Object[] {protocol, "SOAPFactory"});
+                new Object[] {protocol.replaceAll("[\r\n]",""), "SOAPFactory"});
             throw new SOAPException("Unknown Protocol: " + protocol + 
                                         "  specified for creating SOAPFactory");
         }

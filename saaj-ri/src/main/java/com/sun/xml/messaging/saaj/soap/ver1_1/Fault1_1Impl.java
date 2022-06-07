@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 
 public class Fault1_1Impl extends FaultImpl {
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(
             LogDomainConstants.SOAP_VER1_1_DOMAIN,
             "com.sun.xml.messaging.saaj.soap.ver1_1.LocalStrings");
@@ -358,7 +358,7 @@ public class Fault1_1Impl extends FaultImpl {
         if (uri == null || "".equals(uri)) {
             if (prefix != null && !"".equals(prefix)) {
                 //cannot allow an empty URI for a non-Empty prefix
-                log.log(Level.SEVERE, "SAAJ0307.impl.no.ns.URI", new Object[]{prefix + ":" + faultCode});
+                log.log(Level.SEVERE, "SAAJ0307.impl.no.ns.URI", new Object[]{(prefix + ":" + faultCode).replaceAll("[\r\n]","")});
                 throw new SOAPExceptionImpl("Empty/Null NamespaceURI specified for faultCode \"" + prefix + ":" + faultCode + "\"");
             } else {
                 uri = "";

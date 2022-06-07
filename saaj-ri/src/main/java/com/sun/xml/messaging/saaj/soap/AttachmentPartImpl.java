@@ -11,30 +11,35 @@
 package com.sun.xml.messaging.saaj.soap;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
-
-import com.sun.xml.messaging.saaj.packaging.mime.util.ASCIIUtility;
-
 import com.sun.xml.messaging.saaj.packaging.mime.Header;
-import com.sun.xml.messaging.saaj.packaging.mime.internet.MimePartDataSource;
+import com.sun.xml.messaging.saaj.packaging.mime.MessagingException;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.InternetHeaders;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.MimeBodyPart;
+import com.sun.xml.messaging.saaj.packaging.mime.internet.MimePartDataSource;
 import com.sun.xml.messaging.saaj.packaging.mime.internet.MimeUtility;
+import com.sun.xml.messaging.saaj.packaging.mime.util.ASCIIUtility;
 import com.sun.xml.messaging.saaj.util.ByteOutputStream;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
+import jakarta.activation.CommandInfo;
+import jakarta.activation.CommandMap;
+import jakarta.activation.DataHandler;
+import jakarta.activation.DataSource;
+import jakarta.activation.MailcapCommandMap;
+import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.MimeHeader;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPException;
+import org.jvnet.mimepull.MIMEPart;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ByteArrayInputStream;
 import java.io.OutputStream;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import jakarta.activation.*;
-import jakarta.xml.soap.*;
-import org.jvnet.mimepull.MIMEPart;
 
 /**
  * Implementation of attachments.
@@ -43,7 +48,7 @@ import org.jvnet.mimepull.MIMEPart;
  */
 public class AttachmentPartImpl extends AttachmentPart {
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
 
@@ -92,7 +97,7 @@ public class AttachmentPartImpl extends AttachmentPart {
                 log.log(
                     Level.SEVERE,
                     "SAAJ0573.soap.attachment.getrawbytes.ioexception",
-                    new String[] { ex.getLocalizedMessage()});
+                    new String[] { ex.getLocalizedMessage().replaceAll("[\r\n]","")});
                 throw new SOAPExceptionImpl("Raw InputStream Error: " + ex);
             }
         } else {
@@ -103,7 +108,7 @@ public class AttachmentPartImpl extends AttachmentPart {
                 log.log(
                     Level.SEVERE,
                     "SAAJ0501.soap.data.handler.err",
-                    new String[] { ex.getLocalizedMessage()});
+                    new String[] { ex.getLocalizedMessage().replaceAll("[\r\n]","")});
                 throw new SOAPExceptionImpl("Data handler error: " + ex);
             }
             return bout.size();
@@ -207,7 +212,7 @@ public class AttachmentPartImpl extends AttachmentPart {
 
         if (log.isLoggable(Level.FINE))
             log.log(Level.FINE, "SAAJ0580.soap.set.Content-Type",
-                    new String[] { dataHandler.getContentType() });
+                    new String[] { dataHandler.getContentType().replaceAll("[\r\n]","") });
         setMimeHeader("Content-Type", dataHandler.getContentType());
     }
 
@@ -354,17 +359,19 @@ public class AttachmentPartImpl extends AttachmentPart {
             bos.write(decoded);
             rawContent = new MimeBodyPart(hdrs, bos.getBytes(), bos.getCount());
             setMimeHeader("Content-Type", contentType);
-        } catch (Exception e) {
+        } catch (MessagingException | IOException e) {
             log.log(Level.SEVERE, "SAAJ0578.soap.attachment.setbase64content.exception", e);
             throw new SOAPExceptionImpl(e.getLocalizedMessage());
         } finally {
-            if (bos != null)
+            if (bos != null) {
                 bos.close();
-            try {
-                if (decoded != null)
-                decoded.close();
-            } catch (IOException ex) {
-                throw new SOAPException(ex);
+            }
+            if (decoded != null) {
+                try {
+                    decoded.close();
+                } catch (IOException ex) {
+                    throw new SOAPException(ex);
+                }
             }
         }
     }
@@ -412,7 +419,7 @@ public class AttachmentPartImpl extends AttachmentPart {
                 ret.flush();
                 buf = bos.toByteArray(); 
                 return new ByteArrayInputStream(buf);
-            } catch (Exception e) {
+            } catch (MessagingException | IOException e) {
                 // throw new SOAPException
                 log.log(Level.SEVERE,"SAAJ0579.soap.attachment.getbase64content.exception", e);
                 throw new SOAPExceptionImpl(e.getLocalizedMessage());

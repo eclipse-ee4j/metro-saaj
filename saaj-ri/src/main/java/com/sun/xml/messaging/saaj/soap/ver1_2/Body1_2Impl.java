@@ -25,8 +25,8 @@ import com.sun.xml.messaging.saaj.soap.impl.BodyImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 
 public class Body1_2Impl extends BodyImpl {
-    
-    protected static final Logger log =
+
+    private static final Logger log =
         Logger.getLogger(Body1_2Impl.class.getName(),
                          "com.sun.xml.messaging.saaj.soap.ver1_2.LocalStrings");
     

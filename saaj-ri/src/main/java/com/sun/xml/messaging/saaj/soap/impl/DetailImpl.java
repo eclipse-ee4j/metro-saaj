@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,11 +22,11 @@ import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 
 public abstract class DetailImpl extends FaultElementImpl implements Detail {
-    public DetailImpl(SOAPDocumentImpl ownerDoc, NameImpl detailName) {
+    protected DetailImpl(SOAPDocumentImpl ownerDoc, NameImpl detailName) {
         super(ownerDoc, detailName);
     }
 
-    public DetailImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected DetailImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 

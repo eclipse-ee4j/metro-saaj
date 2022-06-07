@@ -10,11 +10,12 @@
 
 package com.sun.xml.messaging.saaj.soap;
 
-import java.awt.datatransfer.DataFlavor;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import jakarta.activation.*;
+import jakarta.activation.ActivationDataFlavor;
+import jakarta.activation.DataContentHandler;
+import jakarta.activation.DataSource;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamResult;
@@ -28,13 +29,8 @@ import com.sun.xml.messaging.saaj.util.transform.EfficientStreamingTransformer;
  * @author Anil Vijendran
  */
 public class XmlDataContentHandler implements DataContentHandler {
-    public static final String STR_SRC = "javax.xml.transform.stream.StreamSource";
-    private static Class<?> streamSourceClass = null;
 
-    public XmlDataContentHandler() throws ClassNotFoundException {
-        if (streamSourceClass == null) {
-            streamSourceClass = Class.forName(STR_SRC);
-        }
+    public XmlDataContentHandler() {
     }
 
     /**
@@ -42,13 +38,13 @@ public class XmlDataContentHandler implements DataContentHandler {
      * @return The DataFlavors.
      */
     @Override
-    public ActivationDataFlavor[] getTransferDataFlavors() { // throws Exception;
+    public ActivationDataFlavor[] getTransferDataFlavors() {
         ActivationDataFlavor[] flavors = new ActivationDataFlavor[2];
 
         flavors[0] =
-            new ActivationDataFlavor(streamSourceClass, "text/xml", "XML");
+            new ActivationDataFlavor(StreamSource.class, "text/xml", "XML");
         flavors[1] =
-            new ActivationDataFlavor(streamSourceClass, "application/xml", "XML");
+            new ActivationDataFlavor(StreamSource.class, "application/xml", "XML");
 
         return flavors;
     }
@@ -64,7 +60,7 @@ public class XmlDataContentHandler implements DataContentHandler {
         throws IOException {
         if (flavor.getMimeType().startsWith("text/xml") || 
                 flavor.getMimeType().startsWith("application/xml")) {
-            if (flavor.getRepresentationClass().getName().equals(STR_SRC)) {
+            if (StreamSource.class.getName().equals(flavor.getRepresentationClass().getName())) {
                 return new StreamSource(dataSource.getInputStream());
             }
         }

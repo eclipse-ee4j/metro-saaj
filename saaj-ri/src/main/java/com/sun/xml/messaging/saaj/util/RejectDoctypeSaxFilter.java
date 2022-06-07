@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -34,7 +34,7 @@ import org.xml.sax.helpers.AttributesImpl;
  */
 
 public class RejectDoctypeSaxFilter extends XMLFilterImpl implements XMLReader, LexicalHandler{
-    protected static final Logger log =
+    private static final Logger log =
     Logger.getLogger(LogDomainConstants.UTIL_DOMAIN,
     "com.sun.xml.messaging.saaj.util.LocalStrings");
     
@@ -42,12 +42,12 @@ public class RejectDoctypeSaxFilter extends XMLFilterImpl implements XMLReader, 
     static final String LEXICAL_HANDLER_PROP =
     "http://xml.org/sax/properties/lexical-handler";
     
-    static final String WSU_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd".intern();
-    static final String SIGNATURE_LNAME = "Signature".intern();
-    static final String ENCRYPTED_DATA_LNAME = "EncryptedData".intern();
-    static final String DSIG_NS = "http://www.w3.org/2000/09/xmldsig#".intern();
-    static final String XENC_NS = "http://www.w3.org/2001/04/xmlenc#".intern();
-    static final String ID_NAME = "ID".intern();
+    static final String WSU_NS = "http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd";
+    static final String SIGNATURE_LNAME = "Signature";
+    static final String ENCRYPTED_DATA_LNAME = "EncryptedData";
+    static final String DSIG_NS = "http://www.w3.org/2000/09/xmldsig#";
+    static final String XENC_NS = "http://www.w3.org/2001/04/xmlenc#";
+    static final String ID_NAME = "ID";
     
     /** LexicalHandler to forward events to, if any */
     private LexicalHandler lexicalHandler;
@@ -56,7 +56,7 @@ public class RejectDoctypeSaxFilter extends XMLFilterImpl implements XMLReader, 
         XMLReader xmlReader;
         try {
             xmlReader = saxParser.getXMLReader();
-        } catch (Exception e) {
+        } catch (SAXException e) {
             log.severe("SAAJ0602.util.getXMLReader.exception");
             throw new SOAPExceptionImpl(
             "Couldn't get an XMLReader while constructing a RejectDoctypeSaxFilter",

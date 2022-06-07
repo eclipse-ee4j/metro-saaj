@@ -11,6 +11,7 @@
 package bugfixes;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import javax.xml.namespace.QName;
@@ -60,7 +61,7 @@ public class NamespaceTest extends TestCase {
         headers.addHeader("SOAP-Action", "www.foo.com#function");
         headers.addHeader("Content-Type", "text/xml");
         MessageFactory factory = MessageFactory.newInstance();
-        InputStream istream = new ByteArrayInputStream(message.getBytes("utf-8"));
+        InputStream istream = new ByteArrayInputStream(message.getBytes(StandardCharsets.UTF_8));
         BufferedInputStream bistream = new BufferedInputStream(istream);
         return factory.createMessage(headers, bistream);
     }

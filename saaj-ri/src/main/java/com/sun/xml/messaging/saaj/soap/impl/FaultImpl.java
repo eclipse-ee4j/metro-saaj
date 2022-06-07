@@ -12,11 +12,13 @@ package com.sun.xml.messaging.saaj.soap.impl;
 
 import java.util.Locale;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.xml.namespace.QName;
+
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import jakarta.xml.soap.*;
 
-import com.sun.xml.messaging.saaj.util.SAAJUtil;
 import org.w3c.dom.Element;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
@@ -24,6 +26,8 @@ import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 
 public abstract class FaultImpl extends ElementImpl implements SOAPFault {
+
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
 
     /* This can also represent a fault reason element */
     protected SOAPFaultElement faultStringElement;
@@ -39,7 +43,7 @@ public abstract class FaultImpl extends ElementImpl implements SOAPFault {
         super(ownerDoc, name);
     }
 
-    public FaultImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected FaultImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 
@@ -105,7 +109,7 @@ public abstract class FaultImpl extends ElementImpl implements SOAPFault {
         if (uri == null || "".equals(uri)) {
             if (prefix != null && !"".equals(prefix)) {
                 //cannot allow an empty URI for a non-Empty prefix
-                log.log(Level.SEVERE, "SAAJ0140.impl.no.ns.URI", new Object[]{prefix + ":" + faultCode});
+                log.log(Level.SEVERE, "SAAJ0140.impl.no.ns.URI", new Object[]{(prefix + ":" + faultCode).replaceAll("[\r\n]","")});
                 throw new SOAPExceptionImpl("Empty/Null NamespaceURI specified for faultCode \"" + prefix + ":" + faultCode + "\"");
             } else {
                 uri = "";
@@ -206,7 +210,7 @@ public abstract class FaultImpl extends ElementImpl implements SOAPFault {
         log.log(
             Level.SEVERE,
             "SAAJ0146.impl.invalid.name.change.requested",
-            new Object[] {elementQName.getLocalPart(), newName.getLocalPart()});
+            new Object[] {elementQName.getLocalPart().replaceAll("[\r\n]",""), newName.getLocalPart().replaceAll("[\r\n]","")});
         throw new SOAPException(
             "Cannot change name for " + elementQName.getLocalPart() + " to " + newName.getLocalPart());
     }
@@ -322,11 +326,11 @@ public abstract class FaultImpl extends ElementImpl implements SOAPFault {
         }
 
         // Spec uses hyphen as separator
-        int index = xmlLang.indexOf("-");
+        int index = xmlLang.indexOf('-');
 
         // Accept underscore as separator as well
         if (index == -1) {
-            index = xmlLang.indexOf("_");
+            index = xmlLang.indexOf('_');
         }
 
         if (index == -1) {

@@ -25,7 +25,7 @@ import org.w3c.dom.Element;
 
 public class Header1_1Impl extends HeaderImpl {
     
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_VER1_1_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.ver1_1.LocalStrings");
         

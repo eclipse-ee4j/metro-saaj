@@ -26,7 +26,7 @@ import com.sun.xml.messaging.saaj.util.XMLDeclarationParser;
  */
 public class SOAPPart1_2Impl extends SOAPPartImpl implements SOAPConstants{
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(SOAPPart1_2Impl.class.getName(),
                          "com.sun.xml.messaging.saaj.soap.ver1_2.LocalStrings");
 
