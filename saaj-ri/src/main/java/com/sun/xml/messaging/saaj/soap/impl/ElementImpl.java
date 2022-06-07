@@ -33,6 +33,8 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.w3c.dom.TypeInfo;
 import org.w3c.dom.UserDataHandler;
+
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -76,8 +78,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
             String prefix = name.substring(0, name.indexOf(':'));
             //cannot do anything to resolve the URI if prefix is not
             //XMLNS.
-            if (XMLNS.equals(prefix)) {
-                nsUri = ElementImpl.XMLNS_URI;
+            if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
+                nsUri = XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
                 setAttributeNS(nsUri, name, value);
                 return;
             }
@@ -124,21 +126,6 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
 
-    /**
-     * XML Information Set REC
-     * all namespace attributes (including those named xmlns, 
-     * whose [prefix] property has no value) have a namespace URI of http://www.w3.org/2000/xmlns/
-     */
-    public final static String XMLNS_URI = "http://www.w3.org/2000/xmlns/";
-    
-    /**
-     * The XML Namespace ("http://www.w3.org/XML/1998/namespace"). This is
-     * the Namespace URI that is automatically mapped to the "xml" prefix.
-     */
-    public final static String XML_URI = "http://www.w3.org/XML/1998/namespace";
-
-    private final static String XMLNS = "xmlns";
-    
     public ElementImpl(SOAPDocumentImpl ownerDoc, Name name) {
         this.soapDocument = ownerDoc;
         this.element = ownerDoc.getDomDocument().createElementNS(name.getURI(), name.getQualifiedName());
@@ -366,12 +353,12 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     @Override
     public String getNamespaceURI(String prefix) {
 
-        if ("xmlns".equals(prefix)) {
-            return XMLNS_URI;
+        if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
+            return XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
         }
         
         if("xml".equals(prefix)) {
-            return XML_URI;
+            return XMLConstants.XML_NS_URI;
         }
 
         if ("".equals(prefix)) {
@@ -393,11 +380,11 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                         }
                     }*/
                     if (((Element) currentAncestor).hasAttributeNS(
-                            XMLNS_URI, "xmlns")) {
+                            XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLConstants.XMLNS_ATTRIBUTE)) {
 
                         String uri =
                             ((Element) currentAncestor).getAttributeNS(
-                                XMLNS_URI, "xmlns");
+                                XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLConstants.XMLNS_ATTRIBUTE);
                         if ("".equals(uri))
                             return null;
                         else {
@@ -430,9 +417,9 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                 //}
                 
                 if (((Element) currentAncestor).hasAttributeNS(
-                        XMLNS_URI, prefix)) {
+                        XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix)) {
                     return ((Element) currentAncestor).getAttributeNS(
-                               XMLNS_URI, prefix);
+                               XMLConstants.XMLNS_ATTRIBUTE_NS_URI, prefix);
                 }
 
                 currentAncestor = currentAncestor.getParentNode();
@@ -469,7 +456,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
             org.w3c.dom.Attr namespaceDecl = eachNamespace.nextNamespaceAttr();
             if (namespaceDecl.getNodeValue().equals(uri)) {
                 String candidatePrefix = namespaceDecl.getLocalName();
-                if ("xmlns".equals(candidatePrefix))
+                if (XMLConstants.XMLNS_ATTRIBUTE.equals(candidatePrefix))
                     return "";
                 else
                     return candidatePrefix;
@@ -499,7 +486,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                 if (namespaceDecl.getNodeName().endsWith(prefix))
                     return namespaceDecl;
             } else {
-                if (namespaceDecl.getNodeName().equals("xmlns"))
+                if (XMLConstants.XMLNS_ATTRIBUTE.equals(namespaceDecl.getNodeName()))
                     return namespaceDecl;
             }
         }
@@ -753,8 +740,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         String value) {
 
         uri = uri.length() == 0 ? null : uri;
-        if (qualifiedName.equals("xmlns")) {
-            uri = XMLNS_URI;
+        if (qualifiedName.equals(XMLConstants.XMLNS_ATTRIBUTE)) {
+            uri = XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
         }
         
         if (uri == null) {
@@ -768,9 +755,9 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     public SOAPElement addNamespaceDeclaration(String prefix, String uri)
         throws SOAPException {
         if (prefix.length() > 0) {
-            setAttributeNS(XMLNS_URI, "xmlns:" + prefix, uri);
+            setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLConstants.XMLNS_ATTRIBUTE + ":" + prefix, uri);
         } else {
-            setAttributeNS(XMLNS_URI, "xmlns", uri);
+            setAttributeNS(XMLConstants.XMLNS_ATTRIBUTE_NS_URI, XMLConstants.XMLNS_ATTRIBUTE, uri);
         }
         //Fix for CR:6474641
         //tryToFindEncodingStyleAttributeName();
@@ -798,7 +785,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         ArrayList<Name> list = new ArrayList<>();
         while (i.hasNext()) {
             Name name = i.next();
-            if (!"xmlns".equalsIgnoreCase(name.getPrefix()))
+            if (!XMLConstants.XMLNS_ATTRIBUTE.equalsIgnoreCase(name.getPrefix()))
                 list.add(name);
         }
         return list.iterator();
@@ -810,7 +797,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
         ArrayList<QName> list = new ArrayList<>();
         while (i.hasNext()) {
             Name name = i.next();
-            if (!"xmlns".equalsIgnoreCase(name.getPrefix())) {
+            if (!XMLConstants.XMLNS_ATTRIBUTE.equalsIgnoreCase(name.getPrefix())) {
                 list.add(NameImpl.convertToQName(name));
             }
         }
@@ -839,8 +826,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
                 while (next == null && eachNamespace.hasNext()) {
                     String attributeKey =
                         eachNamespace.nextNamespaceAttr().getNodeName();
-                    if (attributeKey.startsWith("xmlns:")) {
-                        next = attributeKey.substring("xmlns:".length());
+                    if (attributeKey.startsWith(XMLConstants.XMLNS_ATTRIBUTE + ":")) {
+                        next = attributeKey.substring((XMLConstants.XMLNS_ATTRIBUTE + ":").length());
                     }
                 }
             }

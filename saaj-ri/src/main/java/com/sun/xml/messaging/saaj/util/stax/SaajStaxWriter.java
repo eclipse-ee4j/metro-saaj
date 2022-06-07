@@ -15,6 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.LinkedList;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.SOAPElement;
@@ -54,7 +55,6 @@ public class SaajStaxWriter implements XMLStreamWriter {
     static final protected String Envelope = "Envelope";
     static final protected String Header = "Header";
     static final protected String Body = "Body";
-    static final protected String xmlns = "xmlns";
 
     public SaajStaxWriter(final SOAPMessage msg, String uri) throws SOAPException {
         soap = msg;
@@ -164,7 +164,7 @@ public class SaajStaxWriter implements XMLStreamWriter {
 
     @Override
     public void writeAttribute(final String prefix, final String ns, final String ln, final String value) throws XMLStreamException {
-        if (ns == null && prefix == null && xmlns.equals(ln)) {
+        if (ns == null && prefix == null && XMLConstants.XMLNS_ATTRIBUTE.equals(ln)) {
             writeNamespace("", value);
         } else {
             if (deferredElement.isInitialized()) {
@@ -183,7 +183,7 @@ public class SaajStaxWriter implements XMLStreamWriter {
     @Override
     public void writeNamespace(String prefix, final String uri) throws XMLStreamException {
         // make prefix default if null or "xmlns" (according to javadoc)
-        String thePrefix = prefix == null || "xmlns".equals(prefix) ? "" : prefix;
+        String thePrefix = prefix == null || XMLConstants.XMLNS_ATTRIBUTE.equals(prefix) ? "" : prefix;
         if (deferredElement.isInitialized()) {
             deferredElement.addNamespaceDeclaration(thePrefix, uri);
         } else {
@@ -454,7 +454,7 @@ public class SaajStaxWriter implements XMLStreamWriter {
          * @param value value
          */
         public void addAttribute(final String prefix, final String ns, final String ln, final String value) {
-            if (ns == null && prefix == null && xmlns.equals(ln)) {
+            if (ns == null && prefix == null && XMLConstants.XMLNS_ATTRIBUTE.equals(ln)) {
                 this.addNamespaceDeclaration(null, value);
             } else {
                 this.attributeDeclarations.add(new AttributeDeclaration(emptyIfNull(prefix), ns, ln, value));
