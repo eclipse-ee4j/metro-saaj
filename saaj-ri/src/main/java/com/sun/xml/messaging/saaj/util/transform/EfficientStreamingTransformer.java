@@ -19,6 +19,7 @@ package com.sun.xml.messaging.saaj.util.transform;
 import java.io.*;
 
 import java.net.URISyntaxException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import javax.xml.XMLConstants;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.dom.DOMSource;
@@ -73,16 +74,33 @@ public class EfficientStreamingTransformer
      * Underlying FI DOM serializer.
      */
     private Object m_fiDOMDocumentSerializer = null;
+
+    private static final AtomicBoolean TO_BE_LOGGED = new AtomicBoolean(true);
     
     private EfficientStreamingTransformer() {
         TransformerFactory tf = TransformerFactory.newInstance();
+        final boolean toBeLogged = TO_BE_LOGGED.compareAndSet(true, false);
         try {
             tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         } catch (TransformerConfigurationException e) {
-            LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support secure xml processing!", new Object[] { tf.getClass().getName() } );
+            if (toBeLogged) {
+                LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support secure xml processing!", new Object[]{tf.getClass().getName()});
+            }
         }
-        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        } catch (IllegalArgumentException e) {
+            if (toBeLogged) {
+                LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support set attribute [{1}]!",
+                        new Object[]{tf.getClass().getName(), XMLConstants.ACCESS_EXTERNAL_DTD});
+            }
+        }
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        } catch (IllegalArgumentException e) {
+            LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support set attribute [{1}]!",
+                    new Object[] { tf.getClass().getName(), XMLConstants.ACCESS_EXTERNAL_STYLESHEET });
+        }
         transformerFactory = tf;
     }
 
