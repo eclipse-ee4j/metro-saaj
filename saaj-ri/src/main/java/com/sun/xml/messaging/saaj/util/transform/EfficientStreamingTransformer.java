@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -81,8 +81,17 @@ public class EfficientStreamingTransformer
         } catch (TransformerConfigurationException e) {
             LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support secure xml processing!", new Object[] { tf.getClass().getName() } );
         }
-        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
-        tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        //ie xalan, as of 2.7.2, does not support these
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        } catch (IllegalArgumentException e) {
+            LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalDTD property", new Object[] { tf.getClass().getName() } );
+        }
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        } catch (IllegalArgumentException e) {
+            LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalStylesheet property", new Object[] { tf.getClass().getName() } );
+        }
         transformerFactory = tf;
     }
 
