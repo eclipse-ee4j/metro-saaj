@@ -32,6 +32,7 @@ import org.w3c.dom.Document;
 import com.sun.xml.messaging.saaj.util.XMLDeclarationParser;
 import com.sun.xml.messaging.saaj.util.FastInfosetReflection;
 import java.net.URI;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.transform.Transformer;
@@ -49,10 +50,10 @@ import javax.xml.transform.TransformerFactory;
  * @author Santiago.PericasGeertsen@sun.com
  *
  */
-public class EfficientStreamingTransformer
-    extends javax.xml.transform.Transformer {
+public class EfficientStreamingTransformer extends Transformer {
 
      private static final Logger LOGGER = Logger.getLogger(LogDomainConstants.SOAP_DOMAIN, "com.sun.xml.messaging.saaj.soap.LocalStrings");
+     private static final AtomicBoolean LOG = new AtomicBoolean(true);
 
   //static final String version;
   //static final String vendor;
@@ -75,22 +76,29 @@ public class EfficientStreamingTransformer
     private Object m_fiDOMDocumentSerializer = null;
     
     private EfficientStreamingTransformer() {
+        boolean log = LOG.compareAndSet(true, false);
         TransformerFactory tf = TransformerFactory.newInstance();
         try {
             tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         } catch (TransformerConfigurationException e) {
-            LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support secure xml processing!", new Object[] { tf.getClass().getName() } );
+            if (log) {
+                LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support secure xml processing!", new Object[]{tf.getClass().getName()});
+            }
         }
         //ie xalan, as of 2.7.2, does not support these
         try {
             tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
         } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalDTD property", new Object[] { tf.getClass().getName() } );
+            if (log) {
+                LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalDTD property", new Object[]{tf.getClass().getName()});
+            }
         }
         try {
             tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
         } catch (IllegalArgumentException e) {
-            LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalStylesheet property", new Object[] { tf.getClass().getName() } );
+            if (log) {
+                LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalStylesheet property", new Object[]{tf.getClass().getName()});
+            }
         }
         transformerFactory = tf;
     }
