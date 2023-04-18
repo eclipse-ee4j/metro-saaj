@@ -1675,7 +1675,11 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
-        element.setIdAttributeNode(idAttr, isId);
+        if (idAttr instanceof AttrImpl) {
+            element.setIdAttributeNode(((AttrImpl)idAttr).delegate, isId);
+        } else {
+            element.setIdAttributeNode(idAttr, isId);
+        }
     }
 
     @Override
