@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -1675,7 +1675,11 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public void setIdAttributeNode(Attr idAttr, boolean isId) throws DOMException {
-        element.setIdAttributeNode(idAttr, isId);
+        if (idAttr instanceof AttrImpl) {
+            element.setIdAttributeNode(((AttrImpl)idAttr).delegate, isId);
+        } else {
+            element.setIdAttributeNode(idAttr, isId);
+        }
     }
 
     @Override
