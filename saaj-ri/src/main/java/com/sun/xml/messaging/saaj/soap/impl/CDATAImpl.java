@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -20,6 +20,7 @@ public class CDATAImpl extends TextImpl<CDATASection> implements CDATASection {
 
     static final String cdataUC = "<![CDATA[";
     static final String cdataLC = "<![cdata[";
+    static final String CDATA_CLOSE = "]]>";
 
     public CDATAImpl(SOAPDocumentImpl ownerDoc, String text) {
         super(ownerDoc, text);
