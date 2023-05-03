@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -22,7 +22,9 @@ package com.sun.xml.messaging.saaj.util;
  * This class is used by XML Schema binary format validation
  *
  * @author Jeffrey Rodriguez
+ * @deprecated Use {@link java.util.Base64} instead
  */
+@Deprecated(forRemoval = true)
 public final class Base64 {
 
 
