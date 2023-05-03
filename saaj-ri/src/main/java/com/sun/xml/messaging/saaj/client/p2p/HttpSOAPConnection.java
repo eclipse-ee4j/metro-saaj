@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -32,7 +33,6 @@ import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
-import com.sun.xml.messaging.saaj.util.Base64;
 import com.sun.xml.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.ParseUtil;
@@ -553,7 +553,7 @@ class HttpSOAPConnection extends SOAPConnection {
                 concat,
                 nameBytes.length,
                 passwdBytes.length);
-            String auth = "Basic " + new String(Base64.encode(concat));
+            String auth = "Basic " + Base64.getEncoder().encodeToString(concat);
             conn.setRequestProperty("Authorization", auth);
             if (dL > 0)
                 d("Adding auth " + auth);
