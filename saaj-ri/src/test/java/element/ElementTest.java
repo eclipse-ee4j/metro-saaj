@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -163,6 +163,22 @@ public class ElementTest extends TestCase {
         String returnedText = element.getValue();
 
         assertEquals(originalText, returnedText);
+
+        element.removeContents();
+        element.addTextNode("<![CDATA[");
+        assertEquals("<![CDATA[", element.getValue());
+
+        element.removeContents();
+        element.addTextNode("]]>");
+        assertEquals("]]>", element.getValue());
+
+        element.removeContents();
+        element.addTextNode("<![cdata[]]>");
+        assertNull(element.getValue());
+
+        element.removeContents();
+        element.addTextNode("<![cdata[test]]>");
+        assertEquals("test", element.getValue());
     }
 
     public void testAddChildElement() throws Exception {

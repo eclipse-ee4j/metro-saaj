@@ -677,10 +677,11 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
     
     @Override
     public SOAPElement addTextNode(String text) throws SOAPException {
-        if (text.startsWith(CDATAImpl.cdataUC)
-            || text.startsWith(CDATAImpl.cdataLC))
+        if ((text.startsWith(CDATAImpl.cdataUC) || text.startsWith(CDATAImpl.cdataLC))
+            && text.endsWith(CDATAImpl.CDATA_CLOSE))
             return addCDATA(
-                text.substring(CDATAImpl.cdataUC.length(), text.length() - 3));
+                text.substring(CDATAImpl.cdataUC.length(), 
+                text.length() - CDATAImpl.CDATA_CLOSE.length()));
         return addText(text);
     }
 
