@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -756,7 +756,7 @@ public abstract class MessageImpl
     }
 
     public void setContentType(String type) {
-        headers.setHeader("Content-Type", type);
+        headers.setHeader("Content-Type", convertToSingleLine(type));
         needsSave();
     }
 
@@ -784,7 +784,7 @@ public abstract class MessageImpl
     public void setBaseType(String type) {
         ContentType ct = contentType();
         ct.setParameter("type", type);
-        headers.setHeader("Content-Type", ct.toString());
+        headers.setHeader("Content-Type", convertToSingleLine(ct.toString()));
         needsSave();
     }
 
@@ -795,7 +795,7 @@ public abstract class MessageImpl
     public void setAction(String action) {
         ContentType ct = contentType();
         ct.setParameter("action", action);
-        headers.setHeader("Content-Type", ct.toString());
+        headers.setHeader("Content-Type", convertToSingleLine(ct.toString()));
         needsSave();
     }
 
@@ -806,7 +806,7 @@ public abstract class MessageImpl
     public void setCharset(String charset) {
         ContentType ct = contentType();
         ct.setParameter("charset", charset);
-        headers.setHeader("Content-Type", ct.toString());
+        headers.setHeader("Content-Type", convertToSingleLine(ct.toString()));
         needsSave();
     }
 
@@ -906,7 +906,7 @@ public abstract class MessageImpl
         ct.setPrimaryType(split[0]);
         ct.setSubType(split[1]);
         ct.setParameter("charset", charset);
-        headers.setHeader("Content-Type", ct.toString());
+        headers.setHeader("Content-Type", convertToSingleLine(ct.toString()));
     }
 
     private class MimeMatchingIterator implements Iterator<AttachmentPart> {
