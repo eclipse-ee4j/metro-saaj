@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--
+
+    Copyright (c) 2023 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>com.sun.xml.messaging.saaj</groupId>
+        <artifactId>metro-saaj</artifactId>
+        <version>3.0.2-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>saaj-documentation</artifactId>
+    <packaging>pom</packaging>
+    <name>SAAJ documentation</name>
+
+    <properties>
+        <saaj.www>${project.build.directory}/site</saaj.www>
+        <saaj.javadoc.destdir>${saaj.www}/api</saaj.javadoc.destdir>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${saaj.www}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <!-- download the sources -->
+                        <id>unpack-source</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>jakarta.xml.soap</groupId>
+                                    <artifactId>jakarta.xml.soap-api</artifactId>
+                                    <version>${xml.soap-api.version}</version>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/javadoc-sources/jakarta.xml.soap</outputDirectory>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>com.sun.xml.messaging.saaj</groupId>
+                                    <artifactId>saaj-impl</artifactId>
+                                    <version>${saaj.version}</version>
+                                    <classifier>sources</classifier>
+                                    <outputDirectory>${project.build.directory}/javadoc-sources/com.sun.xml.messaging.saaj</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!--
+                We want to produce aggregated javadoc for multiple JPMS modules. To do that
+                we have to pass 'module-source-path' to javadoc tool to make it module aware.
+                While we can pass that option to javadoc through maven-javadoc-plugin
+                using 'additionalOptions', the plugin also sets 'sourcepath' option,
+                which is in conflict with 'module-source-path' (as of maven-javadoc-plugin:3.2.0).
+                Ant task is used here to get around that limitation for the time being.
+            -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-javadocs</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${saaj.javadoc.destdir}"/>
+                                <javadoc destdir="${saaj.javadoc.destdir}"
+                                         modulesourcepath="${project.build.directory}/javadoc-sources/"
+                                         modulepath="${jakarta.activation:jakarta.activation-api:jar}:${jakarta.xml.bind:jakarta.xml.bind-api:jar}:${org.jvnet.staxex:stax-ex:jar}:${org.jvnet.mimepull:mimepull:jar}:${com.sun.xml.fastinfoset:FastInfoset:jar}:${org.jvnet.mimepull:mimepull:jar}"
+                                         author="false"
+                                         docfilessubdirs="true"
+                                         failonerror="true"
+                                         serialwarn="true"
+                                         source="${saaj.javadoc.source}"
+                                         splitindex="true"
+                                         use="true"
+                                         windowtitle="${saaj.javadoc.title}"
+                                >
+                                    <arg value="-notimestamp" />
+                                    <arg value="-quiet" />
+                                    <doctitle>${saaj.javadoc.title}</doctitle>
+                                    <bottom>${saaj.javadoc.bottom}</bottom>
+                                    <header>${saaj.javadoc.header}</header>
+                                    <group title="Jakarta SOAP with Attachments API Packages" packages="jakarta.xml.soap*"/>
+                                    <group title="Implementation-specific Packages" packages="com.sun.xml.messaging.saaj*"/>
+                                    <fileset dir="${project.build.directory}/javadoc-sources">
+                                        <include name="**/*.java"/>
+                                    </fileset>
+                                </javadoc>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.xml.messaging.saaj</groupId>
+            <artifactId>saaj-impl</artifactId>
+            <version>${saaj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
+            <version>${activation-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>${xml.bind-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.soap</groupId>
+            <artifactId>jakarta.xml.soap-api</artifactId>
+            <version>${xml.soap-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.mimepull</groupId>
+            <artifactId>mimepull</artifactId>
+            <version>${mimepull.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jvnet.staxex</groupId>
+            <artifactId>stax-ex</artifactId>
+            <version>${stax-ex.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xml.fastinfoset</groupId>
+            <artifactId>FastInfoset</artifactId>
+            <version>${fastinfoset.version}</version>
+        </dependency>
+    </dependencies>
+
+</project>

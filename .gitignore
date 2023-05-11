@@ -6,3 +6,13 @@ target/
 .settings
 .classpath
 .project
+
+_site
+www/.sass-cache
+www/.jekyll-cache
+www/.jekyll-metadata
+www/vendor
+www/api
+www/CONTRIBUTING.md
+www/README.md
+www/TCK-Results.md

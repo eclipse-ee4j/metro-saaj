@@ -1,0 +1,91 @@
+#
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0 which is available at
+# http://www.eclipse.org/legal/epl-2.0,
+# or the Eclipse Distribution License v. 1.0 which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
+#
+
+name: Update web site
+
+on:
+  # Runs on pushes targeting the default branch
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'docs/**'
+      - 'www/**'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+          cache: maven
+      - name: Add static content
+        run: |
+          export SAAJ_VERSION=`curl -s https://repo1.maven.org/maven2/com/sun/xml/messaging/saaj/saaj-impl/maven-metadata.xml | tac | grep -o -m 1 "<version>[[:digit:]]\.[[:digit:]]\.[[:digit:]]</version" | cut -f 2 -d ">" | cut -f 1 -d "<" | tr -d '[:space:]'`
+          echo Building javadoc for Eclipse SAAJ version: $SAAJ_VERSION
+          export ACTIVATION_API_VERSION=`curl -s https://repo1.maven.org/maven2/com/sun/xml/messaging/saaj/metro-saaj/$SAAJ_VERSION/metro-saaj-$SAAJ_VERSION.pom | grep -o -m 1 "<activation-api.version>[[:digit:]]\.[[:digit:]]\.[[:digit:]]</activation-api.version" | cut -f 2 -d ">" | cut -f 1 -d "<" | tr -d '[:space:]'`
+          export XML_BIND_API_VERSION=`curl -s https://repo1.maven.org/maven2/com/sun/xml/messaging/saaj/metro-saaj/$SAAJ_VERSION/metro-saaj-$SAAJ_VERSION.pom | grep -o -m 1 "<xml.bind-api.version>[[:digit:]]\.[[:digit:]]\.[[:digit:]]</xml.bind-api.version" | cut -f 2 -d ">" | cut -f 1 -d "<" | tr -d '[:space:]'`
+          export XML_SOAP_API_VERSION=`curl -s https://repo1.maven.org/maven2/com/sun/xml/messaging/saaj/metro-saaj/$SAAJ_VERSION/metro-saaj-$SAAJ_VERSION.pom | grep -o -m 1 "<xml.soap-api.version>[[:digit:]]\.[[:digit:]]\.[[:digit:]]</xml.soap-api.version" | cut -f 2 -d ">" | cut -f 1 -d "<" | tr -d '[:space:]'`
+          export MIMEPULL_VERSION=`curl -s https://repo1.maven.org/maven2/com/sun/xml/messaging/saaj/metro-saaj/$SAAJ_VERSION/metro-saaj-$SAAJ_VERSION.pom | grep -o -m 1 "<mimepull.version>[[:digit:]]\.[[:digit:]]+\.[[:digit:]]</mimepull.version" | cut -f 2 -d ">" | cut -f 1 -d "<" | tr -d '[:space:]'`
+          export STAXEX_VERSION=`curl -s https://repo1.maven.org/maven2/com/sun/xml/messaging/saaj/metro-saaj/$SAAJ_VERSION/metro-saaj-$SAAJ_VERSION.pom | grep -o -m 1 "<stax-ex.version>[[:digit:]]\.[[:digit:]]\.[[:digit:]]</stax-ex.version" | cut -f 2 -d ">" | cut -f 1 -d "<" | tr -d '[:space:]'`
+          export FI_VERSION=`curl -s https://repo1.maven.org/maven2/com/sun/xml/messaging/saaj/metro-saaj/$SAAJ_VERSION/metro-saaj-$SAAJ_VERSION.pom | grep -o -m 1 "<fastinfoset.version>[[:digit:]]\.[[:digit:]]\.[[:digit:]]</fastinfoset.version" | cut -f 2 -d ">" | cut -f 1 -d "<" | tr -d '[:space:]'`
+          echo Activation API version: $ACTIVATION_API_VERSION
+          echo XML Bind API version: $XML_BIND_API_VERSION
+          echo XML SOAP API version: $XML_SOAP_API_VERSION
+          echo FI version: $FI_VERSION
+          echo Mimepull version: $MIMEPULL_VERSION
+          echo Stax-ex version: $STAXEX_VERSION
+          echo mvn -B -U -C -V -Pstaging clean install -f docs/pom.xml -Dsaaj.version=$SAAJ_VERSION -Dxml.soap-api.version=$XML_SOAP_API_VERSION -Dxml.bind-api.version=$XML_BIND_API_VERSION -Dactivation-api.version=$ACTIVATION_API_VERSION -Dfastinfoset.version=$FI_VERSION -Dmimepull.version=$MIMEPULL_VERSION -Dstax-ex.version=$STAXEX_VERSION
+          mvn -B -U -C -V -Pstaging clean install -f docs/pom.xml -Dsaaj.version=$SAAJ_VERSION -Dxml.soap-api.version=$XML_SOAP_API_VERSION -Dxml.bind-api.version=$XML_BIND_API_VERSION -Dactivation-api.version=$ACTIVATION_API_VERSION -Dfastinfoset.version=$FI_VERSION -Dmimepull.version=$MIMEPULL_VERSION -Dstax-ex.version=$STAXEX_VERSION
+          rm -rf ./www/api || true
+          cp -Rfv docs/target/site/* ./www/
+          cp -Rfv CONTRIBUTING.md ./www/
+      - name: Setup Pages
+        uses: actions/configure-pages@v2
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./www/
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
+
+  # Deployment job
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
