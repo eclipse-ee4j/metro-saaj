@@ -84,7 +84,7 @@
         <spotbugs.exclude>${project.build.commonResourcesDirectory}/config/exclude.xml</spotbugs.exclude>
         <spotbugs.skip>false</spotbugs.skip>
         <spotbugs.threshold>Low</spotbugs.threshold>
-        <spotbugs.version>4.7.0.0</spotbugs.version>
+        <spotbugs.version>4.7.3.4</spotbugs.version>
         <findsecbugs.version>1.11.0</findsecbugs.version>
 
         <maven.compiler.release>11</maven.compiler.release>
@@ -96,8 +96,8 @@
         <warn.limit>150</warn.limit>
         <jdoc.doclint>-missing</jdoc.doclint>
 
-        <activation-api.version>2.1.0</activation-api.version>
-        <angus-activation.version>1.0.0</angus-activation.version>
+        <activation-api.version>2.1.2</activation-api.version>
+        <angus-activation.version>2.0.1</angus-activation.version>
 
         <xml.bind-api.version>4.0.0</xml.bind-api.version>
         <xml.soap-api.version>3.0.0</xml.soap-api.version>
