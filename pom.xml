@@ -106,6 +106,14 @@
         <mimepull.version>1.10.0</mimepull.version>
         <stax-ex.version>2.1.0</stax-ex.version>
         <junit.version>4.13.2</junit.version>
+        <saaj.version>${project.version}</saaj.version>
+        <saaj.javadoc.source>${maven.compiler.release}</saaj.javadoc.source>
+        <saaj.javadoc.source>11</saaj.javadoc.source>
+        <saaj.javadoc.title>Eclipse SAAJ API documentation</saaj.javadoc.title>
+        <saaj.javadoc.header><![CDATA[<br>Eclipse SAAJ v${saaj.version}]]></saaj.javadoc.header>
+        <saaj.javadoc.bottom><![CDATA[
+Comments to: <a href="mailto:metro-dev@eclipse.org">metro-dev@eclipse.org</a>.<br>
+Copyright &#169; 2018, ${current.year} Eclipse Foundation. All rights reserved.]]></saaj.javadoc.bottom>
     </properties>
 
     <build>
@@ -243,6 +251,18 @@
                                     <targetPath>META-INF</targetPath>
                                 </resource>
                             </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>current-year-property</id>
+                        <goals>
+                            <goal>timestamp-property</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <name>current.year</name>
+                            <locale>en,US</locale>
+                            <pattern>yyyy</pattern>
                         </configuration>
                     </execution>
                 </executions>
@@ -396,6 +416,7 @@
             <id>samples</id>
             <modules>
                 <module>saaj-samples</module>
+                <module>docs</module>
             </modules>
         </profile>
         <profile>
