@@ -60,6 +60,10 @@
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>unpack-resource</id>
+                        <phase>none</phase>
+                    </execution>
+                    <execution>
                         <!-- download the sources -->
                         <id>unpack-source</id>
                         <phase>generate-resources</phase>
