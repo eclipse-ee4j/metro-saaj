@@ -17,6 +17,34 @@ This project is part of [Eclipse Metro](https://projects.eclipse.org/projects/ee
 
 # <a name="Latest_News"></a>Latest News
 
+
+### March 30, 2023 - Eclipse Implementation of Jakarta SOAP with Attachments 3.0.1 Final Release ###
+
+The 3.0.1 release is a bugfix release of the Implementation in 3.0.x release stream fixing
+the regression in `MessageImpl.saveChanges()`.
+
+### September 22, 2022 - Eclipse Implementation of Jakarta SOAP with Attachments 3.0.0 Final Release ###
+
+Jakarta SOAP with Attachments Specification 3.0 is a major update of the specification containing
+following changes:
+
+* addition of `SOAPEnvelope.createName(String, String): Name` method
+* not allowing null arguments in `SOAPFault.createFault(String, String)`
+* extension of `SOAPConnection` to implement `java.io.Autocloseable`
+* addition of an API allowing setting timeouts for set timeout for `SOAPConnection.call`
+* drop of all references to JAXM
+* drops of the search through Java SE installation in the implementation lookup
+* removal of deprecated `SOAPElementFactory`
+
+See [the specification](https://jakarta.ee/specifications/soap-attachments/3.0/) for details.
+
+The version 3.0.0 of the Implementation of the specification adopts these changes.
+
+### April 10, 2021 - Eclipse Implementation of Jakarta SOAP with Attachments 2.0.1 Final Release ###
+
+The 2.0.1 release is a bugfix release integrating fixes in Jakarta EE
+APIs the implementation depends on.
+
 ### November 4, 2020 - Eclipse Implementation of Jakarta SOAP with Attachments 2.0.0 Final Release ###
 
 First release of Eclipse Implementation of Jakarta SOAP with Attachments fully moved
