@@ -18,6 +18,13 @@ This project is part of [Eclipse Metro](https://projects.eclipse.org/projects/ee
 # <a name="Latest_News"></a>Latest News
 
 
+### May 12, 2023 - Eclipse Implementation of Jakarta SOAP with Attachments 3.0.2 Final Release ###
+
+The 3.0.2 release is a bugfix release of the Implementation in 3.0.x release stream fixing
+inconsistent owner element for `setIdAttributeNode`, unfolding possibly folded header values,
+prevention of `StringIndexOutOfBoundsException` and deprecating `com.sun.xml.messaging.saaj.util.Base64`
+in favor of `java.util.Base64`.
+
 ### March 30, 2023 - Eclipse Implementation of Jakarta SOAP with Attachments 3.0.1 Final Release ###
 
 The 3.0.1 release is a bugfix release of the Implementation in 3.0.x release stream fixing
