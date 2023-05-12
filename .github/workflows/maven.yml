@@ -12,7 +12,15 @@
 
 name: SAAJ RI
 
-on: [push, pull_request]
+on:
+  pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'www/**'
+  push:
+    paths-ignore:
+      - 'docs/**'
+      - 'www/**'
 
 concurrency:
   group: ${{ github.ref }}
