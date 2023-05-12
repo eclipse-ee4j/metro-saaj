@@ -23,7 +23,7 @@
 
     <groupId>com.sun.xml.messaging.saaj</groupId>
     <artifactId>metro-saaj</artifactId>
-    <version>3.0.2-SNAPSHOT</version>
+    <version>3.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Jakarta SOAP</name>
