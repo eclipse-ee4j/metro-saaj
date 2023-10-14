@@ -87,6 +87,22 @@
                                     *
                                 </Export-Package>
                                 <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
+                                <Require-Capability><![CDATA[
+                            osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.registrar)
+                              (version>=1.0.0)(!(version>=2.0.0)))";resolution:=optional
+                            ]]>
+                                </Require-Capability>
+                                <Provide-Capability><![CDATA[
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.MessageFactory",
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.SAAJMetaFactory",
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.SOAPConnectionFactory",
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.SOAPFactory"
+                            ]]>
+                                </Provide-Capability>
                             </instructions>
                         </configuration>
                     </execution>
