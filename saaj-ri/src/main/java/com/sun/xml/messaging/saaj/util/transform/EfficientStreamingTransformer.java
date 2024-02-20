@@ -27,6 +27,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
+import com.sun.xml.messaging.saaj.util.SAAJUtil;
 import org.w3c.dom.Document;
 
 import com.sun.xml.messaging.saaj.util.XMLDeclarationParser;
@@ -77,7 +78,8 @@ public class EfficientStreamingTransformer extends Transformer {
     
     private EfficientStreamingTransformer() {
         boolean log = LOG.compareAndSet(true, false);
-        TransformerFactory tf = TransformerFactory.newInstance();
+        boolean useDefaultTransformerFactory = SAAJUtil.getSystemBoolean("saaj.use.default.transformer.factory");
+        TransformerFactory tf = useDefaultTransformerFactory ? TransformerFactory.newDefaultInstance() : TransformerFactory.newInstance();
         try {
             tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
         } catch (TransformerConfigurationException e) {

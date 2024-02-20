@@ -146,6 +146,15 @@
  * large attachments in incoming messages. The default is false.</td>
  * </tr>
  *
+ * <tr>
+ *  <td><a id="saaj.use.default.transformer.factory">saaj.use.default.transformer.factory</a></td>
+ *  <td>boolean</td>
+ *  <td>The {@code saaj.use.default.transformer.factory} property forces usage of
+ *  the {@code TransformerFactory} builtin system-default implementation instead of the
+ *  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.xml/module-summary.html#LookupMechanism">JAXP Lookup Mechanism</a>.
+ *  The default is false.</td>
+ * </tr>
+ *
  * </table>
  *
  * @see <a href="https://jakarta.ee/specifications/soap-attachments">Jakarta SOAP Specification</a>
