@@ -19,14 +19,14 @@
     <parent>
         <groupId>com.sun.xml.messaging.saaj</groupId>
         <artifactId>saaj-samples</artifactId>
-        <version>3.0.4-SNAPSHOT</version>
+        <version>3.0.4</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <groupId>com.sun.xml.messaging.saaj.samples</groupId>
     <artifactId>saaj-book</artifactId>
     <packaging>war</packaging>
-    <version>3.0.4-SNAPSHOT</version>
+    <version>3.0.4</version>
     <name>SAAJ Book sample webapp</name>
 
     <properties>
