@@ -56,6 +56,11 @@ public class EfficientStreamingTransformer extends Transformer {
      private static final Logger LOGGER = Logger.getLogger(LogDomainConstants.SOAP_DOMAIN, "com.sun.xml.messaging.saaj.soap.LocalStrings");
      private static final AtomicBoolean LOG = new AtomicBoolean(true);
 
+    private static final boolean useDefaultTransformerFactory;
+    static {
+        useDefaultTransformerFactory = SAAJUtil.getSystemBoolean("saaj.use.default.transformer.factory");
+    }
+
   //static final String version;
   //static final String vendor;
   // removing static : security issue : CR 6813167Z
@@ -78,7 +83,6 @@ public class EfficientStreamingTransformer extends Transformer {
     
     private EfficientStreamingTransformer() {
         boolean log = LOG.compareAndSet(true, false);
-        boolean useDefaultTransformerFactory = SAAJUtil.getSystemBoolean("saaj.use.default.transformer.factory");
         TransformerFactory tf = useDefaultTransformerFactory ? TransformerFactory.newDefaultInstance() : TransformerFactory.newInstance();
         try {
             tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
