@@ -1,6 +1,6 @@
 <!--
-
-    Copyright (c) 2011, 2021 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2026 Contributors to the Eclipse Foundation.
+    Copyright (c) 2011, 2024 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,19 +10,17 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.sun.xml.messaging.saaj</groupId>
         <artifactId>metro-saaj</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <version>3.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.sun.xml.messaging.saaj</groupId>
     <artifactId>saaj-impl</artifactId>
-    <version>2.1.0-SNAPSHOT</version>
 
     <name>Jakarta SOAP Implementation</name>
     <description>
@@ -38,27 +36,20 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <release>9</release>
-                    <compilerArgs>
-                        <arg>-Xlint:all</arg>
+                    <compilerArgs combine.children="append">
+                        <arg>${comp.xlint}</arg>
+                        <arg>${comp.xdoclint}</arg>
+                        <arg>-Xmaxwarns</arg>
+                        <arg>${warn.limit}</arg>
+                        <arg>-Xmaxerrs</arg>
+                        <arg>${warn.limit}</arg>
                     </compilerArgs>
+                    <showDeprecation>true</showDeprecation>
+                    <showWarnings>true</showWarnings>
                 </configuration>
                 <executions>
-                    <execution>
-                        <id>base-compile</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <configuration>
-                            <release>8</release>
-                            <excludes>
-                                <exclude>module-info.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
                     <execution>
                         <id>default-testCompile</id>
                         <goals>
@@ -93,13 +84,28 @@
                                     *
                                 </Export-Package>
                                 <Implementation-Build-Id>${project.version} - ${buildNumber}</Implementation-Build-Id>
+                                <Require-Capability><![CDATA[
+                            osgi.extender;filter:="(&(osgi.extender=osgi.serviceloader.registrar)
+                              (version>=1.0.0)(!(version>=2.0.0)))";resolution:=optional
+                            ]]>
+                                </Require-Capability>
+                                <Provide-Capability><![CDATA[
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.MessageFactory",
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.SAAJMetaFactory",
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.SOAPConnectionFactory",
+                            osgi.serviceloader;
+                              osgi.serviceloader="jakarta.xml.soap.SOAPFactory"
+                            ]]>
+                                </Provide-Capability>
                             </instructions>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -112,7 +118,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -127,7 +132,6 @@
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <archive>
@@ -135,12 +139,12 @@
                             <addDefaultEntries>false</addDefaultEntries>
                         </manifest>
                     </archive>
-                    <release>11</release>
                     <notimestamp>true</notimestamp>
+                    <doclint>${jdoc.doclint}</doclint>
+                    <quiet>true</quiet>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <systemProperties>
@@ -185,9 +189,15 @@
         </dependency>
 
         <dependency>
-            <groupId>com.sun.activation</groupId>
-            <artifactId>jakarta.activation</artifactId>
+            <groupId>jakarta.activation</groupId>
+            <artifactId>jakarta.activation-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.eclipse.angus</groupId>
+            <artifactId>angus-activation</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
 
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
@@ -210,75 +220,6 @@
     </dependencies>
 
     <profiles>
-        <!-- invoke unit tests against JDK like this:
-         mvn clean test -DtestInJdk -Djdk.to.test=$jdk/home/path/bin/java
-        -->
-        <profile>
-            <id>jdk</id>
-            <activation>
-                <property>
-                    <name>testInJdk</name>
-                </property>
-            </activation>
-            <properties>
-                <argLine>${proxyOpts} -Djdk.build=true</argLine>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <!-- some random non-existing directory to make sure the built classes are not found, instead the ones from jdk are used -->
-                            <classesDirectory>jerreAbfAFgfreu</classesDirectory>
-                            <excludes>
-                                <!-- tests using RI specific API -->
-                                <exclude>**/MimeUtilityTest.java</exclude>
-                            </excludes>
-                            <classpathDependencyScopeExcludes>compile</classpathDependencyScopeExcludes>
-                            <classpathDependencyExcludes>
-                                <classpathDependencyExclude>jakarta.xml.soap:jakarta.xml.soap-api</classpathDependencyExclude>
-                                <classpathDependencyExclude>org.jvnet.mimepull:mimepull</classpathDependencyExclude>
-                            </classpathDependencyExcludes>
-                            <jvm>${jdk.to.test}</jvm>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-        <profile>
-            <id>jdk-sm</id>
-            <activation>
-                <property>
-                    <name>testInJdkWithSM</name>
-                </property>
-            </activation>
-            <properties>
-                <argLine>${proxyOpts} -Djdk.build=true -Djava.security.manager -Djava.security.policy=./src/test/resources/test.policy</argLine>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <configuration>
-                            <!-- some random non-existing directory to make sure the built classes are not found, instead the ones from jdk are used -->
-                            <classesDirectory>jerreAbfAFgfreu</classesDirectory>
-                            <excludes>
-                                <!-- tests using RI specific API -->
-                                <exclude>**/MimeUtilityTest.java</exclude>
-                            </excludes>
-                            <classpathDependencyScopeExcludes>compile</classpathDependencyScopeExcludes>
-                            <classpathDependencyExcludes>
-                                <classpathDependencyExclude>jakarta.xml.soap:jakarta.xml.soap-api</classpathDependencyExclude>
-                                <classpathDependencyExclude>org.jvnet.mimepull:mimepull</classpathDependencyExclude>
-                            </classpathDependencyExcludes>
-                            <jvm>${jdk.to.test}</jvm>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
         <profile>
             <id>coverage</id>
             <build>
@@ -287,7 +228,7 @@
                         <plugin>
                             <groupId>org.jacoco</groupId>
                             <artifactId>jacoco-maven-plugin</artifactId>
-                            <version>0.8.6</version>
+                            <version>0.8.11</version>
                         </plugin>
                     </plugins>
                 </pluginManagement>

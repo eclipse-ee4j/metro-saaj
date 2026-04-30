@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +11,6 @@
 package com.sun.xml.messaging.saaj.soap;
 
 import java.awt.*;
-import java.awt.datatransfer.DataFlavor;
 import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Arrays;
@@ -29,7 +28,9 @@ import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 public class ImageDataContentHandler extends Component
     implements DataContentHandler {
 
-    protected static final Logger log =
+    private static final long serialVersionUID = -1032466256223569148L;
+
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
     
@@ -132,7 +133,7 @@ public class ImageDataContentHandler extends Component
                 stream.close();
             } else {
                 log.log(Level.SEVERE, "SAAJ0526.soap.unsupported.mime.type",
-                    new String[] { type });
+                    new String[] { type.replaceAll("[\r\n]","") });
                 throw new IOException("Unsupported mime type:"+ type);
             }
         } catch (Exception e) {

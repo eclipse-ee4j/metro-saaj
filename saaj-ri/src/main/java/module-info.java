@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2018, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2018, 2024 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -144,6 +144,15 @@
  *  <td>boolean</td>
  *  <td>The {@code saaj.use.mimepull} property instruct the runtime to use the MimePull parser allowing handling of
  * large attachments in incoming messages. The default is false.</td>
+ * </tr>
+ *
+ * <tr>
+ *  <td><a id="saaj.use.default.transformer.factory">saaj.use.default.transformer.factory</a></td>
+ *  <td>boolean</td>
+ *  <td>The {@code saaj.use.default.transformer.factory} property forces usage of
+ *  the {@code TransformerFactory} builtin system-default implementation instead of the
+ *  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.xml/module-summary.html#LookupMechanism">JAXP Lookup Mechanism</a>.
+ *  The default is false.</td>
  * </tr>
  *
  * </table>

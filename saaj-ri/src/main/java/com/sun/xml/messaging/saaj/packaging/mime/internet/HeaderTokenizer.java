@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -190,7 +190,7 @@ public class HeaderTokenizer {
      * Peek at the next token, without actually removing the token
      * from the parse stream. Invoking this method multiple times
      * will return successive tokens, until <code>next()</code> is
-     * called. <p>
+     * called.
      *
      * @return		the next Token
      * @exception	ParseException if the parse fails
@@ -302,7 +302,7 @@ public class HeaderTokenizer {
 	// Check for SPECIAL or CTL
 	if (c < 040 || c >= 0177 || delimiters.indexOf(c) >= 0) {
 	    currentPos++; // re-position currentPos
-	    char ch[] = new char[1];
+	    char[] ch = new char[1];
 	    ch[0] = c;
 	    return new Token(c, new String(ch));
 	}

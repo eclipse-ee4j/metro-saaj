@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -56,7 +56,6 @@ public class SaajStaxWriterEx extends SaajStaxWriter implements XMLStreamWriterE
     public void writeStartElement(String prefix, String ln, String ns) throws XMLStreamException {
         if (xopNS.equals(ns) && Include.equals(ln)) {
             state = State.xopInclude;
-            return;
         } else {
             super.writeStartElement(prefix, ln, ns);
         }
@@ -103,7 +102,7 @@ public class SaajStaxWriterEx extends SaajStaxWriter implements XMLStreamWriterE
                 return currentElement.lookupPrefix(namespaceURI);
             }
             @Override
-            public Iterator getPrefixes(final String namespaceURI) {
+            public Iterator<String> getPrefixes(final String namespaceURI) {
                 return new Iterator<String>() {
                     String prefix = getPrefix(namespaceURI);
                     @Override

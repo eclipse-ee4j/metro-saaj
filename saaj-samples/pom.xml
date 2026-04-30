@@ -1,6 +1,6 @@
 <!--
-
-    Copyright (c) 2019, 2020 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2026 Contributors to the Eclipse Foundation.
+    Copyright (c) 2019, 2021 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -13,25 +13,21 @@
 <project
         xmlns="http://maven.apache.org/POM/4.0.0"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>com.sun.xml.messaging.saaj</groupId>
         <artifactId>metro-saaj</artifactId>
-        <version>2.1.0-SNAPSHOT</version>
+        <version>3.0.5-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.sun.xml.messaging.saaj</groupId>
     <artifactId>saaj-samples</artifactId>
     <packaging>pom</packaging>
-    <version>2.1.0-SNAPSHOT</version>
     <name>SAAJ Samples</name>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
         <bundles.dir>${project.build.directory}/bundles</bundles.dir>
     </properties>
 
@@ -51,14 +47,12 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <configuration>
                     <skip>true</skip>
@@ -81,9 +75,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
                         <inherited>false</inherited>
                         <executions>
                             <execution>
@@ -129,9 +121,7 @@
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-antrun-plugin</artifactId>
-                        <version>1.8</version>
                         <inherited>true</inherited>
                         <executions>
                             <execution>
@@ -171,7 +161,7 @@
                     <plugin>
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
-                        <version>1.6.0</version>
+                        <version>3.6.3</version>
                         <executions>
                             <execution>
                                 <id>bundle-test</id>
@@ -186,7 +176,6 @@
                             <workingDirectory>${project.build.directory}/bundle/${project.artifactId}</workingDirectory>
                             <arguments>
                                 <argument>install</argument>
-                                <argument>-Pstaging</argument>
                             </arguments>
                         </configuration>
                     </plugin>

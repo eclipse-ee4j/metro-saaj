@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -205,7 +205,7 @@ public class MimeUtility {
      * "text/plain" String) because all the I/O is done in this
      * thread.  In the case requiring an <code>InputStream</code> the
      * <code>DataHandler</code> uses a thread, a pair of pipe streams,
-     * and the <code>writeTo</code> method to produce the data. <p>
+     * and the <code>writeTo</code> method to produce the data.
      *
      * @param dh data handler
      *
@@ -498,7 +498,7 @@ public class MimeUtility {
 	 * This handles the most common case of unencoded headers 
 	 * efficiently.
 	 */
-	if (etext.indexOf("=?") == -1)
+	if (!etext.contains("=?"))
 	    return etext;
 
 	// Encoded words found. Start decoding ...
@@ -582,7 +582,7 @@ public class MimeUtility {
      * characters, it is first character-encoded using the specified
      * charset, then transfer-encoded using either the B or Q encoding.
      * The resulting bytes are then returned as a Unicode string 
-     * containing only ASCII characters. <p>
+     * containing only ASCII characters.
      * 
      * @param	word	unicode string
      * @param	charset	the MIME charset
@@ -711,7 +711,7 @@ public class MimeUtility {
      * an "encoded-word". If the parse fails, a ParseException is 
      * thrown. Otherwise, it is transfer-decoded, and then 
      * charset-converted into Unicode. If the charset-conversion
-     * fails, an UnsupportedEncodingException is thrown.<p>
+     * fails, an UnsupportedEncodingException is thrown.
      *
      * @param	eword	the possibly encoded value
      * @return deocoded word
@@ -1035,8 +1035,8 @@ public class MimeUtility {
     }
 
     /**
-     * Convert a MIME charset name into a valid Java charset name. <p>
-     *
+     * Convert a MIME charset name into a valid Java charset name.
+	 *
      * @param charset	the MIME charset name
      * @return  the Java charset equivalent. If a suitable mapping is
      *		not available, the passed in charset is itself returned.
@@ -1079,7 +1079,7 @@ public class MimeUtility {
      * Get the default charset corresponding to the system's current 
      * default locale.  If the System property <code>mail.mime.charset</code>
      * is set, a system charset corresponding to this MIME charset will be
-     * returned. <p>
+     * returned.
      * 
      * @return	the default charset of the system's default locale, 
      * 		as a Java charset. (NOT a MIME charset)
@@ -1140,8 +1140,8 @@ public class MimeUtility {
     private static Hashtable<String, String> java2mime;
 
     static {
-	java2mime = new Hashtable<String, String>(40);
-	mime2java = new Hashtable<String, String>(10);
+	java2mime = new Hashtable<>(40);
+	mime2java = new Hashtable<>(10);
 
 	try {
 	    // Use this class's classloader to load the mapping file
@@ -1346,7 +1346,7 @@ public class MimeUtility {
 	int linelen = 0;
 	boolean longLine = false, badEOL = false;
 	boolean checkEOL = encodeEolStrict && breakOnNonAscii;
-	byte buf[] = null;
+	byte[] buf = null;
 	if (max != 0) {
 	    block = (max == ALL) ? 4096 : Math.min(max, 4096);
 	    buf = new byte[block]; 
@@ -1446,12 +1446,12 @@ class AsciiOutputStream extends OutputStream {
     }
 
     @Override
-    public void write(byte b[]) throws IOException {
+    public void write(byte[] b) throws IOException {
 	write(b, 0, b.length);
     }
 
     @Override
-    public void write(byte b[], int off, int len) throws IOException {
+    public void write(byte[] b, int off, int len) throws IOException {
 	len += off;
 	for (int i = off; i < len ; i++)
 	    check(b[i]);

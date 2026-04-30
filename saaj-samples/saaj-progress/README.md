@@ -21,11 +21,11 @@ Steps to run the sample :
 1. Run server:
 
 ```shell script
-    mvn exec:java@server -Pstaging
+    mvn exec:java@server
 ```
 
 2. While server is up run the client:
 
 ```shell script
-    mvn exec:java@client -Pstaging
+    mvn exec:java@client
 ```

@@ -1,0 +1,18 @@
+github: [ metadata ]
+
+remote_theme: eclipsefdn/jekyll-theme-eclipsefdn
+
+title: [ Eclipse Metro ]
+description: [ Eclipse Implementation of Jakarta SOAP with Attachments ]
+
+links:
+  source: https://github.com/eclipse-ee4j/metro-saaj
+  api: api/
+  download: https://search.maven.org/artifact/com.sun.xml.messaging.saaj/saaj-impl
+  mailinglist: https://accounts.eclipse.org/mailing-list/metro-dev
+  spec: https://jakarta.ee/specifications/soap-attachments/
+  contrib: CONTRIBUTING
+  tckresults: TCK-Results
+
+include:
+  - CONTRIBUTING.md

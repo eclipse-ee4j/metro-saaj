@@ -12,7 +12,7 @@ SAAJ Samples
 ### Prerequisites
 Build sample root project to satisfy dependencies between samples:
 ```shell script
-mvn clean install -Pstaging
+mvn clean install
 ```
 
 ### Samples

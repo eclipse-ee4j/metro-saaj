@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -14,6 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 
 import jakarta.xml.soap.MessageFactory;
 import jakarta.xml.soap.MimeHeaders;
@@ -37,7 +38,7 @@ public class LazySOAPTest extends TestCase {
         String soapMsg = makeSoapMessageString(3);
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader("Content-Type", "text/xml");
-        InputStream in = new ByteArrayInputStream(soapMsg.getBytes("UTF-8")); 
+        InputStream in = new ByteArrayInputStream(soapMsg.getBytes(StandardCharsets.UTF_8));
 //      System.out.println("soap msg: " + soapMsg);
         SOAPMessage msg = MessageFactory.newInstance().createMessage(headers, in);
         msg.setProperty(MessageImpl.LAZY_SOAP_BODY_PARSING, "true");
@@ -58,7 +59,7 @@ public class LazySOAPTest extends TestCase {
         String soapMsg = makeSoapMessageString(3);
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader("Content-Type", "text/xml");
-        InputStream in = new ByteArrayInputStream(soapMsg.getBytes("UTF-8")); 
+        InputStream in = new ByteArrayInputStream(soapMsg.getBytes(StandardCharsets.UTF_8));
 //      System.out.println("soap msg: " + soapMsg);
         SOAPMessage msg = MessageFactory.newInstance().createMessage(headers, in);
         msg.setProperty(MessageImpl.LAZY_SOAP_BODY_PARSING, "true");
@@ -69,8 +70,8 @@ public class LazySOAPTest extends TestCase {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         XMLStreamWriter w = XMLOutputFactory.newInstance().createXMLStreamWriter(bos);
 //        ((LazyEnvelope) env).writeTo(w);
-        Method method = env.getClass().getMethod("writeTo", new Class[]{XMLStreamWriter.class});
-        method.invoke(env, new Object[]{w});
+        Method method = env.getClass().getMethod("writeTo", XMLStreamWriter.class);
+        method.invoke(env, w);
         w.flush();
         //TODO desagar Body is EMPTY!! Why? Fix it
         String writtenSoap = bos.toString();
@@ -84,7 +85,7 @@ public class LazySOAPTest extends TestCase {
         String soapMsg = makeSoapFaultMessageString();
         MimeHeaders headers = new MimeHeaders();
         headers.addHeader("Content-Type", "text/xml");
-        InputStream in = new ByteArrayInputStream(soapMsg.getBytes("UTF-8")); 
+        InputStream in = new ByteArrayInputStream(soapMsg.getBytes(StandardCharsets.UTF_8));
 //      System.out.println("soap msg: " + soapMsg);
         SOAPMessage msg = MessageFactory.newInstance().createMessage(headers, in);
         msg.setProperty(MessageImpl.LAZY_SOAP_BODY_PARSING, "true");
@@ -95,7 +96,6 @@ public class LazySOAPTest extends TestCase {
     }
     /**
      * Use DOM APIs to traverse to make sure message is materialized correctly
-     * @param elem
      */
     private void traverseStaxSoapMessageForCorrectness(SOAPElement elem) {
         assertEquals("Envelope", elem.getLocalName());

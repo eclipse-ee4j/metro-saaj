@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,6 +11,7 @@
 package bugfixes;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import javax.xml.namespace.QName;
@@ -60,7 +61,7 @@ public class NamespaceTest extends TestCase {
         headers.addHeader("SOAP-Action", "www.foo.com#function");
         headers.addHeader("Content-Type", "text/xml");
         MessageFactory factory = MessageFactory.newInstance();
-        InputStream istream = new ByteArrayInputStream(message.getBytes("utf-8"));
+        InputStream istream = new ByteArrayInputStream(message.getBytes(StandardCharsets.UTF_8));
         BufferedInputStream bistream = new BufferedInputStream(istream);
         return factory.createMessage(headers, bistream);
     }
@@ -123,7 +124,7 @@ public class NamespaceTest extends TestCase {
         assertTrue(curAttr.getPrefix().length() > 0); 
     }
 
-    public static void main(String argv[]) {
+    public static void main(String[] argv) {
         
         junit.textui.TestRunner.run(NamespaceTest.class);        
 

@@ -17,5 +17,5 @@ Steps to run the sample :
 1. Run sample:
 
 ```shell script
-    mvn exec:java@soap-processor -Pstaging
+    mvn exec:java@soap-processor
 ```

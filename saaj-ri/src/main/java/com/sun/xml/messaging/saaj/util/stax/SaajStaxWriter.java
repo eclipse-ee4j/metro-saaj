@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2014, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,11 +15,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.LinkedList;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 import javax.xml.namespace.QName;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
+import java.util.HashMap;
+import java.util.Map;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamWriter;
 
@@ -52,7 +55,6 @@ public class SaajStaxWriter implements XMLStreamWriter {
     static final protected String Envelope = "Envelope";
     static final protected String Header = "Header";
     static final protected String Body = "Body";
-    static final protected String xmlns = "xmlns";
 
     public SaajStaxWriter(final SOAPMessage msg, String uri) throws SOAPException {
         soap = msg;
@@ -162,7 +164,7 @@ public class SaajStaxWriter implements XMLStreamWriter {
 
     @Override
     public void writeAttribute(final String prefix, final String ns, final String ln, final String value) throws XMLStreamException {
-        if (ns == null && prefix == null && xmlns.equals(ln)) {
+        if (ns == null && prefix == null && XMLConstants.XMLNS_ATTRIBUTE.equals(ln)) {
             writeNamespace("", value);
         } else {
             if (deferredElement.isInitialized()) {
@@ -181,7 +183,7 @@ public class SaajStaxWriter implements XMLStreamWriter {
     @Override
     public void writeNamespace(String prefix, final String uri) throws XMLStreamException {
         // make prefix default if null or "xmlns" (according to javadoc)
-        String thePrefix = prefix == null || "xmlns".equals(prefix) ? "" : prefix;
+        String thePrefix = prefix == null || XMLConstants.XMLNS_ATTRIBUTE.equals(prefix) ? "" : prefix;
         if (deferredElement.isInitialized()) {
             deferredElement.addNamespaceDeclaration(thePrefix, uri);
         } else {
@@ -329,7 +331,7 @@ public class SaajStaxWriter implements XMLStreamWriter {
                 return currentElement.lookupPrefix(namespaceURI);
             }
             @Override
-            public Iterator getPrefixes(final String namespaceURI) {
+            public Iterator<String> getPrefixes(final String namespaceURI) {
                 return new Iterator<String>() {
                     String prefix = getPrefix(namespaceURI);
                     @Override
@@ -384,16 +386,16 @@ public class SaajStaxWriter implements XMLStreamWriter {
      *
      * @author ondrej.cerny@oracle.com
      */
-    static class DeferredElement {
+    public static class DeferredElement {
         private String prefix;
         private String localName;
         private String namespaceUri;
-        private final List<NamespaceDeclaration> namespaceDeclarations;
+        private final Map<String, String> namespaceDeclarations;
         private final List<AttributeDeclaration> attributeDeclarations;
 
         DeferredElement() {
-            this.namespaceDeclarations = new LinkedList<NamespaceDeclaration>();
-            this.attributeDeclarations = new LinkedList<AttributeDeclaration>();
+            this.namespaceDeclarations = new HashMap<>();
+            this.attributeDeclarations = new LinkedList<>();
             reset();
         }
 
@@ -438,10 +440,10 @@ public class SaajStaxWriter implements XMLStreamWriter {
          * @param namespaceUri namespace uri
          */
         public void addNamespaceDeclaration(final String prefix, final String namespaceUri) {
-            if (null == this.namespaceUri && null != namespaceUri && prefix.equals(emptyIfNull(this.prefix))) {
+            if (null == this.namespaceUri && null != namespaceUri && emptyIfNull(this.prefix).equals(prefix)) {
                 this.namespaceUri = namespaceUri;
             }
-            this.namespaceDeclarations.add(new NamespaceDeclaration(prefix, namespaceUri));
+            this.namespaceDeclarations.put(emptyIfNull(namespaceUri), prefix);
         }
 
         /**
@@ -452,10 +454,10 @@ public class SaajStaxWriter implements XMLStreamWriter {
          * @param value value
          */
         public void addAttribute(final String prefix, final String ns, final String ln, final String value) {
-            if (ns == null && prefix == null && xmlns.equals(ln)) {
-                this.addNamespaceDeclaration(prefix, value);
+            if (ns == null && prefix == null && XMLConstants.XMLNS_ATTRIBUTE.equals(ln)) {
+                this.addNamespaceDeclaration(null, value);
             } else {
-                this.attributeDeclarations.add(new AttributeDeclaration(prefix, ns, ln, value));
+                this.attributeDeclarations.add(new AttributeDeclaration(emptyIfNull(prefix), ns, ln, value));
             }
         }
 
@@ -489,13 +491,20 @@ public class SaajStaxWriter implements XMLStreamWriter {
                         newElement = target.addChildElement(this.localName, this.prefix, this.namespaceUri);
                     }
                     // add namespace declarations
-                    for (NamespaceDeclaration namespace : this.namespaceDeclarations) {
-                        newElement.addNamespaceDeclaration(namespace.prefix, namespace.namespaceUri);
+                    for (Map.Entry<String, String> namespace : this.namespaceDeclarations.entrySet()) {
+                        newElement.addNamespaceDeclaration(namespace.getValue(), namespace.getKey());
                     }
                     // add attribute declarations
                     for (AttributeDeclaration attribute : this.attributeDeclarations) {
+                        String pfx = attribute.prefix;
+                        if ("".equals(pfx)) {
+                            String p = this.namespaceDeclarations.get(attribute.namespaceUri);
+                            if (p != null) {
+                                pfx = p;
+                            }
+                        }
                         addAttibuteToElement(newElement,
-                                attribute.prefix, attribute.namespaceUri, attribute.localName, attribute.value);
+                                    pfx, attribute.namespaceUri, attribute.localName, attribute.value);
                     }
                     // reset state
                     this.reset();
@@ -528,16 +537,6 @@ public class SaajStaxWriter implements XMLStreamWriter {
 
         private static String emptyIfNull(String s) {
             return s == null ? "" : s;
-        }
-    }
-
-    static class NamespaceDeclaration {
-        final String prefix;
-        final String namespaceUri;
-
-        NamespaceDeclaration(String prefix, String namespaceUri) {
-            this.prefix = prefix;
-            this.namespaceUri = namespaceUri;
         }
     }
 

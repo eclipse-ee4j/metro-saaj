@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2024 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -19,16 +19,23 @@ package com.sun.xml.messaging.saaj.util.transform;
 import java.io.*;
 
 import java.net.URISyntaxException;
+import javax.xml.XMLConstants;
+import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.dom.DOMResult;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
+import com.sun.xml.messaging.saaj.util.SAAJUtil;
 import org.w3c.dom.Document;
 
 import com.sun.xml.messaging.saaj.util.XMLDeclarationParser;
 import com.sun.xml.messaging.saaj.util.FastInfosetReflection;
 import java.net.URI;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -44,30 +51,16 @@ import javax.xml.transform.TransformerFactory;
  * @author Santiago.PericasGeertsen@sun.com
  *
  */
-public class EfficientStreamingTransformer
-    extends javax.xml.transform.Transformer {
+public class EfficientStreamingTransformer extends Transformer {
+
+     private static final Logger LOGGER = Logger.getLogger(LogDomainConstants.SOAP_DOMAIN, "com.sun.xml.messaging.saaj.soap.LocalStrings");
+     private static final AtomicBoolean LOG = new AtomicBoolean(true);
 
   //static final String version;
   //static final String vendor;
   // removing static : security issue : CR 6813167Z
-  private final TransformerFactory transformerFactory = TransformerFactory.newInstance();
+  private final TransformerFactory transformerFactory;
 
-  /** 
-  removing support for Java 1.4 and 1.3 : CR6658158
-  static {
-        version = System.getProperty("java.vm.version");
-        vendor = System.getProperty("java.vm.vendor");
-        if (vendor.startsWith("Sun") && 
-            (version.startsWith("1.4") || version.startsWith("1.3"))) {
-            transformerFactory = 
-                new com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl();
-        }
-  }*/
-                                                                                                                                                  
-    /**
-     * TransformerFactory instance.
-     */
-    
     /**
      * Underlying XSLT transformer.
      */
@@ -84,6 +77,32 @@ public class EfficientStreamingTransformer
     private Object m_fiDOMDocumentSerializer = null;
     
     private EfficientStreamingTransformer() {
+        boolean log = LOG.compareAndSet(true, false);
+        boolean useDefaultTransformerFactory = SAAJUtil.getSystemBoolean("saaj.use.default.transformer.factory");
+        TransformerFactory tf = useDefaultTransformerFactory ? TransformerFactory.newDefaultInstance() : TransformerFactory.newInstance();
+        try {
+            tf.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true);
+        } catch (TransformerConfigurationException e) {
+            if (log) {
+                LOGGER.log(Level.WARNING, "Factory [{0}] doesn't support secure xml processing!", new Object[]{tf.getClass().getName()});
+            }
+        }
+        //ie xalan, as of 2.7.2, does not support these
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_DTD, "");
+        } catch (IllegalArgumentException e) {
+            if (log) {
+                LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalDTD property", new Object[]{tf.getClass().getName()});
+            }
+        }
+        try {
+            tf.setAttribute(XMLConstants.ACCESS_EXTERNAL_STYLESHEET, "");
+        } catch (IllegalArgumentException e) {
+            if (log) {
+                LOGGER.log(Level.FINE, "Factory [{0}] doesn't support accessExternalStylesheet property", new Object[]{tf.getClass().getName()});
+            }
+        }
+        transformerFactory = tf;
     }
 
     private void materialize() throws TransformerException {
@@ -239,7 +258,7 @@ public class EfficientStreamingTransformer
                      /some/path/file.xml
                     */
 
-                    boolean hasDriveDesignator = absolutePath.indexOf(":") > 0;
+                    boolean hasDriveDesignator = absolutePath.indexOf(':') > 0;
                     if (hasDriveDesignator) {
                       String driveDesignatedPath = absolutePath.substring(1);
                       /*
@@ -396,7 +415,7 @@ public class EfficientStreamingTransformer
         m_realTransformer.transform(source, result);
     }
 
-    /**
+    /*
      * Threadlocal to hold a Transformer instance for this thread.
      * CR : 6813167
      */

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -120,7 +120,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
     }
 
     /** This array maps the characters to their 6 bit values */
-    private final static char pem_array[] = {
+    private final static char[] pem_array = {
 	'A','B','C','D','E','F','G','H', // 0
 	'I','J','K','L','M','N','O','P', // 1
 	'Q','R','S','T','U','V','W','X', // 2
@@ -224,7 +224,7 @@ public class BASE64EncoderStream extends FilterOutputStream {
 	return outbuf;
     }
 
-    /*** begin TEST program
+    /* ** begin TEST program
     public static void main(String argv[]) throws Exception {
 	FileInputStream infile = new FileInputStream(argv[0]);
 	BASE64EncoderStream encoder = new BASE64EncoderStream(System.out);

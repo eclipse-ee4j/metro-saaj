@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2019 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,11 +10,11 @@
 
 package com.sun.xml.messaging.saaj.util;
 
+import com.sun.xml.messaging.saaj.soap.MessageImpl;
+
 import java.io.*;
 
 import javax.xml.transform.stream.StreamSource;
-
-import static com.sun.xml.messaging.saaj.soap.MessageImpl.SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT;
 
 
 /**
@@ -30,14 +30,14 @@ public class JAXMStreamSource extends StreamSource {
     private static final boolean lazyContentLength;
     static {
         lazyContentLength = SAAJUtil.getSystemBoolean("saaj.lazy.contentlength");
-        soapBodyPartSizeLimit = SAAJUtil.getSystemInteger(SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT);
+        soapBodyPartSizeLimit = SAAJUtil.getSystemInteger(MessageImpl.SAAJ_MIME_SOAP_BODY_PART_SIZE_LIMIT);
     }
 
     public JAXMStreamSource(InputStream is) throws IOException {
         if (lazyContentLength) {
             in = is;
         } else if (is instanceof ByteInputStream) {
-            this.in = (ByteInputStream) is;
+            this.in = is;
         } else {
             ByteOutputStream bout = null;
             try {

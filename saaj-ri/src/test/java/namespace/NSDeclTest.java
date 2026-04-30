@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,6 +11,7 @@
 package namespace;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 import jakarta.xml.soap.*;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -55,7 +56,7 @@ public class NSDeclTest extends TestCase {
                 + "  </env:Body>\n"
                 + "</env:Envelope>\n";
 
-        byte[] testDocBytes = testDoc.getBytes("UTF-8");
+        byte[] testDocBytes = testDoc.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
         StreamSource strSource = new StreamSource(bais);
 
@@ -74,7 +75,7 @@ public class NSDeclTest extends TestCase {
         doTest(doc);
 
         // The following code which does not use SAAJ works correctly...
-        byte[] testDocBytes2 = testDoc.getBytes("UTF-8");
+        byte[] testDocBytes2 = testDoc.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais2 = new ByteArrayInputStream(testDocBytes2);
         InputSource is = new InputSource(bais2);
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -148,7 +149,7 @@ public class NSDeclTest extends TestCase {
                 + "  </env:Body>\n"
                 + "</env:Envelope>\n";
 
-        byte[] testDocBytes = testDoc.getBytes("UTF-8");
+        byte[] testDocBytes = testDoc.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
         StreamSource strSource = new StreamSource(bais);
 
@@ -164,7 +165,7 @@ public class NSDeclTest extends TestCase {
             fail("The following value should not be null: " + docElement);
     }
  
-    public static void main(String argv[]) {
+    public static void main(String[] argv) {
 
         junit.textui.TestRunner.run(NSDeclTest.class);
 

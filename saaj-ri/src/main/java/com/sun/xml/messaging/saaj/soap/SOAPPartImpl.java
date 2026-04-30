@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -68,7 +68,7 @@ import jakarta.xml.soap.MimeHeader;
  * @author Anil Vijendran (anil@sun.com)
  */
 public abstract class SOAPPartImpl extends SOAPPart implements SOAPDocument {
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
 
@@ -327,7 +327,7 @@ public abstract class SOAPPartImpl extends SOAPPart implements SOAPDocument {
                     log.severe("SAAJ0546.soap.stream.incorrect.type");
                     throw new IOException("Internal error: stream not of the right type");
                 }
-                return (ByteInputStream) is;
+                return is;
             }
             // need to do something here for reader...
             // for now we'll see if we can fallback...
@@ -707,7 +707,7 @@ public abstract class SOAPPartImpl extends SOAPPart implements SOAPDocument {
                         log.log(
                             Level.SEVERE,
                             "SAAJ0551.soap.unsupported.encoding",
-                            new Object[] {getSourceCharsetEncoding()});
+                            new Object[] {getSourceCharsetEncoding().replaceAll("[\r\n]","")});
                         throw new SOAPExceptionImpl(
                             "Unsupported encoding " + getSourceCharsetEncoding(),
                             uee);

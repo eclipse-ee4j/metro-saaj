@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,6 +11,7 @@
 package soap;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Locale;
 
@@ -71,7 +72,7 @@ public class QNameTest extends TestCase {
                 + "  </env:Body>\n"
                 + "</env:Envelope>\n";
 
-        	byte[] testDocBytes = testDoc.getBytes("UTF-8");
+        	byte[] testDocBytes = testDoc.getBytes(StandardCharsets.UTF_8);
         	ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
 	        StreamSource strSource = new StreamSource(bais);
         	MessageFactory mf = MessageFactory.newInstance();
@@ -104,7 +105,7 @@ public class QNameTest extends TestCase {
                 + "  </env:Body>\n"
                 + "</env:Envelope>\n";
 
-        	byte[] testDocBytes = testDoc.getBytes("UTF-8");
+        	byte[] testDocBytes = testDoc.getBytes(StandardCharsets.UTF_8);
         	ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
 	        StreamSource strSource = new StreamSource(bais);
         	MessageFactory mf = MessageFactory.newInstance();
@@ -173,10 +174,10 @@ public class QNameTest extends TestCase {
 	        Name theAttributeName = null;
         	String theAttributeValue = null;
 	        int count = 0;
-        	for (Iterator eachAttribute = element.getAllAttributes();
-            		eachAttribute.hasNext();
+        	for (Iterator<Name> eachAttribute = element.getAllAttributes();
+                 eachAttribute.hasNext();
             	    ) {
-            		theAttributeName = (Name) eachAttribute.next();
+            		theAttributeName = eachAttribute.next();
 	            	theAttributeValue = element.getAttributeValue(theAttributeName);
 
             		++count;
@@ -208,10 +209,10 @@ public class QNameTest extends TestCase {
 	        String theAttributeValue = null;
         	String unexpectedAttributelist = "";
 	        int count = 0;
-       	 	for (Iterator eachAttribute = element.getAllAttributes();
-            		eachAttribute.hasNext();) {
+       	 	for (Iterator<Name> eachAttribute = element.getAllAttributes();
+                 eachAttribute.hasNext();) {
             		
-			theAttributeName = (Name) eachAttribute.next();
+			theAttributeName = eachAttribute.next();
             		theAttributeValue = element.getAttributeValue(theAttributeName);
 
             		++count;
@@ -290,12 +291,12 @@ public class QNameTest extends TestCase {
 	        SOAPHeaderElement element2 = header.addHeaderElement(name2);
         	element2.setActor("theActor");
 
-	        Iterator eachElement = header.extractHeaderElements("theActor");
+	        Iterator<SOAPHeaderElement> eachElement = header.extractHeaderElements("theActor");
 	
         	assertTrue("First element is there", eachElement.hasNext());
-	        SOAPHeaderElement outElement1 = (SOAPHeaderElement) eachElement.next();
+	        SOAPHeaderElement outElement1 = eachElement.next();
 	        assertTrue("Second element is there", eachElement.hasNext());
-		SOAPHeaderElement outElement2 = (SOAPHeaderElement) eachElement.next();
+		SOAPHeaderElement outElement2 = eachElement.next();
         	assertFalse("No more elements", eachElement.hasNext());
 
         	assertEquals("First element is correct", element1, outElement1);

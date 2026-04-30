@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 2017, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2017, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -11,7 +12,6 @@
 package stax;
 
 import com.sun.xml.messaging.saaj.soap.impl.ElementImpl;
-import com.sun.xml.messaging.saaj.util.SAAJUtil;
 import com.sun.xml.messaging.saaj.util.stax.SaajStaxWriter;
 import junit.framework.TestCase;
 
@@ -22,6 +22,7 @@ import jakarta.xml.soap.SOAPMessage;
 import javax.xml.stream.XMLStreamException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Tests {@link SaajStaxWriter} with respect to namespace assignments.
@@ -268,7 +269,7 @@ public class SaajStaxWriterNamespaceTest extends TestCase {
     private String getSoapMessageContentsAsString() throws IOException, SOAPException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         message.writeTo(os);
-        String txtMessage = os.toString("UTF-8");
+        String txtMessage = os.toString(StandardCharsets.UTF_8);
         if (txtMessage.startsWith(PREFIX)) {
             txtMessage = txtMessage.substring(PREFIX.length());
         } else {

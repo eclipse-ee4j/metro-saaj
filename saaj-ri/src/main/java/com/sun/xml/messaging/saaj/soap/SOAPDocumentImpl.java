@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,10 +8,6 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
 package com.sun.xml.messaging.saaj.soap;
 
 import com.sun.xml.messaging.saaj.soap.impl.CDATAImpl;
@@ -43,6 +39,7 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -52,12 +49,15 @@ import java.lang.reflect.Constructor;
 import java.text.MessageFormat;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @author SAAJ RI Development Team
+ */
 public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Document {
 
     public static final String SAAJ_NODE = "jakarta.xml.soap.Node";
 
-    private static final String XMLNS = "xmlns".intern();
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
     
@@ -173,14 +173,14 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
     @Override
     public Attr createAttribute(String name) throws DOMException {
-        boolean isQualifiedName = (name.indexOf(":") > 0);
+        boolean isQualifiedName = (name.indexOf(':') > 0);
         if (isQualifiedName) {
             String nsUri = null;
-            String prefix = name.substring(0, name.indexOf(":"));
+            String prefix = name.substring(0, name.indexOf(':'));
             //cannot do anything to resolve the URI if prefix is not
             //XMLNS.
-            if (XMLNS.equals(prefix)) {
-                nsUri = ElementImpl.XMLNS_URI;
+            if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
+                nsUri = XMLConstants.XMLNS_ATTRIBUTE_NS_URI;
                 return createAttributeNS(nsUri, name);
             }
         }
@@ -628,7 +628,7 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     }
 
 
-    private Node createSoapNode(Class nodeType, Node node) {
+    private Node createSoapNode(Class<? extends Node> nodeType, Node node) {
         if (SOAPTextImpl.class.isAssignableFrom(nodeType)) {
             return new SOAPTextImpl(this, (Text) node);
         } else if (SOAPCommentImpl.class.isAssignableFrom(nodeType)) {
@@ -639,7 +639,7 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
             return new SOAPDocumentFragment(this, (DocumentFragment) node);
         }
         try {
-            Constructor<Node> constructor = nodeType.getConstructor(SOAPDocumentImpl.class, Element.class);
+            Constructor<? extends Node> constructor = nodeType.getConstructor(SOAPDocumentImpl.class, Element.class);
             return constructor.newInstance(this, node);
         } catch (Exception e) {
             throw new IllegalStateException(e);

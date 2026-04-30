@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,7 +10,6 @@
 
 package com.sun.xml.messaging.saaj.soap;
 
-import java.awt.datatransfer.DataFlavor;
 import java.io.*;
 import java.awt.*;
 
@@ -22,11 +21,16 @@ import jakarta.activation.*;
  * @author Ana Lindstrom-Tamer
  */
 public class GifDataContentHandler extends Component implements DataContentHandler {
-    private static ActivationDataFlavor myDF =
+
+	private static final long serialVersionUID = -8698473820462938913L;
+
+	private static ActivationDataFlavor myDF =
         new ActivationDataFlavor(
             java.awt.Image.class,
             "image/gif",
             "GIF Image");
+
+	public GifDataContentHandler() {}
 
     protected ActivationDataFlavor getDF() {
         return myDF;
@@ -66,17 +70,14 @@ public class GifDataContentHandler extends Component implements DataContentHandl
 	InputStream is = ds.getInputStream();
 	int pos = 0;
 	int count;
-	byte buf[] = new byte[1024];
+	byte[] buf = new byte[1024];
 
 	while ((count = is.read(buf, pos, buf.length - pos)) != -1) {
 	    pos += count;
 	    if (pos >= buf.length) {
 		int size = buf.length;
-		if (size < 256*1024)
-		    size += size;
-		else
-		    size += 256*1024;
-		byte tbuf[] = new byte[size];
+			size += Math.min(size, 256 * 1024);
+		byte[] tbuf = new byte[size];
 		System.arraycopy(buf, 0, tbuf, 0, pos);
 		buf = tbuf;
 	    }

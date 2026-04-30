@@ -1,5 +1,6 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,11 +11,12 @@
 
 package mime.custom;
 
-import java.awt.datatransfer.DataFlavor;
+import jakarta.activation.ActivationDataFlavor;
+import jakarta.activation.DataContentHandler;
+import jakarta.activation.DataSource;
+
 import java.io.IOException;
 import java.io.OutputStream;
-
-import jakarta.activation.*;
 
 /**
  * DataContentHandler for Content-Type : custom/mailcap
@@ -79,7 +81,7 @@ public class MailcapDataContentHandler implements DataContentHandler {
                     + "instead got "
                     + obj.getClass().toString());
         }
-		os.write((int)'M');
+		os.write('M');
 		os.flush();
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,17 +8,21 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
 package com.sun.xml.messaging.saaj.util;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Element;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+import javax.xml.XMLConstants;
 
-import org.w3c.dom.*;
-
+/**
+ *
+ * @author SAAJ RI Development Team
+ */
 public class NamespaceContextIterator implements Iterator {
     Node context;
     NamedNodeMap attributes = null;
@@ -57,7 +61,7 @@ public class NamespaceContextIterator implements Iterator {
             for (; attributeIndex < attributesLength; ++attributeIndex) {
                 Node currentAttribute = attributes.item(attributeIndex);
                 String attributeName = currentAttribute.getNodeName();
-                if (attributeName.startsWith("xmlns")
+                if (attributeName.startsWith(XMLConstants.XMLNS_ATTRIBUTE)
                     && (attributeName.length() == 5
                         || attributeName.charAt(5) == ':')) {
                     next = (Attr) currentAttribute;

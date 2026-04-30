@@ -17,7 +17,7 @@ Steps to run the uddi client application:
 1. Start local UDDI registry
 
 ```shell script
-mvn jetty:run-war@run-jUDDI -Pstaging
+mvn jetty:run-war@run-jUDDI
 ```
 
 2. Check if jUDDI is running, user name is `uddi_user` and password is `pass`
@@ -31,7 +31,7 @@ mvn jetty:run-war@run-jUDDI -Pstaging
 4. Run the sample, second parameter is the name of service we are looking for:
 
 ```shell script
-mvn exec:java@uddi-ping -Pstaging -Dexec.args='http://localhost:8080/juddiv3/services/inquiryv2 "UDDI Inquiry REST Service"'
+mvn exec:java@uddi-ping -Dexec.args='http://localhost:8080/juddiv3/services/inquiryv2 "UDDI Inquiry REST Service"'
 ```
 
 You should see result like this:

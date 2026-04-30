@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,14 +8,10 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
-
 package soap;
 
 import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 
 import jakarta.xml.soap.*;
@@ -45,9 +41,9 @@ public class FaultTest extends TestCase {
         assertTrue(extractedFault != null);
         Detail extractedDetail = extractedFault.getDetail();
         assertTrue(extractedDetail != null);
-        Iterator eachDetailEntry = extractedDetail.getDetailEntries();
+        Iterator<DetailEntry> eachDetailEntry = extractedDetail.getDetailEntries();
         assertTrue(eachDetailEntry.hasNext());
-        DetailEntry extractedEntry = (DetailEntry) eachDetailEntry.next();
+        DetailEntry extractedEntry = eachDetailEntry.next();
         assertEquals(detailEntryLocalName, extractedEntry.getLocalName());
         assertFalse(eachDetailEntry.hasNext());
 
@@ -78,7 +74,7 @@ public class FaultTest extends TestCase {
         +     "</soap:Body>"
         + "</soap:Envelope>";
 
-        byte[] testDocBytes = testDoc.getBytes("UTF-8");
+        byte[] testDocBytes = testDoc.getBytes(StandardCharsets.UTF_8);
         ByteArrayInputStream bais = new ByteArrayInputStream(testDocBytes);
         StreamSource strSource = new StreamSource(bais);
 

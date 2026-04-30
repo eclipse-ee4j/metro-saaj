@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -28,7 +28,12 @@ import javax.imageio.ImageIO;
 public class JpegDataContentHandler
     extends Component
     implements DataContentHandler {
+
+    private static final long serialVersionUID = 1658381224344887691L;
+
     public static final String STR_SRC = "java.awt.Image";
+
+    public JpegDataContentHandler() {}
 
     /**
      * Return the DataFlavors for this <code>DataContentHandler</code>
@@ -36,7 +41,7 @@ public class JpegDataContentHandler
      */
     @Override
     public ActivationDataFlavor[] getTransferDataFlavors() { // throws Exception;
-        ActivationDataFlavor flavors[] = new ActivationDataFlavor[1];
+        ActivationDataFlavor[] flavors = new ActivationDataFlavor[1];
 
         try {
             flavors[0] =

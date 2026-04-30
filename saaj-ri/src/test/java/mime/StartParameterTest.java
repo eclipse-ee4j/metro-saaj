@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -10,14 +10,29 @@
 
 package mime;
 
-import java.io.*;
-import java.net.URL;
-import java.util.*;
-
 import jakarta.activation.DataHandler;
-import jakarta.xml.soap.*;
-
+import jakarta.xml.soap.AttachmentPart;
+import jakarta.xml.soap.MessageFactory;
+import jakarta.xml.soap.MimeHeader;
+import jakarta.xml.soap.MimeHeaders;
+import jakarta.xml.soap.SOAPBody;
+import jakarta.xml.soap.SOAPBodyElement;
+import jakarta.xml.soap.SOAPEnvelope;
+import jakarta.xml.soap.SOAPHeader;
+import jakarta.xml.soap.SOAPMessage;
+import jakarta.xml.soap.SOAPPart;
 import junit.framework.TestCase;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Iterator;
 
 public class StartParameterTest extends TestCase {
 
@@ -35,12 +50,12 @@ public class StartParameterTest extends TestCase {
         FileOutputStream fos = new FileOutputStream(fileName);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-        Hashtable hashTable = new Hashtable();
+        Hashtable<String, String> hashTable = new Hashtable<>();
         MimeHeaders mimeHeaders = msg.getMimeHeaders();
-        Iterator iterator = mimeHeaders.getAllHeaders();
+        Iterator<MimeHeader> iterator = mimeHeaders.getAllHeaders();
 
         while(iterator.hasNext()) {
-            MimeHeader mimeHeader = (MimeHeader) iterator.next();
+            MimeHeader mimeHeader = iterator.next();
             if(mimeHeader.getName().equals("Content-Type"))
                 hashTable.put(mimeHeader.getName(),
                               mimeHeader.getValue()
@@ -66,18 +81,19 @@ public class StartParameterTest extends TestCase {
 
         ObjectInputStream ois = new ObjectInputStream(
         new FileInputStream(mimeHdrsFile));
-        Hashtable hashTable = (Hashtable) ois.readObject();
+        @SuppressWarnings({"unchecked"})
+        Hashtable<String, String> hashTable = (Hashtable<String, String>) ois.readObject();
         ois.close();
 
         if(hashTable.isEmpty())
             fail("MimeHeaders Hashtable is empty");
         else {
             for(int i=0; i < hashTable.size(); i++) {
-                Enumeration keys = hashTable.keys();
-                Enumeration values = hashTable.elements();
+                Enumeration<String> keys = hashTable.keys();
+                Enumeration<String> values = hashTable.elements();
                 while (keys.hasMoreElements() && values.hasMoreElements()) {
-                    String name = (String) keys.nextElement();
-                    String value = (String) values.nextElement();
+                    String name = keys.nextElement();
+                    String value = values.nextElement();
                     mimeHeaders.addHeader(name, value);
                 }
             }
@@ -122,10 +138,14 @@ public class StartParameterTest extends TestCase {
 
         msg.saveChanges();
 
-	FileOutputStream sentFile =
-            new FileOutputStream("target/test-out/message.txt");
-	msg.writeTo(sentFile);
-	sentFile.close();
+        File f = new File("target/test-out/message.txt");
+        f.getParentFile().mkdirs();
+        if (f.exists()) f.delete();
+        f.createNewFile();
+        FileOutputStream sentFile =
+                new FileOutputStream(f);
+        msg.writeTo(sentFile);
+        sentFile.close();
         changeAndSaveMimeHeaders(msg, "target/test-out/headers.txt");
 
         SOAPMessage newMsg =
@@ -137,7 +157,7 @@ public class StartParameterTest extends TestCase {
                    newMsg.getSOAPPart()
                    .getContentId().equals("attachmentPart"));
         assertTrue("Attachment part has the Content-Id: soapPart",
-                   ((AttachmentPart) newMsg.getAttachments().next())
+                   newMsg.getAttachments().next()
                    .getContentId().equals("soapPart"));
     }
 

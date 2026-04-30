@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -70,7 +70,6 @@ public class BASE64DecoderStream extends FilterInputStream {
      * Reads up to <code>len</code> decoded bytes of data from this input stream
      * into an array of bytes. This method blocks until some input is
      * available.
-     * <p>
      *
      * @param      buf   the buffer into which the data is read.
      * @param      off   the start offset of the data.
@@ -121,7 +120,7 @@ public class BASE64DecoderStream extends FilterInputStream {
      * This character array provides the character to value map
      * based on RFC1521.
      */  
-    private final static char pem_array[] = {
+    private final static char[] pem_array = {
 	'A','B','C','D','E','F','G','H', // 0
 	'I','J','K','L','M','N','O','P', // 1
 	'Q','R','S','T','U','V','W','X', // 2
@@ -132,7 +131,7 @@ public class BASE64DecoderStream extends FilterInputStream {
 	'4','5','6','7','8','9','+','/'  // 7
     };
 
-    private final static byte pem_convert_array[] = new byte[256];
+    private final static byte[] pem_convert_array = new byte[256];
 
     static {
 	for (int i = 0; i < 255; i++)
@@ -235,7 +234,7 @@ public class BASE64DecoderStream extends FilterInputStream {
 	return outbuf;
     }
 
-    /*** begin TEST program ***
+    /* ** begin TEST program ***
     public static void main(String argv[]) throws Exception {
     	FileInputStream infile = new FileInputStream(argv[0]);
 	BASE64DecoderStream decoder = new BASE64DecoderStream(infile);

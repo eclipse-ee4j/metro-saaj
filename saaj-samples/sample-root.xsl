@@ -1,5 +1,5 @@
 <!--
-
+  Copyright (c) 2026 Contributors to the Eclipse Foundation.
   Copyright (c) 2019, 2020 Oracle and/or its affiliates. All rights reserved.
 
   This program and the accompanying materials are made available under the
@@ -47,7 +47,7 @@
                 <xsl:text>project</xsl:text>
             </xsl:element>
             <xsl:element name="version" namespace="{$thisns}">
-                <xsl:text>1.0.6</xsl:text>
+                <xsl:text>2.0.0</xsl:text>
             </xsl:element>
         </xsl:element>
     </xsl:template>

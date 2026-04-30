@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2023 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
@@ -32,7 +33,6 @@ import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPMessage;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
-import com.sun.xml.messaging.saaj.util.Base64;
 import com.sun.xml.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.ParseUtil;
@@ -48,19 +48,19 @@ import com.sun.xml.messaging.saaj.util.SAAJUtil;
  */
 class HttpSOAPConnection extends SOAPConnection {
 
-    protected static final Logger log =
+    private static final Logger log =
         Logger.getLogger(LogDomainConstants.HTTP_CONN_DOMAIN,
                          "com.sun.xml.messaging.saaj.client.p2p.LocalStrings");
 
     /**
      * URLConnection connect timeout
      */
-    private static int CONNECT_TIMEOUT;
+    private static int CONNECT_TIMEOUT = Integer.MIN_VALUE;
 
     /**
      * URLConnection read timeout
      */
-    private static int READ_TIMEOUT;
+    private static int READ_TIMEOUT = Integer.MIN_VALUE;
 
     static {
         Integer i = SAAJUtil.getSystemInteger("saaj.connect.timeout");
@@ -102,7 +102,23 @@ class HttpSOAPConnection extends SOAPConnection {
     }
 
     @Override
-   public SOAPMessage call(SOAPMessage message, Object endPoint)
+    public int getConnectTimeout() {
+        if (Integer.MIN_VALUE != CONNECT_TIMEOUT) {
+            return CONNECT_TIMEOUT;
+        }
+        return super.getConnectTimeout();
+    }
+
+    @Override
+    public int getReadTimeout() {
+        if (Integer.MIN_VALUE != READ_TIMEOUT) {
+            return READ_TIMEOUT;
+        }
+        return super.getReadTimeout();
+    }
+
+    @Override
+    public SOAPMessage call(SOAPMessage message, Object endPoint)
         throws SOAPException {
         if (closed) {
             log.severe("SAAJ0003.p2p.call.already.closed.conn");
@@ -167,8 +183,8 @@ class HttpSOAPConnection extends SOAPConnection {
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setInstanceFollowRedirects(true);
-            httpConnection.setConnectTimeout(CONNECT_TIMEOUT);
-            httpConnection.setReadTimeout(READ_TIMEOUT);
+            httpConnection.setConnectTimeout(getConnectTimeout());
+            httpConnection.setReadTimeout(getReadTimeout());
 
             if (message.saveRequired())
                 message.saveChanges();
@@ -234,7 +250,7 @@ class HttpSOAPConnection extends SOAPConnection {
                 else if ((responseCode / 100) != 2) {
                     log.log(Level.SEVERE,
                             "SAAJ0008.p2p.bad.response",
-                            new String[] {httpConnection.getResponseMessage()});
+                            new String[] {httpConnection.getResponseMessage().replaceAll("[\r\n]","")});
                     throw new SOAPExceptionImpl(
                         "Bad response: ("
                             + responseCode
@@ -363,12 +379,13 @@ class HttpSOAPConnection extends SOAPConnection {
         try {
             // Process the URL
             URI uri = new URI(endPoint.toString());
-            String userInfo = uri.getRawUserInfo();
 
             url = endPoint;
 
-            if (dL > 0)
+            if (dL > 0) {
+                String userInfo = uri.getRawUserInfo();
                 d("uri: " + userInfo + " " + url + " " + uri);
+            }
 
             // TBD
             //    Will deal with https later.
@@ -389,8 +406,8 @@ class HttpSOAPConnection extends SOAPConnection {
             httpConnection.setDoInput(true);
             httpConnection.setUseCaches(false);
             httpConnection.setInstanceFollowRedirects(true);
-            httpConnection.setConnectTimeout(CONNECT_TIMEOUT);
-            httpConnection.setReadTimeout(READ_TIMEOUT);
+            httpConnection.setConnectTimeout(getConnectTimeout());
+            httpConnection.setReadTimeout(getReadTimeout());
 
             httpConnection.connect();
 
@@ -404,7 +421,7 @@ class HttpSOAPConnection extends SOAPConnection {
                 } else if ((responseCode / 100) != 2) {
                     log.log(Level.SEVERE,
                             "SAAJ0008.p2p.bad.response",
-                            new String[] { httpConnection.getResponseMessage()});
+                            new String[] { httpConnection.getResponseMessage().replaceAll("[\r\n]","")});
                     throw new SOAPExceptionImpl(
                         "Bad response: ("
                             + responseCode
@@ -536,7 +553,7 @@ class HttpSOAPConnection extends SOAPConnection {
                 concat,
                 nameBytes.length,
                 passwdBytes.length);
-            String auth = "Basic " + new String(Base64.encode(concat));
+            String auth = "Basic " + Base64.getEncoder().encodeToString(concat);
             conn.setRequestProperty("Authorization", auth);
             if (dL > 0)
                 d("Adding auth " + auth);
@@ -547,7 +564,7 @@ class HttpSOAPConnection extends SOAPConnection {
     private void d(String s) {
         log.log(Level.SEVERE,
                 "SAAJ0013.p2p.HttpSOAPConnection",
-                new String[] { s });
+                new String[] { s.replaceAll("[\r\n]","") });
         System.err.println("HttpSOAPConnection: " + s);
     }
 

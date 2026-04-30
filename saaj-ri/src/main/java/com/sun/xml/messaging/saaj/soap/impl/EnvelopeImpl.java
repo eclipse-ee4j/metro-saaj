@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -15,8 +15,12 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
+
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import jakarta.xml.soap.*;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.XMLStreamReader;
@@ -45,6 +49,9 @@ import org.w3c.dom.Element;
  * @author Anil Vijendran (anil@sun.com)
  */
 public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
+
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
+
     protected HeaderImpl header;
     protected BodyImpl body;
     String omitXmlDecl = "yes";
@@ -78,7 +85,7 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
             addBody();
     }
 
-    public EnvelopeImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
+    protected EnvelopeImpl(SOAPDocumentImpl ownerDoc, Element domElement) {
         super(ownerDoc, domElement);
     }
 
@@ -207,12 +214,12 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
         // to make sure that the namespace specification rules are followed
 
         // reserved xmlns prefix cannot be used.
-        if ("xmlns".equals(prefix)) {
+        if (XMLConstants.XMLNS_ATTRIBUTE.equals(prefix)) {
             log.severe("SAAJ0123.impl.no.reserved.xmlns");
             throw new SOAPExceptionImpl("Cannot declare reserved xmlns prefix");
         }
         // Qualified name cannot be xmlns.
-        if ((prefix == null) && ("xmlns".equals(localName))) {
+        if ((prefix == null) && (XMLConstants.XMLNS_ATTRIBUTE.equals(localName))) {
             log.severe("SAAJ0124.impl.qualified.name.cannot.be.xmlns");
             throw new SOAPExceptionImpl("Qualified name cannot be xmlns");
         }
@@ -220,18 +227,10 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
         return NameImpl.create(localName, prefix, uri);
     }
 
-    public Name createName(String localName, String prefix)
+    public Name createName(String localName, String uri)
         throws SOAPException {
-        String namespace = getNamespaceURI(prefix);
-        if (namespace == null) {
-            log.log(
-                Level.SEVERE,
-                "SAAJ0126.impl.cannot.locate.ns", 
-                new String[] { prefix });
-            throw new SOAPExceptionImpl(
-                "Unable to locate namespace for prefix " + prefix);
-        }
-        return NameImpl.create(localName, prefix, namespace);
+
+        return NameImpl.createFromQualifiedName(localName, uri);
     }
 
     @Override
@@ -281,9 +280,9 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
            
             if (log.isLoggable(Level.FINE)) {
                 log.log(Level.FINE, "SAAJ0190.impl.set.xml.declaration",
-                        new String[] { omitXmlDecl });
+                        new String[] { omitXmlDecl.replaceAll("[\r\n]","") });
                 log.log(Level.FINE, "SAAJ0191.impl.set.encoding",
-                        new String[] { charset });
+                        new String[] { charset.replaceAll("[\r\n]","") });
             }
                 
             //StreamResult result = new StreamResult(out);
@@ -353,8 +352,8 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
      public SOAPElement setElementQName(QName newName) throws SOAPException {
         log.log(Level.SEVERE,
                 "SAAJ0146.impl.invalid.name.change.requested",
-                new Object[] {elementQName.getLocalPart(),
-                              newName.getLocalPart()});
+                new Object[] {elementQName.getLocalPart().replaceAll("[\r\n]",""),
+                              newName.getLocalPart().replaceAll("[\r\n]","")});
         throw new SOAPException("Cannot change name for "
                                 + elementQName.getLocalPart() + " to "
                                 + newName.getLocalPart());
@@ -379,7 +378,7 @@ public abstract class EnvelopeImpl extends ElementImpl implements LazyEnvelope {
     @Override
     public void writeTo(final XMLStreamWriter writer) throws XMLStreamException, SOAPException {
     	StaxBridge readBridge = this.getStaxBridge();
-    	if (readBridge != null && readBridge instanceof StaxLazySourceBridge) {
+    	if (readBridge instanceof StaxLazySourceBridge) {
 //        	StaxSoapWriteBridge writingBridge =  new StaxSoapWriteBridge(this);
 //        	writingBridge.write(writer);     
         	final String soapEnvNS = this.getNamespaceURI();

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -8,13 +8,11 @@
  * SPDX-License-Identifier: BSD-3-Clause
  */
 
-/**
-*
-* @author SAAJ RI Development Team
-*/
 package com.sun.xml.messaging.saaj.soap.ver1_2;
 
 import javax.xml.namespace.QName;
+
+import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import jakarta.xml.soap.SOAPException;
 import jakarta.xml.soap.SOAPElement;
 import jakarta.xml.soap.Name;
@@ -25,7 +23,11 @@ import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
 import org.w3c.dom.Element;
 
+import java.util.logging.Logger;
+
 public class FaultElement1_2Impl extends FaultElementImpl {
+
+    private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
 
     public FaultElement1_2Impl(SOAPDocumentImpl ownerDoc, NameImpl qname) {
         super(ownerDoc, qname);

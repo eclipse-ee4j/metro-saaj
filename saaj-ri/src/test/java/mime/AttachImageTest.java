@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Distribution License v. 1.0, which is available at
@@ -79,9 +79,9 @@ public class AttachImageTest extends TestCase {
             SOAPElement elment = newMsg.getSOAPBody();
             newMsg.writeTo(new ByteArrayOutputStream());
 
-            Iterator i = newMsg.getAttachments();
+            Iterator<AttachmentPart> i = newMsg.getAttachments();
             while (i.hasNext()) {
-                AttachmentPart att = (AttachmentPart) i.next();
+                AttachmentPart att = i.next();
                 Object obj = att.getContent();
                 if (!(obj instanceof Image)) {
                     fail("Didn't get the image type, instead got:" + obj.getClass());
@@ -268,9 +268,9 @@ public class AttachImageTest extends TestCase {
         try ( // See if we get the attachment back
                 FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
-            Iterator i = newMsg.getAttachments();
+            Iterator<AttachmentPart> i = newMsg.getAttachments();
             while (i.hasNext()) {
-                AttachmentPart att = (AttachmentPart) i.next();
+                AttachmentPart att = i.next();
                 Object obj = att.getContent();
                 if (!(obj instanceof StreamSource)) {
                     fail("Didn't get StreamSource, instead got:" + obj.getClass());
@@ -315,9 +315,9 @@ public class AttachImageTest extends TestCase {
         try ( // See if we get the attachment back
                 FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
-            Iterator i = newMsg.getAttachments();
+            Iterator<AttachmentPart> i = newMsg.getAttachments();
             while (i.hasNext()) {
-                AttachmentPart att = (AttachmentPart) i.next();
+                AttachmentPart att = i.next();
                 Object obj = att.getContent();
                 if (!(obj instanceof String)) {
                     fail("Didn't get String, instead got:" + obj.getClass());
@@ -353,10 +353,10 @@ public class AttachImageTest extends TestCase {
 
     public void testSetContentGetRawContent() throws Exception {
 
-        byte buf1[] = new byte[30000];
-        byte buf2[] = new byte[30000];
-        byte buf3[] = new byte[30000];
-        byte buf4[] = new byte[30000];
+        byte[] buf1 = new byte[30000];
+        byte[] buf2 = new byte[30000];
+        byte[] buf3 = new byte[30000];
+        byte[] buf4 = new byte[30000];
 
         MessageFactory mf = MessageFactory.newInstance();
         SOAPMessage msg = mf.createMessage();
@@ -401,10 +401,10 @@ public class AttachImageTest extends TestCase {
 
     public void testSetContentGetRawContent2() throws Exception {
 
-        byte buf1[] = new byte[30000];
-        byte buf2[] = new byte[30000];
-        byte buf3[] = new byte[30000];
-        byte buf4[] = new byte[30000];
+        byte[] buf1 = new byte[30000];
+        byte[] buf2 = new byte[30000];
+        byte[] buf3 = new byte[30000];
+        byte[] buf4 = new byte[30000];
 
         MessageFactory mf = MessageFactory.newInstance();
         SOAPMessage msg = mf.createMessage();
@@ -444,10 +444,10 @@ public class AttachImageTest extends TestCase {
 
     public void testSetRawContentBytes() throws Exception {
 
-        byte buf1[] = new byte[30000];
-        byte buf2[] = new byte[30000];
-        byte buf3[] = new byte[30000];
-        byte buf4[] = new byte[30000];
+        byte[] buf1 = new byte[30000];
+        byte[] buf2 = new byte[30000];
+        byte[] buf3 = new byte[30000];
+        byte[] buf4 = new byte[30000];
 
         MessageFactory mf = MessageFactory.newInstance();
         SOAPMessage msg = mf.createMessage();
@@ -596,12 +596,12 @@ public class AttachImageTest extends TestCase {
         try ( // See if we get the image object back
                 FileInputStream fin = new FileInputStream(f)) {
             SOAPMessage newMsg = mf.createMessage(msg.getMimeHeaders(), fin);
-            Iterator i = newMsg.getAttachments();
+            Iterator<AttachmentPart> i = newMsg.getAttachments();
             //System.out.println("Count before remove:" + newMsg.countAttachments());
             MimeHeaders headers = new MimeHeaders();
             headers.addHeader("Content-Type", "image/jpeg");
             while (i.hasNext()) {
-                AttachmentPart att = (AttachmentPart) i.next();
+                AttachmentPart att = i.next();
                 newMsg.removeAttachments(headers);
                 break;
             }

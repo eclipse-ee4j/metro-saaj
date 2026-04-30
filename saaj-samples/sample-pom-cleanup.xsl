@@ -1,5 +1,5 @@
 <!--
-
+    Copyright (c) 2026 Contributors to the Eclipse Foundation.
     Copyright (c) 2019, 2020 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -26,7 +26,7 @@
         </xsl:copy>
     </xsl:template>
 
-    <!-- Replace paren pom declarations -->
+    <!-- Replace parent pom declarations -->
     <xsl:template match="/*[local-name()='project']/*[local-name()='parent']">
         <xsl:variable name="thisns" select="namespace-uri()"/>
         <xsl:element name="parent" namespace="{$thisns}">
@@ -37,7 +37,7 @@
                 <xsl:text>project</xsl:text>
             </xsl:element>
             <xsl:element name="version" namespace="{$thisns}">
-                <xsl:text>1.0.6</xsl:text>
+                <xsl:text>2.0.0</xsl:text>
             </xsl:element>
         </xsl:element>
     </xsl:template>
