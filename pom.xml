@@ -106,7 +106,7 @@
         <xml.soap-api.version>3.0.2</xml.soap-api.version>
 
         <fastinfoset.version>2.1.1</fastinfoset.version>
-        <mimepull.version>1.10.0</mimepull.version>
+        <mimepull.version>1.11.0</mimepull.version>
         <stax-ex.version>2.1.0</stax-ex.version>
         <junit.version>4.13.2</junit.version>
         <saaj.version>${project.version}</saaj.version>
