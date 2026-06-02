@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -60,7 +61,7 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
-    
+
     SOAPPartImpl enclosingSOAPPart;
 
     private Document document;
@@ -84,18 +85,6 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
             throw new RuntimeException("Error creating xml document", e);
         }
     }
-
-    //    public SOAPDocumentImpl(boolean grammarAccess) {
-    //        super(grammarAccess);
-    //    }
-    //
-    //    public SOAPDocumentImpl(DocumentType doctype) {
-    //        super(doctype);
-    //    }
-    //
-    //    public SOAPDocumentImpl(DocumentType doctype, boolean grammarAccess) {
-    //        super(doctype, grammarAccess);
-    //    }
 
     @Override
     public SOAPPartImpl getSOAPPart() {
@@ -190,7 +179,7 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
     @Override
     public EntityReference createEntityReference(String name)
-        throws DOMException {        
+        throws DOMException {
             log.severe("SAAJ0543.soap.entity.refs.not.allowed.in.docs");
             throw new UnsupportedOperationException("Entity References are not allowed in SOAP documents");
     }
@@ -569,6 +558,18 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     }
 
     /**
+     * If corresponding soap wrapper exists for w3c dom node it is returned,
+     * if not passed dom element is returned.
+     *
+     * @param node w3c dom node
+     * @return soap wrapper or passed w3c dom node if not found
+     */
+    public Node findIfPresent(Node node) {
+        final jakarta.xml.soap.Node found = find(node, false);
+        return found == null ? node : found;
+    }
+
+    /**
      * Find a soap wrapper for w3c dom node.
      *
      * @param node w3c dom node nullable
@@ -590,18 +591,6 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
             throw new IllegalArgumentException(MessageFormat.format("Cannot find SOAP wrapper for element {0}", node));
         }
         return found;
-    }
-
-    /**
-     * If corresponding soap wrapper exists for w3c dom node it is returned,
-     * if not passed dom element is returned.
-     *
-     * @param node w3c dom node
-     * @return soap wrapper or passed w3c dom node if not found
-     */
-    public Node findIfPresent(Node node) {
-        final jakarta.xml.soap.Node found = find(node, false);
-        return found != null ? found : node;
     }
 
     /**
