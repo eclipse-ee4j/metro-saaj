@@ -147,9 +147,10 @@
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
-                    <systemProperties>
+                    <systemPropertyVariables>
                         <java.awt.headless>true</java.awt.headless>
-                    </systemProperties>
+                        <jdk.xml.maxElementDepth>10004</jdk.xml.maxElementDepth>
+                    </systemPropertyVariables>
                     <reuseForks>false</reuseForks>
                     <argLine>@{argLine}</argLine>
                 </configuration>
@@ -161,10 +162,10 @@
                         </goals>
                         <configuration>
                             <reportsDirectory>${project.build.directory}/surefire-reports/not-optimized</reportsDirectory>
-                            <systemProperties>
+                            <systemPropertyVariables>
                                 <java.awt.headless>true</java.awt.headless>
                                 <saaj.mime.optimization>false</saaj.mime.optimization>
-                            </systemProperties>
+                            </systemPropertyVariables>
                         </configuration>
                     </execution>
                 </executions>

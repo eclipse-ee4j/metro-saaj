@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2022 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -20,6 +21,21 @@ import com.sun.xml.messaging.saaj.soap.impl.SOAPTextImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.SAAJUtil;
+
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
+
+import java.lang.reflect.Constructor;
+import java.text.MessageFormat;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.logging.Logger;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.CharacterData;
@@ -39,16 +55,6 @@ import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import jakarta.xml.soap.SOAPElement;
-import jakarta.xml.soap.SOAPException;
-import java.lang.reflect.Constructor;
-import java.text.MessageFormat;
-import java.util.logging.Logger;
-
 /**
  *
  * @author SAAJ RI Development Team
@@ -60,7 +66,7 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     private static final Logger log =
         Logger.getLogger(LogDomainConstants.SOAP_DOMAIN,
                          "com.sun.xml.messaging.saaj.soap.LocalStrings");
-    
+
     SOAPPartImpl enclosingSOAPPart;
 
     private Document document;
@@ -84,18 +90,6 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
             throw new RuntimeException("Error creating xml document", e);
         }
     }
-
-    //    public SOAPDocumentImpl(boolean grammarAccess) {
-    //        super(grammarAccess);
-    //    }
-    //
-    //    public SOAPDocumentImpl(DocumentType doctype) {
-    //        super(doctype);
-    //    }
-    //
-    //    public SOAPDocumentImpl(DocumentType doctype, boolean grammarAccess) {
-    //        super(doctype, grammarAccess);
-    //    }
 
     @Override
     public SOAPPartImpl getSOAPPart() {
@@ -190,7 +184,7 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
     @Override
     public EntityReference createEntityReference(String name)
-        throws DOMException {        
+        throws DOMException {
             log.severe("SAAJ0543.soap.entity.refs.not.allowed.in.docs");
             throw new UnsupportedOperationException("Entity References are not allowed in SOAP documents");
     }
@@ -223,37 +217,47 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     }
 
     /**
-     * If the parentNode is not registered to domToSoap, create soap wapper for parentNode and register it to domToSoap
+     * If the parentNode is not registered to domToSoap, create soap wrapper for parentNode
+     * and register it to domToSoap.
      * If deep = true, also register all children transitively of parentNode to domToSoap map.
+     *
      * @param parentNode node to wrap
      * @param deep wrap child nodes transitively
      */
     public void registerChildNodes(Node parentNode, boolean deep) {
-        if (parentNode.getUserData(SAAJ_NODE) == null) {
-            if (parentNode instanceof Element) {
-                ElementFactory.createElement(this, (Element) parentNode);
-            } else if (parentNode instanceof CharacterData) {
-                switch (parentNode.getNodeType()) {
-                    case CDATA_SECTION_NODE:
-                        new CDATAImpl(this, (CharacterData) parentNode);
-                        break;
-                    case COMMENT_NODE:
-                        new SOAPCommentImpl(this, (CharacterData) parentNode);
-                        break;
-                    case TEXT_NODE:
-                        new SOAPTextImpl(this, (CharacterData) parentNode);
-                        break;
+        Deque<Node> stack = new ArrayDeque<>();
+        stack.push(parentNode);
+
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            if (current.getUserData(SAAJ_NODE) == null) {
+                if (current instanceof Element) {
+                    ElementFactory.createElement(this, (Element) current);
+                } else if (current instanceof CharacterData) {
+                    switch (current.getNodeType()) {
+                        case CDATA_SECTION_NODE:
+                            new CDATAImpl(this, (CharacterData) current);
+                            break;
+                        case COMMENT_NODE:
+                            new SOAPCommentImpl(this, (CharacterData) current);
+                            break;
+                        case TEXT_NODE:
+                            new SOAPTextImpl(this, (CharacterData) current);
+                            break;
+                    }
+                } else if (current instanceof DocumentFragment) {
+                    new SOAPDocumentFragment(this, (DocumentFragment) current);
                 }
-            } else if (parentNode instanceof DocumentFragment) {
-                new SOAPDocumentFragment(this, (DocumentFragment) parentNode);
             }
-        }
-        if (deep) {
-            NodeList nodeList = parentNode.getChildNodes();
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node nextChild = nodeList.item(i);
-                registerChildNodes(nextChild, true);
+
+            if (deep) {
+                NodeList nodeList = current.getChildNodes();
+                for (int i = nodeList.getLength() - 1; i >= 0; i--) {
+                    stack.push(nodeList.item(i));
+                }
             }
+            // If deep==false, we only process the parentNode itself (one iteration, no children pushed).
+            // After registering parentNode, the stack is empty and the loop exits — correct.
         }
     }
 
@@ -569,6 +573,18 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     }
 
     /**
+     * If corresponding soap wrapper exists for w3c dom node it is returned,
+     * if not passed dom element is returned.
+     *
+     * @param node w3c dom node
+     * @return soap wrapper or passed w3c dom node if not found
+     */
+    public Node findIfPresent(Node node) {
+        final jakarta.xml.soap.Node found = find(node, false);
+        return found == null ? node : found;
+    }
+
+    /**
      * Find a soap wrapper for w3c dom node.
      *
      * @param node w3c dom node nullable
@@ -590,18 +606,6 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
             throw new IllegalArgumentException(MessageFormat.format("Cannot find SOAP wrapper for element {0}", node));
         }
         return found;
-    }
-
-    /**
-     * If corresponding soap wrapper exists for w3c dom node it is returned,
-     * if not passed dom element is returned.
-     *
-     * @param node w3c dom node
-     * @return soap wrapper or passed w3c dom node if not found
-     */
-    public Node findIfPresent(Node node) {
-        final jakarta.xml.soap.Node found = find(node, false);
-        return found != null ? found : node;
     }
 
     /**
