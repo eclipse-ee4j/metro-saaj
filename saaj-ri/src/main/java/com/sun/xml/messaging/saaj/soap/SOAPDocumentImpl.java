@@ -21,6 +21,21 @@ import com.sun.xml.messaging.saaj.soap.impl.SOAPTextImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
 import com.sun.xml.messaging.saaj.util.SAAJUtil;
+
+import jakarta.xml.soap.SOAPElement;
+import jakarta.xml.soap.SOAPException;
+
+import java.lang.reflect.Constructor;
+import java.text.MessageFormat;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.logging.Logger;
+
+import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
 import org.w3c.dom.Attr;
 import org.w3c.dom.CDATASection;
 import org.w3c.dom.CharacterData;
@@ -39,16 +54,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.ProcessingInstruction;
 import org.w3c.dom.Text;
 import org.w3c.dom.UserDataHandler;
-
-import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import jakarta.xml.soap.SOAPElement;
-import jakarta.xml.soap.SOAPException;
-import java.lang.reflect.Constructor;
-import java.text.MessageFormat;
-import java.util.logging.Logger;
 
 /**
  *
@@ -212,37 +217,47 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
     }
 
     /**
-     * If the parentNode is not registered to domToSoap, create soap wapper for parentNode and register it to domToSoap
+     * If the parentNode is not registered to domToSoap, create soap wrapper for parentNode
+     * and register it to domToSoap.
      * If deep = true, also register all children transitively of parentNode to domToSoap map.
+     *
      * @param parentNode node to wrap
      * @param deep wrap child nodes transitively
      */
     public void registerChildNodes(Node parentNode, boolean deep) {
-        if (parentNode.getUserData(SAAJ_NODE) == null) {
-            if (parentNode instanceof Element) {
-                ElementFactory.createElement(this, (Element) parentNode);
-            } else if (parentNode instanceof CharacterData) {
-                switch (parentNode.getNodeType()) {
-                    case CDATA_SECTION_NODE:
-                        new CDATAImpl(this, (CharacterData) parentNode);
-                        break;
-                    case COMMENT_NODE:
-                        new SOAPCommentImpl(this, (CharacterData) parentNode);
-                        break;
-                    case TEXT_NODE:
-                        new SOAPTextImpl(this, (CharacterData) parentNode);
-                        break;
+        Deque<Node> stack = new ArrayDeque<>();
+        stack.push(parentNode);
+
+        while (!stack.isEmpty()) {
+            Node current = stack.pop();
+            if (current.getUserData(SAAJ_NODE) == null) {
+                if (current instanceof Element) {
+                    ElementFactory.createElement(this, (Element) current);
+                } else if (current instanceof CharacterData) {
+                    switch (current.getNodeType()) {
+                        case CDATA_SECTION_NODE:
+                            new CDATAImpl(this, (CharacterData) current);
+                            break;
+                        case COMMENT_NODE:
+                            new SOAPCommentImpl(this, (CharacterData) current);
+                            break;
+                        case TEXT_NODE:
+                            new SOAPTextImpl(this, (CharacterData) current);
+                            break;
+                    }
+                } else if (current instanceof DocumentFragment) {
+                    new SOAPDocumentFragment(this, (DocumentFragment) current);
                 }
-            } else if (parentNode instanceof DocumentFragment) {
-                new SOAPDocumentFragment(this, (DocumentFragment) parentNode);
             }
-        }
-        if (deep) {
-            NodeList nodeList = parentNode.getChildNodes();
-            for (int i = 0; i < nodeList.getLength(); i++) {
-                Node nextChild = nodeList.item(i);
-                registerChildNodes(nextChild, true);
+
+            if (deep) {
+                NodeList nodeList = current.getChildNodes();
+                for (int i = 0; i < nodeList.getLength(); i++) {
+                    stack.push(nodeList.item(i));
+                }
             }
+            // If deep==false, we only process the parentNode itself (one iteration, no children pushed).
+            // After registering parentNode, the stack is empty and the loop exits — correct.
         }
     }
 
