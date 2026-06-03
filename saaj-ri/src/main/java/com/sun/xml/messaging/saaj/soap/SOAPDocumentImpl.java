@@ -252,7 +252,7 @@ public class SOAPDocumentImpl implements SOAPDocument, jakarta.xml.soap.Node, Do
 
             if (deep) {
                 NodeList nodeList = current.getChildNodes();
-                for (int i = 0; i < nodeList.getLength(); i++) {
+                for (int i = nodeList.getLength() - 1; i >= 0; i--) {
                     stack.push(nodeList.item(i));
                 }
             }
