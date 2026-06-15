@@ -17,7 +17,7 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.Text;
 
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
-
+import org.w3c.dom.Node;
 import java.util.logging.Logger;
 
 public class SOAPCommentImpl extends TextImpl<Comment> implements Comment {
@@ -50,6 +50,11 @@ public class SOAPCommentImpl extends TextImpl<Comment> implements Comment {
     @Override
     public boolean isComment() {
         return true;
+    }
+
+    @Override
+    public short getNodeType() {
+        return Node.COMMENT_NODE;
     }
 
     @Override

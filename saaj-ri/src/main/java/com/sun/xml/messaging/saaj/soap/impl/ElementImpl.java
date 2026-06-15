@@ -12,6 +12,7 @@ package com.sun.xml.messaging.saaj.soap.impl;
 
 import com.sun.xml.messaging.saaj.SOAPExceptionImpl;
 import com.sun.xml.messaging.saaj.soap.SOAPDocument;
+import com.sun.xml.messaging.saaj.soap.SOAPDocumentFragment;
 import com.sun.xml.messaging.saaj.soap.SOAPDocumentImpl;
 import com.sun.xml.messaging.saaj.soap.name.NameImpl;
 import com.sun.xml.messaging.saaj.util.LogDomainConstants;
@@ -65,7 +66,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public String getAttribute(String name) {
-        return element.getAttribute(name);
+        Attr n = getAttributeNode(name);
+        return n != null ? n.getValue() : "";
     }
 
     @Override
@@ -121,7 +123,8 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public String getAttributeNS(String namespaceURI, String localName) throws DOMException {
-        return element.getAttributeNS(namespaceURI, localName);
+        Attr a = getAttributeNodeNS(namespaceURI, localName);
+        return a != null ? a.getValue() : "";
     }
 
     private static final Logger log = Logger.getLogger(LogDomainConstants.SOAP_IMPL_DOMAIN, "com.sun.xml.messaging.saaj.soap.impl.LocalStrings");
@@ -262,18 +265,7 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public void setTextContent(String textContent) throws DOMException {
-        element.setTextContent(textContent);
-        // The text node is always the first child (at least in xerces)
-        Node firstChild = element.getFirstChild();
-        if (firstChild instanceof Text) {
-            // This constructor self-registers the node presence
-            new SOAPTextImpl(soapDocument, textContent) {
-                @Override
-                protected Text createN(SOAPDocumentImpl ownerDoc, String text) {
-                    return (Text) firstChild; // Reuse the text node created by the DOM element
-                }
-            };
-        }
+        new SOAPTextImpl(soapDocument, textContent);
     }
 
     @Override
@@ -1625,13 +1617,14 @@ public class ElementImpl implements SOAPElement, SOAPBodyElement {
 
     @Override
     public Attr setAttributeNodeNS(Attr newAttr) throws DOMException {
-        return element.setAttributeNodeNS(newAttr);
+        return register(element.setAttributeNodeNS(newAttr));
     }
     
-    private void register(Attr newAttr) {
+    private Attr register(Attr newAttr) {
         if (newAttr != null) {
             newAttr.setUserData(SOAPDocumentImpl.SAAJ_NODE, new AttrImpl(this, newAttr), null);
         }
+        return newAttr;
     }
     
     private Attr find(Attr attr) {
