@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 #
 # Copyright (c) 2024 Oracle and/or its affiliates. All rights reserved.
 #
@@ -11,13 +11,15 @@
 
 [[ -z ${1} ]] && SUMMARY_FILE_NAME='SUMMARY.TXT' || SUMMARY_FILE_NAME=${1}
 
-EE4J_PARENT_URL='https://repo.eclipse.org/content/repositories/maven_central/org/eclipse/ee4j/project/1.0.9/project-1.0.9.pom'
+cd jenkins/tck
+
+EE4J_PARENT_URL='https://repo.eclipse.org/content/repositories/maven_central/org/eclipse/ee4j/project/2.0.2/project-2.0.2.pom'
 #SAAJ_TCK_BUNDLE='https://ci.eclipse.org/metro/job/saaj-tck-build/lastSuccessfulBuild/artifact/standalone-bundles/soap-tck-2.0.0.zip'
 
 # Download and extract TCK tests
-wget -q ${SAAJ_TCK_BUNDLE} -O soap-tck.zip && unzip -qq soap-tck.zip
-mkdir soap-tck/JTwork
-mkdir soap-tck/JTreport
+#wget -q ${SAAJ_TCK_BUNDLE} -O soap-tck.zip && unzip -qq soap-tck.zip
+#mkdir soap-tck/JTwork
+#mkdir soap-tck/JTreport
 
 # Download SAAJ API dependencies from Maven Central
 mkdir 'saaj'
@@ -30,7 +32,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
   <parent>
     <groupId>org.eclipse.ee4j</groupId>
     <artifactId>project</artifactId>
-    <version>1.0.9</version>
+    <version>2.0.2</version>
   </parent>
   <groupId>download</groupId>
   <artifactId>ri</artifactId>
@@ -38,7 +40,7 @@ echo '<?xml version="1.0" encoding="UTF-8"?>
   <dependencies>
     <dependency>
       <groupId>com.sun.xml.messaging.saaj</groupId>
-      <artifactId>saaj-impl</artifactId>
+      <artifactId>metro-saaj</artifactId>
       <version>'${SAAJ_RI_VERSION}'</version>
     </dependency>
     <dependency>
